@@ -1,0 +1,49 @@
+// This file contains the definition the ViewPlane class
+
+#include "world/view_plane.h"
+	
+// ---------------------------------------------------------------- default constructor	
+						
+ViewPlane::ViewPlane(void)							
+	: 	hres_(400), 
+		vres_(400),
+		s_(1.0),
+		gamma_(1.0),
+		inv_gamma_(1.0),
+		show_out_of_gamut_(false)
+{}
+
+
+// ---------------------------------------------------------------- copy constructor
+
+ViewPlane::ViewPlane(const ViewPlane& vp)   
+	:  	hres_(vp.hres_),  
+		vres_(vp.vres_), 
+		s_(vp.s_),
+		gamma_(vp.gamma_),
+		inv_gamma_(vp.inv_gamma_),
+		show_out_of_gamut_(vp.show_out_of_gamut_)
+{}
+
+
+// ---------------------------------------------------------------- assignment operator
+
+ViewPlane& 
+ViewPlane::operator= (const ViewPlane& rhs) {
+	if (this == &rhs)
+		return (*this);
+		
+	hres_ 				= rhs.hres_;
+	vres_ 				= rhs.vres_;
+	s_					= rhs.s_;
+	gamma_				= rhs.gamma_;
+	inv_gamma_			= rhs.inv_gamma_;
+	show_out_of_gamut_	= rhs.show_out_of_gamut_;
+	
+	return (*this);
+}
+
+
+// -------------------------------------------------------------- destructor
+
+ViewPlane::~ViewPlane(void) {}
