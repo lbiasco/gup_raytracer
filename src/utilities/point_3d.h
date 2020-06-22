@@ -12,8 +12,8 @@ class Point3D {
 		double x_, y_, z_;
 	
 		Point3D();													// default constructor
-		Point3D(const double a);									// constructor
-		Point3D(const double a, const double b, const double c);	// constructor
+		Point3D(const double c);									// constructor
+		Point3D(const double x, const double y, const double z);	// constructor
 		Point3D(const Point3D& p);									// copy constructor
 		~Point3D();													// destructor
 		

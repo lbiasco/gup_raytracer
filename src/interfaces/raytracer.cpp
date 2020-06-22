@@ -298,6 +298,13 @@ void RenderCanvas::RenderStart(void)
    
     window_->SetStatusText("Building world...", 0);
     w_->Build();
+
+    if(w_->tracer_ptr_ == NULL)
+    {
+        window_->SetStatusText("ERROR: Tracer not set, skipping render", 0);
+        return;
+    }
+
     window_->SetStatusText("Rendering...", 0);
     setMinimumSize(w_->vp_.hres_, w_->vp_.vres_);
 

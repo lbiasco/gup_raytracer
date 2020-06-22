@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class RenderWorker; 	//part of skeleton - wxRaytracer.h
+class RenderWorker; 	// Needed to connect to Qt skeleton
 
 
 class World {	
@@ -33,7 +33,7 @@ class World {
 		Sphere 				sphere_;		// for Chapter 3 only
 		vector<Geometry*>   objects_;		
 		
-		RenderWorker* 		paint_area_; 	//connection to skeleton - wxRaytracer.h
+		RenderWorker* 		paint_area_;
 		
 
 	public:

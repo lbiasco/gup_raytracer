@@ -13,14 +13,14 @@ Point3D::Point3D()
 
 // --------------------------------------------- constructor
 
-Point3D::Point3D(const double a)
-	:x_(a), y_(a), z_(a)
+Point3D::Point3D(const double c)
+	:x_(c), y_(c), z_(c)
 {}
 
 // --------------------------------------------- constructor
 
-Point3D::Point3D(const double a, const double b, const double c)
-	:x_(a), y_(b), z_(c)
+Point3D::Point3D(const double x, const double y, const double z)
+	:x_(x), y_(y), z_(z)
 {}
 
 
