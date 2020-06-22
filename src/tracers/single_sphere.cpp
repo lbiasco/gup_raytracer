@@ -29,7 +29,7 @@ SingleSphere::TraceRay(const Ray& ray) const {
 	double    	t;  				// not used
 	
 	if (world_ptr_->sphere_.Hit(ray, t, sr))		
-		return (kRed);  
+		return (RGBColor(0.0, 0.0, 1.0));  
 	else
 		return (kBlack);   
 }

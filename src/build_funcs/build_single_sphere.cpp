@@ -8,6 +8,6 @@ World::Build(void) {
 	background_color_ = kWhite;
 	tracer_ptr_ = new SingleSphere(this); 
 	
-	sphere_.SetCenter(0.0);
-	sphere_.SetRadius(85);
+	sphere_.SetCenter(Point3D(50.0, 0.0, 0.0));
+	sphere_.SetRadius(150);
 }
