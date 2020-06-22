@@ -64,7 +64,7 @@ World::RenderScene(void) const {
 	int 		hres 	= vp_.hres_;
 	int 		vres 	= vp_.vres_;
 	float		s		= vp_.s_;
-	float		zw		= 100.0;			// hardwired in
+	float		zw		= -84.5;			// hardwired in
 
 	ray.d_ = Vector3D(0, 0, -1);
 	
