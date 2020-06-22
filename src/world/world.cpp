@@ -25,8 +25,8 @@
 
 // build functions
 
-#include "build_funcs/build_single_sphere.cpp"
-//#include "build_funcs/build_multiple_objects.cpp"
+//#include "build_funcs/build_single_sphere.cpp"
+#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
 
 
@@ -64,7 +64,7 @@ World::RenderScene(void) const {
 	int 		hres 	= vp_.hres_;
 	int 		vres 	= vp_.vres_;
 	float		s		= vp_.s_;
-	float		zw		= -84.5;			// hardwired in
+	float		zw		= 100;			// hardwired in
 
 	ray.d_ = Vector3D(0, 0, -1);
 	

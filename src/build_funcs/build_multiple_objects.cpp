@@ -18,11 +18,19 @@ World::Build(void) {
 
 	// use constructor to set centre and radius 
 	
-	sphere_ptr = new Sphere(Point3D(0, 30, 0), 60);
+	sphere_ptr = new Sphere(Point3D(-30, 30, 0), 60);
 	sphere_ptr->SetColor(1, 1, 0);	// yellow
+	AddObject(sphere_ptr);
+
+    sphere_ptr = new Sphere(Point3D(30, 30, 0), 60);
+	sphere_ptr->SetColor(0, 1, 1);	// cyan
 	AddObject(sphere_ptr);
 	
 	Plane* plane_ptr = new Plane(Point3D(0), Normal(0, 1, 1));
 	plane_ptr->SetColor(0.0, 0.3, 0.0);	// dark green
+	AddObject(plane_ptr);
+
+    plane_ptr = new Plane(Point3D(0), Normal(0, 1, -1));
+	plane_ptr->SetColor(0.3, 0.0, 0.3);	// dark purple
 	AddObject(plane_ptr);
 }
