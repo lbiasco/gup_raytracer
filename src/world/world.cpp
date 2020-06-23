@@ -26,10 +26,10 @@
 
 // build functions
 
-//#include "build_funcs/build_single_sphere.cpp"
+#include "build_funcs/build_single_sphere.cpp"
 //#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
-#include "build_funcs/build_function_2d.cpp"
+//#include "build_funcs/build_function_2d.cpp"
 
 // -------------------------------------------------------------------- default constructor
 
@@ -89,16 +89,16 @@ World::RenderScene(void) const {
                 }
              */
 
-            /*  Random sampling
+            //  Random sampling
             for (int p = 0; p < vp_.num_samples_; p++) {
                 pp.x_ = s * (c - 0.5 * hres + RandDouble());
                 pp.y_ = s * (r - 0.5 * vres + RandDouble());
                 ray.o_ = Point3D(pp.x_, pp.y_, zw);
                 pixel_color += tracer_ptr_->TraceRay(ray);
             }
-             */
+             //
 
-            //  Jittered sampling
+            /*  Jittered sampling
             for (int p = 0; p < n; p++)
                 for (int q = 0; q < n; q++) {
                     pp.x_ = s * (c - 0.5 * hres + (q + RandDouble()) / n);
@@ -106,7 +106,7 @@ World::RenderScene(void) const {
                     ray.o_ = Point3D(pp.x_, pp.y_, zw);
                     pixel_color += tracer_ptr_->TraceRay(ray);
                 }
-             //
+             */
 
             pixel_color /= vp_.num_samples_;    // Average the colors
 			DisplayPixel(r, c, pixel_color);
