@@ -31,16 +31,16 @@ add_executable(gup_raytracer
     src/utilities/matrix.h 
     src/utilities/normal.cpp 
     src/utilities/normal.h 
-    src/utilities/point_3d.cpp 
-    src/utilities/point_3d.h 
+    src/utilities/point.cpp 
+    src/utilities/point.h 
     src/utilities/ray.cpp 
     src/utilities/ray.h 
     src/utilities/rgb_color.cpp 
     src/utilities/rgb_color.h 
     src/utilities/shade_rec.cpp 
     src/utilities/shade_rec.h 
-    src/utilities/vector_3d.cpp 
-    src/utilities/vector_3d.h 
+    src/utilities/vector.cpp 
+    src/utilities/vector.h 
     src/world/view_plane.cpp 
     src/world/view_plane.h 
     src/world/world.cpp 

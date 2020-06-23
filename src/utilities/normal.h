@@ -5,8 +5,8 @@
 // This file contains the declaration of the class Normal
 
 #include "utilities/matrix.h"
-#include "utilities/vector_3d.h"
-#include "utilities/point_3d.h"
+#include "utilities/vector.h"
+#include "utilities/point.h"
 
 class Normal 
 {	

@@ -8,6 +8,7 @@ class ViewPlane {
 		int 	hres_;   					// horizontal image resolution 
 		int 	vres_;   					// vertical image resolution
 		float	s_;							// pixel size
+        int     num_samples_;               // number of samples per pixel
 		
 		float	gamma_;						// gamma correction factor
 		float	inv_gamma_;					// the inverse of the gamma correction factor
@@ -33,6 +34,9 @@ class ViewPlane {
 				
 		void
 		SetPixelSize(const float size);
+
+        void
+        SetSamples(const int samples);
 		
 		void
 		SetGamma(const float g);
@@ -65,6 +69,14 @@ ViewPlane::SetVRes(const int v_res) {
 inline void 													
 ViewPlane::SetPixelSize(const float size) {
 	s_ = size;
+}
+
+
+// ------------------------------------------------------------------------------ SetPixelSize
+
+inline void 													
+ViewPlane::SetSamples(const int samples) {
+	num_samples_ = samples;
 }
 
 

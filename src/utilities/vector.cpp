@@ -2,9 +2,9 @@
 
 #include <math.h>
 
-#include "utilities/vector_3d.h"
+#include "utilities/vector.h"
 #include "utilities/normal.h"
-#include "utilities/point_3d.h"
+#include "utilities/point.h"
 
 // ---------------------------------------------------------- default constructor
 

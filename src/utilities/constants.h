@@ -18,6 +18,6 @@ const RGBColor	kBlack(0.0);
 const RGBColor	kWhite(1.0);
 const RGBColor	kRed(1.0, 0.0, 0.0);
 
-const float 	kInvRandMax = 1.0 / (float)RAND_MAX;
+const double 	kInvRandMax = 1.0 / (double)RAND_MAX;
 
 #endif  // UTILITIES_CONSTANTS_H_

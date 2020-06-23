@@ -17,8 +17,8 @@
 
 // utilities
 
-#include "utilities/vector_3d.h"
-#include "utilities/point_3d.h"
+#include "utilities/vector.h"
+#include "utilities/point.h"
 #include "utilities/normal.h"
 #include "utilities/shade_rec.h"
 #include "utilities/maths.h"
@@ -64,14 +64,50 @@ World::RenderScene(void) const {
 	int 		hres 	= vp_.hres_;
 	int 		vres 	= vp_.vres_;
 	float		s		= vp_.s_;
+
+    int         n = (int)sqrt((float)vp_.num_samples_); // Needed for regular/jittered sampling
+    Point3D     pp;                         // sample point on a pixel
 	float		zw		= 100.0;			// hardwired in
 
 	ray.d_ = Vector3D(0, 0, -1);
 	
 	for (int r = 0; r < vres; r++)			// up
-		for (int c = 0; c < hres; c++) {	// across 					
-			ray.o_ = Point3D(s * (c - hres / 2.0 + 0.5), s * (r - vres / 2.0 + 0.5), zw);
-			pixel_color = tracer_ptr_->TraceRay(ray);
+		for (int c = 0; c < hres; c++) {	// across 	
+            pixel_color = kBlack;
+
+            // TODO: Move random functions to other file
+            //srand(0);
+
+            /*  Regular sampling
+            for (int p = 0; p < n; p++)
+                for (int q = 0; q < n; q++) {
+                    pp.x_ = s * (c - 0.5 * hres + (q + 0.5) / n);
+                    pp.y_ = s * (r - 0.5 * vres + (p + 0.5) / n);
+                    ray.o_ = Point3D(pp.x_, pp.y_, zw);
+                    pixel_color += tracer_ptr_->TraceRay(ray);
+                }
+             */
+
+            /*  Random sampling
+            for (int p = 0; p < vp_.num_samples_; p++) {
+                pp.x_ = s * (c - 0.5 * hres + RandDouble());
+                pp.y_ = s * (r - 0.5 * vres + RandDouble());
+                ray.o_ = Point3D(pp.x_, pp.y_, zw);
+                pixel_color += tracer_ptr_->TraceRay(ray);
+            }
+             */
+
+            //  Jittered sampling
+            for (int p = 0; p < n; p++)
+                for (int q = 0; q < n; q++) {
+                    pp.x_ = s * (c - 0.5 * hres + (q + RandDouble()) / n);
+                    pp.y_ = s * (r - 0.5 * vres + (p + RandDouble()) / n);
+                    ray.o_ = Point3D(pp.x_, pp.y_, zw);
+                    pixel_color += tracer_ptr_->TraceRay(ray);
+                }
+             //
+
+            pixel_color /= vp_.num_samples_;    // Average the colors
 			DisplayPixel(r, c, pixel_color);
 		}
     paint_area_->Terminate();

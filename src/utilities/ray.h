@@ -1,8 +1,8 @@
 #ifndef UTILITIES_RAY_H_
 #define UTILITIES_RAY_H_
 
-#include "utilities/point_3d.h"
-#include "utilities/vector_3d.h"
+#include "utilities/point.h"
+#include "utilities/vector.h"
 
 class Ray {
 	public:

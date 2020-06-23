@@ -1,5 +1,5 @@
-#ifndef UTILITIES_VECTOR_3D_H_
-#define UTILITIES_VECTOR_3D_H_
+#ifndef UTILITIES_VECTOR_H_
+#define UTILITIES_VECTOR_H_
 
 // This file contains the declaration of the class Vector3D
 
@@ -181,4 +181,4 @@ Vector3D
 operator* (const Matrix& mat, const Vector3D& v);
 
 
-#endif  // UTILITIES_VECTOR_3D_H_
+#endif  // UTILITIES_VECTOR_H_

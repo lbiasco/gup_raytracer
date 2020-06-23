@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#include "utilities/point_3d.h"
+#include "utilities/point.h"
 
 // --------------------------------------------- default constructor
 

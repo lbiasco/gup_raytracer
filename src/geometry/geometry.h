@@ -4,7 +4,7 @@
 // this file contains the declaration of the class Geometry
 
 #include "utilities/rgb_color.h"
-#include "utilities/point_3d.h"
+#include "utilities/point.h"
 #include "utilities/normal.h"
 #include "utilities/ray.h"
 #include "utilities/shade_rec.h"

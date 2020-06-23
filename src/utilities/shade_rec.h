@@ -5,7 +5,7 @@
 
 class World;	// only need a forward class declaration as the World data member is a reference
 
-#include "utilities/point_3d.h"
+#include "utilities/point.h"
 #include "utilities/normal.h"
 #include "utilities/rgb_color.h"
 

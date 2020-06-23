@@ -1,10 +1,10 @@
-#ifndef UTILITIES_POINT_3D_H_
-#define UTILITIES_POINT_3D_H_
+#ifndef UTILITIES_POINT_H_
+#define UTILITIES_POINT_H_
 
 // This file contains the declaration of the class Point3D
 
 #include "utilities/matrix.h"
-#include "utilities/vector_3d.h"
+#include "utilities/vector.h"
 
 class Point3D {
 	public:
@@ -124,4 +124,4 @@ operator* (double a, const Point3D& p) {
 Point3D 						
 operator* (const Matrix& mat, const Point3D& p);
 
-#endif  // UTILITIES_POINT_3D_H_
+#endif  // UTILITIES_POINT_H_

@@ -6,13 +6,7 @@
 // a default matrix is an identity matrix
 
 Matrix::Matrix(void) {	
-	for (int x = 0; x < 4; x++)
-		for (int y = 0; y < 4; y++) {
-			if (x == y)
-				m_[x][y] = 1.0;
-			else
-				m_[x][y] = 0.0;
-		}
+	SetIdentity();
 }
 
 
