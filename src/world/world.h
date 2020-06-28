@@ -19,8 +19,6 @@
 #include "geometry/sphere.h"
 #include "utilities/ray.h"
 
-using namespace std;
-
 class RenderWorker; 	// Needed to connect to Qt skeleton
 
 
@@ -31,7 +29,7 @@ class World {
 		RGBColor			background_color_;
 		Tracer*				tracer_ptr_;
 		Sphere 				sphere_;		// for Chapter 3 only
-		vector<Geometry*>   objects_;		
+		std::vector<Geometry*>   objects_;		
 		
 		RenderWorker* 		paint_area_;
 		

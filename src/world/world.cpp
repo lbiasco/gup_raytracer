@@ -10,6 +10,10 @@
 #include "geometry/plane.h"
 #include "geometry/sphere.h"
 
+// sampler
+
+#include "samplers/regular.h"
+
 // tracers
 
 #include "tracers/single_sphere.h"
@@ -65,9 +69,9 @@ World::RenderScene(void) const {
 	int 		vres 	= vp_.vres_;
 	float		s		= vp_.s_;
 
-    int         n = (int)sqrt((float)vp_.num_samples_); // Needed for regular/jittered sampling
-    Point3D     pp;                         // sample point on a pixel
-	float		zw		= 100.0;			// hardwired in
+    Point2D     sp;                 // sample point in [0,1]x[0,1]          
+    Point2D     pp;                 // sample point on a pixel
+	float		zw		= 100.0;    // hardwired in
 
 	ray.d_ = Vector3D(0, 0, -1);
 	
@@ -75,37 +79,13 @@ World::RenderScene(void) const {
 		for (int c = 0; c < hres; c++) {	// across 	
             pixel_color = kBlack;
 
-            // TODO: Move random functions to other file
-            //srand(0);
-
-            /*  Regular sampling
-            for (int p = 0; p < n; p++)
-                for (int q = 0; q < n; q++) {
-                    pp.x_ = s * (c - 0.5 * hres + (q + 0.5) / n);
-                    pp.y_ = s * (r - 0.5 * vres + (p + 0.5) / n);
-                    ray.o_ = Point3D(pp.x_, pp.y_, zw);
-                    pixel_color += tracer_ptr_->TraceRay(ray);
-                }
-             */
-
-            /*  Random sampling
-            for (int p = 0; p < vp_.num_samples_; p++) {
-                pp.x_ = s * (c - 0.5 * hres + RandDouble());
-                pp.y_ = s * (r - 0.5 * vres + RandDouble());
+            for (int j = 0; j < vp_.num_samples_; j++) {
+                sp = vp_.sampler_ptr_->SampleUnitSquare();
+                pp.x_ = s * (c - 0.5 * hres + sp.x_);
+                pp.y_ = s * (r - 0.5 * vres + sp.y_);
                 ray.o_ = Point3D(pp.x_, pp.y_, zw);
                 pixel_color += tracer_ptr_->TraceRay(ray);
             }
-             */
-
-            //  Jittered sampling
-            for (int p = 0; p < n; p++)
-                for (int q = 0; q < n; q++) {
-                    pp.x_ = s * (c - 0.5 * hres + (q + RandDouble()) / n);
-                    pp.y_ = s * (r - 0.5 * vres + (p + RandDouble()) / n);
-                    ray.o_ = Point3D(pp.x_, pp.y_, zw);
-                    pixel_color += tracer_ptr_->TraceRay(ray);
-                }
-             //
 
             pixel_color /= vp_.num_samples_;    // Average the colors
 			DisplayPixel(r, c, pixel_color);
@@ -118,7 +98,7 @@ World::RenderScene(void) const {
 
 RGBColor
 World::Normalize(const RGBColor& c) const  {
-	float max_value = max(c.r_, max(c.g_, c.b_));
+	float max_value = std::max(c.r_, std::max(c.g_, c.b_));
 	
 	if (max_value > 1.0)
 		return (c / max_value);

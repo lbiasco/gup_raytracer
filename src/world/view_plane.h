@@ -1,18 +1,21 @@
 #ifndef WORLD_VIEW_PLANE_H_
 #define WORLD_VIEW_PLANE_H_
 
+#include "samplers/sampler.h"
+
 //-------------------------------------------------------------------------------------- class ViewPlane
 
 class ViewPlane {
 	public:
-		int 	hres_;   					// horizontal image resolution 
-		int 	vres_;   					// vertical image resolution
-		float	s_;							// pixel size
-        int     num_samples_;               // number of samples per pixel
+		int 	hres_;                  // horizontal image resolution 
+		int 	vres_;   				// vertical image resolution
+		float	s_;						// pixel size
+        int     num_samples_;           // number of samples per pixel
+        Sampler *sampler_ptr_;           // pointer to a Sampler object
 		
-		float	gamma_;						// gamma correction factor
-		float	inv_gamma_;					// the inverse of the gamma correction factor
-		bool    show_out_of_gamut_;			// display red if RGBColor out of gamut
+		float	gamma_;                 // gamma correction factor
+		float	inv_gamma_;				// the inverse of the gamma correction factor
+		bool    show_out_of_gamut_;		// display red if RGBColor out of gamut
 		
 									
 	
@@ -36,7 +39,10 @@ class ViewPlane {
 		SetPixelSize(const float size);
 
         void
-        SetSamples(const int samples);
+        SetNumSamples(const int n);
+
+        void
+        SetSampler(Sampler *sp);
 		
 		void
 		SetGamma(const float g);
@@ -44,8 +50,6 @@ class ViewPlane {
 		void
 		SetGamutDisplay(const bool show);				
 };
-
-
 
 
 // ------------------------------------------------------------------------------ SetHRes
@@ -70,15 +74,6 @@ inline void
 ViewPlane::SetPixelSize(const float size) {
 	s_ = size;
 }
-
-
-// ------------------------------------------------------------------------------ SetPixelSize
-
-inline void 													
-ViewPlane::SetSamples(const int samples) {
-	num_samples_ = samples;
-}
-
 
 // ------------------------------------------------------------------------------ SetGamma
 

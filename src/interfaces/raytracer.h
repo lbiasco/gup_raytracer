@@ -92,7 +92,7 @@ private:
 public slots:
     void CompleteRender();
     void TimerUpdate();
-    void UpdatePixels(vector<RenderPixel*> *pixels);
+    void UpdatePixels(std::vector<RenderPixel*> *pixels);
 
 signals:
     void Completed();
@@ -133,13 +133,13 @@ public slots:
 
 signals:
     void Completed();
-    void PixelsUpdated(vector<RenderPixel*> *pixels_update);
+    void PixelsUpdated(std::vector<RenderPixel*> *pixels_update);
 
 private:
     void SendUpdate();
     
     World *world_;
-    vector<RenderPixel*> pixels_;
+    std::vector<RenderPixel*> pixels_;
     QElapsedTimer *timer_;
 };
 

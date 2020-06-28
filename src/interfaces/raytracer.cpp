@@ -356,9 +356,9 @@ void RenderCanvas::TimerUpdate()
         window_->SetStatusText(time_string, 1);
 }
 
-void RenderCanvas::UpdatePixels(vector<RenderPixel*> *pixels)
+void RenderCanvas::UpdatePixels(std::vector<RenderPixel*> *pixels)
 {
-    for(vector<RenderPixel*>::iterator itr = pixels->begin();
+    for(std::vector<RenderPixel*>::iterator itr = pixels->begin();
                             itr != pixels->end(); itr++)
     {
         RenderPixel* pixel = *itr;
@@ -432,7 +432,7 @@ void RenderWorker::SendUpdate()
     timer_->restart();
     
     //copy rendered pixels into a new vector and reset
-    vector<RenderPixel*> *pixels_update = new vector<RenderPixel*>(pixels_);
+    std::vector<RenderPixel*> *pixels_update = new std::vector<RenderPixel*>(pixels_);
     pixels_.clear();
    
     emit PixelsUpdated(pixels_update);

@@ -1,9 +1,10 @@
-// this file contains the definition of the class Point3D
+// this file contains the definition of the classes Point3D and Point2D
 
 #include <math.h>
 
 #include "utilities/point.h"
 
+// Point3D
 // --------------------------------------------- default constructor
 
 Point3D::Point3D()
@@ -75,3 +76,50 @@ operator* (const Matrix& mat, const Point3D& p) {
 					mat.m_[2][0] * p.x_ + mat.m_[2][1] * p.y_ + mat.m_[2][2] * p.z_ + mat.m_[2][3]));
 }
 
+
+// Point2D
+// --------------------------------------------- default constructor
+
+Point2D::Point2D()
+	:x_(0), y_(0)
+{}
+
+
+// --------------------------------------------- constructor
+
+Point2D::Point2D(const double c)
+	:x_(c), y_(c)
+{}
+
+// --------------------------------------------- constructor
+
+Point2D::Point2D(const double x, const double y)
+	:x_(x), y_(y)
+{}
+
+
+// --------------------------------------------- copy constructor
+
+Point2D::Point2D(const Point2D& p)
+	:x_(p.x_), y_(p.y_)
+{}
+
+
+// --------------------------------------------- destructor
+
+Point2D::~Point2D() 
+{}
+
+
+// --------------------------------------------- assignment operator
+
+Point2D& 
+Point2D::operator= (const Point2D& rhs) {
+	
+	if (this == &rhs)
+		return (*this);
+
+	x_ = rhs.x_; y_ = rhs.y_;
+
+	return (*this);
+}

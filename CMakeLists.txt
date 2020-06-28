@@ -13,18 +13,26 @@ include_directories(src)
 add_executable(gup_raytracer 
     src/interfaces/raytracer.cpp 
     src/interfaces/raytracer.h 
+
     src/geometry/geometry.cpp 
     src/geometry/geometry.h 
     src/geometry/plane.cpp 
     src/geometry/plane.h 
     src/geometry/sphere.cpp 
     src/geometry/sphere.h 
+
+    src/samplers/sampler.cpp
+    src/samplers/sampler.h
+    src/samplers/regular.cpp
+    src/samplers/regular.h
+
     src/tracers/multiple_objects.cpp 
     src/tracers/multiple_objects.h 
     src/tracers/single_sphere.cpp 
     src/tracers/single_sphere.h 
     src/tracers/tracer.cpp 
     src/tracers/tracer.h 
+
     src/utilities/constants.h 
     src/utilities/maths.h 
     src/utilities/matrix.cpp 
@@ -41,6 +49,7 @@ add_executable(gup_raytracer
     src/utilities/shade_rec.h 
     src/utilities/vector.cpp 
     src/utilities/vector.h 
+
     src/world/view_plane.cpp 
     src/world/view_plane.h 
     src/world/world.cpp 
