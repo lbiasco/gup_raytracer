@@ -1,12 +1,12 @@
 void 												
 World::Build(void) {
 
-    int num_samples = 4;
+    int num_samples = 16;
 
     vp_.SetHRes(200);
 	vp_.SetVRes(200);
 	vp_.SetPixelSize(1.0);
-    vp_.SetSampler(new Hammersley(num_samples));
+    vp_.SetSampler(new MultiJittered(num_samples));
 	vp_.SetGamma(1.0);
 	
 	background_color_ = kWhite;
