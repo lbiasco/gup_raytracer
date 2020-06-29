@@ -13,6 +13,10 @@
 // sampler
 
 #include "samplers/regular.h"
+#include "samplers/jittered.h"
+#include "samplers/rooks.h"
+#include "samplers/multi_jittered.h"
+#include "samplers/hammersley.h"
 
 // tracers
 

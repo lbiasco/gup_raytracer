@@ -25,6 +25,16 @@ add_executable(gup_raytracer
     src/samplers/sampler.h
     src/samplers/regular.cpp
     src/samplers/regular.h
+    src/samplers/random.cpp
+    src/samplers/random.h
+    src/samplers/jittered.cpp
+    src/samplers/jittered.h
+    src/samplers/rooks.cpp
+    src/samplers/rooks.h
+    src/samplers/multi_jittered.cpp
+    src/samplers/multi_jittered.h
+    src/samplers/hammersley.cpp
+    src/samplers/hammersley.h
 
     src/tracers/multiple_objects.cpp 
     src/tracers/multiple_objects.h 
