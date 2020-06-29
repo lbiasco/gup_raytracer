@@ -22,6 +22,7 @@
 
 #include "tracers/single_sphere.h"
 #include "tracers/multiple_objects.h"
+#include "tracers/function.h"
 
 // utilities
 
@@ -33,10 +34,10 @@
 
 // build functions
 
-#include "build_funcs/build_single_sphere.cpp"
+//#include "build_funcs/build_single_sphere.cpp"
 //#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
-
+#include "build_funcs/build_sinusoid_func.cpp"
 
 // -------------------------------------------------------------------- default constructor
 

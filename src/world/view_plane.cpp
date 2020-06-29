@@ -67,13 +67,6 @@ ViewPlane::SetSampler(Sampler *sp) {
 
 void
 ViewPlane::SetNumSamples(const int n) {
-    num_samples_ = n;
-
-    if (sampler_ptr_) {
-        delete sampler_ptr_;
-        sampler_ptr_ = NULL;
-    }
-
     sampler_ptr_->SetNumSamples(n);
 }
 

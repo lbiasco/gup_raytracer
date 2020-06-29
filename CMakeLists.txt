@@ -40,6 +40,8 @@ add_executable(gup_raytracer
     src/tracers/multiple_objects.h 
     src/tracers/single_sphere.cpp 
     src/tracers/single_sphere.h 
+    src/tracers/function.cpp 
+    src/tracers/function.h 
     src/tracers/tracer.cpp 
     src/tracers/tracer.h 
 
