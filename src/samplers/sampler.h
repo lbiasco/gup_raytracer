@@ -24,21 +24,25 @@ class Sampler {
         virtual void    // generate sample patterns in a unit square
         GenerateSamples(void) = 0;
 
-        void            // set up the randomly shuffled indices
-        SetupShuffledIndices(void);
+        void            // map square sample patterns to unit disk
+        MapSamplesToUnitDisk(void);
 
-        //void            // randomly shuffle the samples in each pattern
-        //ShuffleSamples(void);
+        Point2D         // get next sample on unit disk
+        SampleUnitDisk(void);
 
         Point2D         // get next sample on unit square
         SampleUnitSquare(void);
+
+        void            // set up the randomly shuffled indices
+        SetupShuffledIndices(void);
 
     protected:
 
         int num_samples_;               // the number of sample points in a pattern
         int num_sets_;                  // the number of sample sets (patterns) stored
         std::vector<Point2D> samples_;          // sample points on a unit square
-        std::vector<int> shuffled_indices_;   // shuffled samples array indices
+        std::vector<Point2D> disk_samples_;     // sample points on a unit disk
+        std::vector<int> shuffled_indices_;     // shuffled samples array indices
         unsigned long count_;           // the current number of sample points used
         int jump_;                      // random index jump
 };
