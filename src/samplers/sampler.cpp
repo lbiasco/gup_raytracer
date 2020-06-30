@@ -26,6 +26,29 @@ Sampler::SetNumSamples(const int n) {
 }
 
 
+// -------------------------------------------------------------------- MapSamplesToHemisphere
+
+void
+Sampler::MapSamplesToHemisphere(const float e) {
+    int size = samples_.size();
+    hemisphere_samples_.reserve(size);
+
+    // x = r1, y = r2
+    for (int j = 0; j < size; j++) {
+        float cos_phi = cos(2.0 * kPi * samples_[j].x_);
+        float sin_phi = sin(2.0 * kPi * samples_[j].x_);
+        float cos_theta = pow((1.0 - samples_[j].y_), 1.0 / (e + 1.0));
+        float sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+        
+        float pu = sin_theta * cos_phi;
+        float pv = sin_theta * sin_phi;
+        float pw = cos_theta;
+
+        hemisphere_samples_.push_back(Point3D(pu, pv, pw));
+    }
+}
+
+
 // -------------------------------------------------------------------- MapSamplesToUnitDisk
 
 void
@@ -70,6 +93,17 @@ Sampler::MapSamplesToUnitDisk(void) {
         sp.y_ = r * sin(phi);
         disk_samples_.push_back(sp); // NOTE: These points are still in [-1,1]x[-1,1]
     }
+}
+
+
+// -------------------------------------------------------------------- SampleUnitDisk
+
+Point3D
+Sampler::SampleHemisphere(void) {
+    if (count_ % num_samples_ == 0)
+        jump_ = RandInt(num_sets_) * num_samples_;
+
+    return hemisphere_samples_[jump_ + shuffled_indices_[jump_ + count_++ % num_samples_]];
 }
 
 
