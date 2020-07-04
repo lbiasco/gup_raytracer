@@ -28,11 +28,11 @@ class World {
 		ViewPlane			vp_;
 		RGBColor			background_color_;
 		Tracer*				tracer_ptr_;
-		Sphere 				sphere_;		// for Chapter 3 only
 		std::vector<Geometry*>   objects_;		
-		
 		RenderWorker* 		paint_area_;
 		
+        float eye_ = 100.0;
+        float vp_dist_ = -1.0;
 
 	public:
 	
@@ -47,7 +47,10 @@ class World {
 		Build(void);
 
 		void 												
-		RenderScene(void) const;
+		RenderOrthographic(void) const;
+
+		void 												
+		RenderPerspective(void) const;
 						
 		RGBColor
 		Normalize(const RGBColor& c) const;

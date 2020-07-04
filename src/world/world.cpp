@@ -20,7 +20,6 @@
 
 // tracers
 
-#include "tracers/single_sphere.h"
 #include "tracers/multiple_objects.h"
 #include "tracers/function.h"
 
@@ -35,9 +34,10 @@
 // build functions
 
 //#include "build_funcs/build_single_sphere.cpp"
+#include "build_funcs/build_double_sphere.cpp"
 //#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
-#include "build_funcs/build_sinusoid_func.cpp"
+//#include "build_funcs/build_sinusoid_func.cpp"
 
 // -------------------------------------------------------------------- default constructor
 
@@ -61,12 +61,12 @@ World::~World(void) {
 }
 
 
-//------------------------------------------------------------------ RenderScene
+//------------------------------------------------------------------ RenderOrthographic
 
 // This uses orthographic viewing along the zw axis
 
 void 												
-World::RenderScene(void) const {
+World::RenderOrthographic(void) const {
 
 	RGBColor	pixel_color;	 	
 	Ray			ray;					
@@ -76,9 +76,8 @@ World::RenderScene(void) const {
 
     Point2D     sp;                 // sample point in [0,1]x[0,1]          
     Point2D     pp;                 // sample point on a pixel
-	float		zw		= 100.0;    // hardwired in
 
-	ray.d_ = Vector3D(0, 0, -1);
+	ray.d_ = Vector3D(0, 0, Sign(vp_dist_));
 	
 	for (int r = 0; r < vres; r++)			// up
 		for (int c = 0; c < hres; c++) {	// across 	
@@ -88,7 +87,7 @@ World::RenderScene(void) const {
                 sp = vp_.sampler_ptr_->SampleUnitSquare();
                 pp.x_ = s * (c - 0.5 * hres + sp.x_);
                 pp.y_ = s * (r - 0.5 * vres + sp.y_);
-                ray.o_ = Point3D(pp.x_, pp.y_, zw);
+                ray.o_ = Point3D(pp.x_, pp.y_, eye_ + vp_dist_);
                 pixel_color += tracer_ptr_->TraceRay(ray);
             }
 
@@ -97,6 +96,35 @@ World::RenderScene(void) const {
 		}
     paint_area_->Terminate();
 }  
+
+
+//------------------------------------------------------------------ RenderPerspective
+
+void 												
+World::RenderPerspective(void) const {
+
+	RGBColor	pixel_color;	 	
+	Ray			ray;					
+	int 		hres 	= vp_.hres_;
+	int 		vres 	= vp_.vres_;
+	float		s		= vp_.s_;
+
+    Point2D     sp;                 // sample point in [0,1]x[0,1]          
+    Point2D     pp;                 // sample point on a pixel
+
+    ray.o_ = Point3D(0.0, 0.0, eye_);
+	
+	for (int r = 0; r < vres; r++)			// up
+		for (int c = 0; c < hres; c++) {	// across 	
+            pixel_color = kBlack;
+            ray.d_ = Vector3D(s * (c - 0.5 *(hres - 1)),
+                        s * (r - 0.5 * (vres - 1.0)), vp_dist_);
+            ray.d_.Normalize();
+            pixel_color = tracer_ptr_->TraceRay(ray);
+            DisplayPixel(r, c, pixel_color);
+		}
+    paint_area_->Terminate();
+}
 
 
 // ------------------------------------------------------------------ Normalize

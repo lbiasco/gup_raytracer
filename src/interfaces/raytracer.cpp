@@ -452,7 +452,8 @@ void* RenderWorker::Start()
     timer_->start();
     
     // NEED TO WRAP IN INTERRUPT LOOP IN ORDER TO PAUSE/RESUME *****************
-    world_->RenderScene();
+    //world_->RenderOrthographic();
+    world_->RenderPerspective();
 
     return NULL;
 }

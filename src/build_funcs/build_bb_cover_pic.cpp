@@ -2,10 +2,15 @@
 
 void 												
 World::Build(void) {
+    int num_samples = 16;
+
 	vp_.SetHRes(400);
 	vp_.SetVRes(400);
 	vp_.SetPixelSize(0.5);
 	
+    vp_.SetSampler(new MultiJittered(num_samples));
+	vp_.SetGamma(1.0);
+
 	background_color_ = RGBColor(0.0);
 	tracer_ptr_ = new MultipleObjects(this);  
 	

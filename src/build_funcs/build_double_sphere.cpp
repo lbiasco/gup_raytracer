@@ -20,4 +20,10 @@ World::Build(void) {
 	sphere_ptr->SetRadius(85);
 	sphere_ptr->SetColor(1, 0, 0);  // red
 	AddObject(sphere_ptr);	
+
+	sphere_ptr = new Sphere;
+	sphere_ptr->SetCenter(0.0);
+	sphere_ptr->SetRadius(75);
+	sphere_ptr->SetColor(0, 0, 1);  // red
+	AddObject(sphere_ptr);	
 }
