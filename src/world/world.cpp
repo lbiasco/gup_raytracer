@@ -117,11 +117,17 @@ World::RenderPerspective(void) const {
 	for (int r = 0; r < vres; r++)			// up
 		for (int c = 0; c < hres; c++) {	// across 	
             pixel_color = kBlack;
-            ray.d_ = Vector3D(s * (c - 0.5 *(hres - 1)),
-                        s * (r - 0.5 * (vres - 1.0)), vp_dist_);
-            ray.d_.Normalize();
-            pixel_color = tracer_ptr_->TraceRay(ray);
-            DisplayPixel(r, c, pixel_color);
+
+            for (int j = 0; j < vp_.num_samples_; j++) {
+                sp = vp_.sampler_ptr_->SampleUnitSquare();
+                pp.x_ = s * (c - 0.5 * hres + sp.x_);
+                pp.y_ = s * (r - 0.5 * vres + sp.y_);
+                ray.d_ = Vector3D(pp.x_, pp.y_, vp_dist_);
+                pixel_color += tracer_ptr_->TraceRay(ray);
+            }
+
+            pixel_color /= vp_.num_samples_;    // Average the colors
+			DisplayPixel(r, c, pixel_color);
 		}
     paint_area_->Terminate();
 }

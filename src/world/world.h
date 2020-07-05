@@ -31,8 +31,8 @@ class World {
 		std::vector<Geometry*>   objects_;		
 		RenderWorker* 		paint_area_;
 		
-        float eye_ = 100.0;
-        float vp_dist_ = -1.0;
+        float eye_ = 200.0;
+        float vp_dist_ = -115.0;
 
 	public:
 	
