@@ -18,6 +18,12 @@ class Plane: public Geometry {
 		virtual Plane* 												// virtual copy constructor
 		Clone(void) const;
 
+        void
+        SetPoint(const Point3D& a);
+                
+        void
+        SetNormal(const Normal& n);
+
 		Plane& 														// assignment operator
 		operator= (const Plane& rhs);	
 		
@@ -35,4 +41,15 @@ class Plane: public Geometry {
 		static const double kEpsilon;   // for shadows and secondary rays
 };
 
+
+inline void
+Plane::SetPoint(const Point3D& a) {
+	a_ = a;
+}
+		
+inline void
+Plane::SetNormal(const Normal& n) {
+	n_ = n;
+}
+		
 #endif  // GEOMETRY_PLANE_H_

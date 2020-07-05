@@ -34,7 +34,8 @@
 // build functions
 
 //#include "build_funcs/build_single_sphere.cpp"
-#include "build_funcs/build_double_sphere.cpp"
+//#include "build_funcs/build_double_sphere.cpp"
+#include "build_funcs/build_single_plane.cpp"
 //#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
