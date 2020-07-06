@@ -12,27 +12,25 @@
 
 #include <vector>
 
-#include "world/view_plane.h"
-#include "utilities/rgb_color.h"
-#include "tracers/tracer.h"
+#include "cameras/camera.h"
 #include "geometry/geometry.h"
 #include "geometry/sphere.h"
+#include "tracers/tracer.h"
 #include "utilities/ray.h"
+#include "utilities/rgb_color.h"
+#include "world/view_plane.h"
 
 class RenderWorker; 	// Needed to connect to Qt skeleton
 
 
 class World {	
 	public:
-	
+        Camera*             camera_ptr_;
 		ViewPlane			vp_;
 		RGBColor			background_color_;
 		Tracer*				tracer_ptr_;
 		std::vector<Geometry*>   objects_;		
 		RenderWorker* 		paint_area_;
-		
-        float eye_ = 200.0;
-        float vp_dist_ = -115.0;
 
 	public:
 	
@@ -47,10 +45,7 @@ class World {
 		Build(void);
 
 		void 												
-		RenderOrthographic(void) const;
-
-		void 												
-		RenderPerspective(void) const;
+		RenderScene(void);
 						
 		RGBColor
 		Normalize(const RGBColor& c) const;

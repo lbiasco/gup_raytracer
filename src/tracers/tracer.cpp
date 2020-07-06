@@ -35,7 +35,7 @@ Tracer::TraceRay(const Ray& ray) const {
 
 RGBColor	
 Tracer::TraceRay(const Ray ray, const int depth) const {
-	return (kBlack);
+	return TraceRay(ray);   // Temporary redirect while depth is not used
 }
 
 

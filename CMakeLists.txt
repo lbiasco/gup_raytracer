@@ -14,6 +14,11 @@ add_executable(gup_raytracer
     src/interfaces/raytracer.cpp 
     src/interfaces/raytracer.h 
 
+    src/cameras/camera.cpp 
+    src/cameras/camera.h 
+    src/cameras/pinhole.cpp 
+    src/cameras/pinhole.h 
+
     src/geometry/geometry.cpp 
     src/geometry/geometry.h 
     src/geometry/plane.cpp 

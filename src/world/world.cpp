@@ -5,6 +5,10 @@
 #include "world/world.h"
 #include "utilities/constants.h"
 
+// cameras
+
+#include "cameras/pinhole.h"
+
 // geometric objects
 
 #include "geometry/plane.h"
@@ -34,8 +38,8 @@
 // build functions
 
 //#include "build_funcs/build_single_sphere.cpp"
-//#include "build_funcs/build_double_sphere.cpp"
-#include "build_funcs/build_single_plane.cpp"
+#include "build_funcs/build_double_sphere.cpp"
+//#include "build_funcs/build_single_plane.cpp"
 //#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
@@ -62,74 +66,13 @@ World::~World(void) {
 }
 
 
-//------------------------------------------------------------------ RenderOrthographic
+//------------------------------------------------------------------ RenderScene
 
-// This uses orthographic viewing along the zw axis
-
-void 												
-World::RenderOrthographic(void) const {
-
-	RGBColor	pixel_color;	 	
-	Ray			ray;					
-	int 		hres 	= vp_.hres_;
-	int 		vres 	= vp_.vres_;
-	float		s		= vp_.s_;
-
-    Point2D     sp;                 // sample point in [0,1]x[0,1]          
-    Point2D     pp;                 // sample point on a pixel
-
-	ray.d_ = Vector3D(0, 0, Sign(vp_dist_));
-	
-	for (int r = 0; r < vres; r++)			// up
-		for (int c = 0; c < hres; c++) {	// across 	
-            pixel_color = kBlack;
-
-            for (int j = 0; j < vp_.num_samples_; j++) {
-                sp = vp_.sampler_ptr_->SampleUnitSquare();
-                pp.x_ = s * (c - 0.5 * hres + sp.x_);
-                pp.y_ = s * (r - 0.5 * vres + sp.y_);
-                ray.o_ = Point3D(pp.x_, pp.y_, eye_ + vp_dist_);
-                pixel_color += tracer_ptr_->TraceRay(ray);
-            }
-
-            pixel_color /= vp_.num_samples_;    // Average the colors
-			DisplayPixel(r, c, pixel_color);
-		}
-    paint_area_->Terminate();
-}  
-
-
-//------------------------------------------------------------------ RenderPerspective
+// Using RenderScene thru World while camera_ptr_ targets only a single camera
 
 void 												
-World::RenderPerspective(void) const {
-
-	RGBColor	pixel_color;	 	
-	Ray			ray;					
-	int 		hres 	= vp_.hres_;
-	int 		vres 	= vp_.vres_;
-	float		s		= vp_.s_;
-
-    Point2D     sp;                 // sample point in [0,1]x[0,1]          
-    Point2D     pp;                 // sample point on a pixel
-
-    ray.o_ = Point3D(0.0, 0.0, eye_);
-	
-	for (int r = 0; r < vres; r++)			// up
-		for (int c = 0; c < hres; c++) {	// across 	
-            pixel_color = kBlack;
-
-            for (int j = 0; j < vp_.num_samples_; j++) {
-                sp = vp_.sampler_ptr_->SampleUnitSquare();
-                pp.x_ = s * (c - 0.5 * hres + sp.x_);
-                pp.y_ = s * (r - 0.5 * vres + sp.y_);
-                ray.d_ = Vector3D(pp.x_, pp.y_, vp_dist_);
-                pixel_color += tracer_ptr_->TraceRay(ray);
-            }
-
-            pixel_color /= vp_.num_samples_;    // Average the colors
-			DisplayPixel(r, c, pixel_color);
-		}
+World::RenderScene(void) {
+	camera_ptr_->RenderScene(*this);
     paint_area_->Terminate();
 }
 
