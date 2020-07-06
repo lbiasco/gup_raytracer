@@ -1,15 +1,15 @@
 void 												
 World::Build(void) {
 
-    int num_samples = 4;
+    int num_samples = 16;
 
     vp_.SetHRes(200);
 	vp_.SetVRes(200);
 	vp_.SetPixelSize(1.0);
-    vp_.SetSampler(new Regular(num_samples));
+    vp_.SetSampler(new MultiJittered(num_samples));
 	vp_.SetGamma(1.0);
 
-    Point3D cam_eye(0, 0, 84);
+    Point3D cam_eye(0, -100, 0);
     Point3D cam_lookat(0, 0, 0);
     float cam_d = 5;
     camera_ptr_ = new Pinhole(cam_eye, cam_lookat, cam_d);
