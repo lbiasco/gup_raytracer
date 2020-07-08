@@ -1,20 +1,16 @@
-// This is the declaration of the class Jittered
-
 #ifndef SAMPLERS_JITTERED_H_
 #define SAMPLERS_JITTERED_H_
 
 #include "samplers/sampler.h"
 
+// Jittered impementation of the Sampler object
 class Jittered : public Sampler {
-	public:
+  public:
+    // Constructors, destructors
+    Jittered(const int num_samples);
+    ~Jittered(void) override;		
 
-		Jittered(const int num_samples);															
-				
-		virtual											
-		~Jittered(void);		
-
-        void    // generate sample patterns in a unit square
-        GenerateSamples(void);
+    void GenerateSamples(void);
 };
 
 #endif  // SAMPLERS_JITTERED_H_

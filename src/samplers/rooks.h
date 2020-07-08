@@ -1,20 +1,16 @@
-// This is the declaration of the class Rooks
-
 #ifndef SAMPLERS_ROOKS_H_
 #define SAMPLERS_ROOKS_H_
 
 #include "samplers/sampler.h"
 
+// Rooks impementation of the Sampler object
 class Rooks : public Sampler {
-	public:
+  public:
+    // Constructors, destructors
+    Rooks(const int num_samples);
+    ~Rooks(void) override;	
 
-		Rooks(const int num_samples);															
-				
-		virtual											
-		~Rooks(void);		
-
-        void    // generate sample patterns in a unit square
-        GenerateSamples(void);
+    void GenerateSamples(void);
 };
 
 #endif  // SAMPLERS_ROOKS_H_

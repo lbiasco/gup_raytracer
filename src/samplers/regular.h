@@ -5,16 +5,14 @@
 
 #include "samplers/sampler.h"
 
+// Regular impementation of the Sampler object
 class Regular : public Sampler {
-	public:
+  public:
+    // Constructors, destructors
+    Regular(const int num_samples);															
+    ~Regular(void) override;
 
-		Regular(const int num_samples);															
-				
-		virtual											
-		~Regular(void);		
-
-        void    // generate sample patterns in a unit square
-        GenerateSamples(void);
+    void GenerateSamples(void);
 };
 
 #endif  // SAMPLERS_REGULAR_H_

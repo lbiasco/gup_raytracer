@@ -24,15 +24,15 @@ class RenderController;
 class RenderWorker;
 class RenderPixel;
 
-class RenderWindow : public QMainWindow
-{
+
+class RenderWindow : public QMainWindow {
     Q_OBJECT
 
-public:
+  public:
     RenderWindow();
     void SetStatusText(const QString text, int col=0);
 
-private slots:
+  private slots:
     void Open();
     void Save();
     void Complete();
@@ -40,7 +40,7 @@ private slots:
     void Pause();
     void Resume();
 
-private:
+  private:
     void CreateActions();
     void CreateMenus();
 
@@ -60,11 +60,10 @@ private:
 };
 
 
-class RenderCanvas: public QWidget
-{
+class RenderCanvas: public QWidget {
     Q_OBJECT
 
-public:
+  public:
     RenderCanvas(QWidget *parent, RenderWindow *window);
     virtual ~RenderCanvas(void);
         
@@ -75,78 +74,70 @@ public:
     void RenderPause(void);
     void RenderResume(void);
 
-protected:
-    virtual void paintEvent(QPaintEvent *event) override;
-
-    QImage *image_;
-    World *w_;
-
-private:
-    RenderWindow *window_;
-    RenderController *controller_;
-    long pixels_rendered_;
-    long pixels_to_render_;
-    QElapsedTimer *timer_;
-    QTimer *update_timer_;
-
-public slots:
+  public slots:
     void CompleteRender();
     void TimerUpdate();
     void UpdatePixels(std::vector<RenderPixel*> *pixels);
 
-signals:
+  signals:
     void Completed();
+
+  private:
+    void paintEvent(QPaintEvent *event) override;
+
+    RenderController *controller_;
+    QImage *image_;
+    long pixels_rendered_;
+    long pixels_to_render_;
+    QElapsedTimer *timer_;
+    QTimer *update_timer_;
+    World *w_;
+    RenderWindow *window_;
 };
 
-
-class RenderController : public QObject
-{
+class RenderController : public QObject {
     Q_OBJECT
-
     QThread worker_thread_;
 
-public:
+  public:
     RenderController(RenderCanvas* c, World* w);
     ~RenderController();
 
-signals:
+  signals:
     void Pause();
     void Resume();
     void Start();
     void Terminate();
 };
 
-
-class RenderWorker : public QObject
-{
+class RenderWorker : public QObject {
     Q_OBJECT
     
-public:
+  public:
     RenderWorker(World *w);
 
-public slots:
+  public slots:
     virtual void Pause();
     virtual void Resume();
     virtual void* Start();
     virtual void Terminate();
     virtual void SetPixel(int x, int y, int red, int green, int blue);
 
-signals:
+  signals:
     void Completed();
     void PixelsUpdated(std::vector<RenderPixel*> *pixels_update);
 
-private:
+  private:
     void SendUpdate();
     
-    World *world_;
     std::vector<RenderPixel*> pixels_;
     QElapsedTimer *timer_;
+    World *world_;
 };
 
 
-class RenderPixel
-{
-public:
+class RenderPixel {
+  public:
     RenderPixel(int x, int y, int red, int green, int blue);
 
     int x_, y_;

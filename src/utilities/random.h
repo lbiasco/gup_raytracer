@@ -7,35 +7,22 @@
 
 #include "utilities/constants.h"
 
-double          // Return a random double in [0, 1]
-RandDouble();
-
-int             // Return a random int in
-RandInt(int range, int offset);
-
-void            // Set random generation seed
-SetRandSeet(int seed);
-
-inline double
-RandDouble() {
-    return (double)rand() * kInvRandMax;
+// Return a random double in [0, 1]
+inline double RandDouble(void) {
+  return (double)rand() * kInvRandMax;
 }
 
-inline int
-RandInt(int range=RAND_MAX, int offset=0) {
-    /*
-    int x;
-    do {
-        x = rand();
-    } while (x >= (RAND_MAX - RAND_MAX % range));
-    
-    return x % range + offset;
-     */
-    return rand() % range + offset;
+// Return a random int in
+inline int RandInt(int range=RAND_MAX, int offset=0) {
+  int x;
+  do {
+      x = rand();
+  } while (x >= (RAND_MAX - RAND_MAX % range));
+  return x % range + offset;
 }
 
-inline void
-SetRandSeet(int seed) {
+// Set random generation seed
+inline void SetRandSeet(int seed) {
     srand(seed);
 }
 

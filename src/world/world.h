@@ -22,56 +22,32 @@
 
 class RenderWorker; 	// Needed to connect to Qt skeleton
 
-
 class World {	
-	public:
-        Camera*             camera_ptr_;
-		ViewPlane			vp_;
-		RGBColor			background_color_;
-		Tracer*				tracer_ptr_;
-		std::vector<Geometry*>   objects_;		
-		RenderWorker* 		paint_area_;
+  public:
+    World(void);
+    ~World();
+                
+    void AddObject(Geometry* object_ptr);
+    void Build(void);   
+    RGBColor ClampToColor(const RGBColor& c) const;
+    void DisplayPixel(const int row, const int column, const RGBColor& pixel_color) const;
+    ShadeRec HitBareBonesObjects(const Ray& ray);
+    RGBColor Normalize(const RGBColor& c) const;
+    void RenderScene(void);
+         
+    Camera*       camera_ptr_;
+    ViewPlane     vp_;
+    RGBColor      background_color_;
+    Tracer*       tracer_ptr_;
+    std::vector<Geometry*>  objects_;		
+    RenderWorker* paint_area_;
 
-	public:
-	
-		World(void);												
-		
-		~World();
-								
-		void 
-		AddObject(Geometry* object_ptr);
-		
-		void 					
-		Build(void);
-
-		void 												
-		RenderScene(void);
-						
-		RGBColor
-		Normalize(const RGBColor& c) const;
-		
-		RGBColor
-		ClampToColor(const RGBColor& c) const;
-		
-		void
-		DisplayPixel(const int row, const int column, const RGBColor& pixel_color) const;
-
-		ShadeRec									
-		HitBareBonesObjects(const Ray& ray);
-						
-	private:
-		
-		void 
-		DeleteObjects(void);
-
+  private:
+    void DeleteObjects(void);
 };
 
-
-// ------------------------------------------------------------------ add_object
-
-inline void 
-World::AddObject(Geometry* object_ptr) {  
-	objects_.push_back(object_ptr);	
+inline void World::AddObject(Geometry* object_ptr) {  
+  objects_.push_back(object_ptr);	
 }
 
 #endif  // WORLD_WORLD_H_

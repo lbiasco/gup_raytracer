@@ -3,18 +3,15 @@
 
 #include "tracers/tracer.h"
 
+// MultipleObjects impementation of the Tracer object
 class MultipleObjects: public Tracer {
-	public:
-		
-		MultipleObjects(void);							
-		
-		MultipleObjects(World* world_ptr);				
-	
-		virtual											
-		~MultipleObjects(void);
-						
-		virtual RGBColor	
-		TraceRay(const Ray& ray) const;
+  public:
+    // Constructors, destructors
+    MultipleObjects(void);
+    MultipleObjects(World* world_ptr);
+    ~MultipleObjects(void) override;
+
+    RGBColor TraceRay(const Ray& ray) const override;
 };
 
 #endif  // TRACERS_MULTIPLE_OBJECTS_H_

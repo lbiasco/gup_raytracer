@@ -1,76 +1,48 @@
 #ifndef GEOMETRY_GEOMETRY_H_
 #define GEOMETRY_GEOMETRY_H_
 
-// this file contains the declaration of the class Geometry
-
 #include "utilities/rgb_color.h"
 #include "utilities/point.h"
 #include "utilities/normal.h"
 #include "utilities/ray.h"
 #include "utilities/shade_rec.h"
 #include "utilities/constants.h"
-					
 
+// Base class for Geometry objects
 class Geometry {	
-	
-	public:	
+  public:
+    // Constructors, destructors
+    Geometry(void);
+    Geometry(const Geometry& object);
+    virtual ~Geometry (void);	
 
-		Geometry(void);				        // default constructor
-		
-		Geometry(const Geometry& object);	// copy constructor
-	
-		virtual Geometry*					// virtual copy constructor
-		Clone(void) const = 0;
+    RGBColor GetColor(void);
+    void SetColor(const RGBColor& c);
+    void SetColor(const float r, const float g, const float b);
 
-		virtual 							// destructor
-		~Geometry (void);	
-			
-		virtual bool 												 
-		Hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
-		
+    virtual Geometry*	Clone(void) const = 0;
+    virtual bool Hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
 
-		// the following three functions are only required for Chapter 3
-		
-		void
-		SetColor(const RGBColor& c);
-				
-		void
-		SetColor(const float r, const float g, const float b);
-		
-		RGBColor
-		GetColor(void);
-
-	
-	protected:
-	
-		RGBColor   color_;		// only used for Bare Bones ray tracing
-	
-		Geometry&				// assignment operator
-		operator= (const Geometry& rhs);
+  protected:
+    Geometry&	operator= (const Geometry& rhs);
+    
+    RGBColor  color_;		// only used for Bare Bones ray tracing
 };
 
+// Inline functions
 
-// --------------------------------------------------------------------  SetColor
-
-inline void
-Geometry::SetColor(const RGBColor& c) {
-	color_ = c;
+inline RGBColor Geometry::GetColor(void) {
+  return (color_);
 }
 
-// --------------------------------------------------------------------  SetColor
-
-inline void 
-Geometry::SetColor(const float r, const float g, const float b) {
-	color_.r_ = r;
-	color_.b_ = b;
-	color_.g_ = g;
+inline void Geometry::SetColor(const RGBColor& c) {
+  color_ = c;
 }
 
-// --------------------------------------------------------------------  GetColor
-
-inline RGBColor 
-Geometry::GetColor(void) {
-	return (color_);
+inline void Geometry::SetColor(const float r, const float g, const float b) {
+  color_.r_ = r;
+  color_.b_ = b;
+  color_.g_ = g;
 }
 
 #endif  // GEOMETRY_GEOMETRY_H_
