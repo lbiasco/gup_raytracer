@@ -2,14 +2,28 @@
 
 #include <math.h>
 
+Camera::Camera(Point3D eye, Vector3D view_dir, Vector3D up) 
+    : eye_(eye), view_dir_(view_dir), up_(up) {
+  ComputeUVW();
+}
+
 Camera::Camera(Point3D eye, Point3D lookat, Vector3D up) 
-    : eye_(eye), lookat_(lookat), up_(up) {
-  //(TODO) Check for zero length e - l or up
+    : eye_(eye), up_(up) {
+  LookAt(lookat);
+}
+
+void Camera::up(Vector3D v) {
+  up_ = v;
+  ComputeUVW();
+}
+
+void Camera::view_dir(Vector3D v) {
+  view_dir_ = v;
   ComputeUVW();
 }
 
 void Camera::ComputeUVW() {
-	w_ = eye_ - lookat_;
+	w_ = -Vector3D(view_dir_);
   w_.Normalize();
 
   // Check for "singularity" (parallel up and w vectors)
@@ -23,4 +37,10 @@ void Camera::ComputeUVW() {
   
   u_.Normalize();
   v_ = w_ ^ u_;
+}
+
+void Camera::LookAt(Point3D lookat) {
+  //(TODO) Check for zero length e - l or up
+  view_dir_ = lookat - eye_;
+  ComputeUVW();
 }
