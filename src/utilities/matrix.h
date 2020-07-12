@@ -5,19 +5,17 @@
 #ifndef UTILITIES_MATRIX_H_
 #define UTILITIES_MATRIX_H_
 
-class Matrix {
-  public:
-    Matrix(void);
+struct Matrix {
+    double	m[4][4];
+  
+    Matrix();
     Matrix(const Matrix& mat);
-    ~Matrix (void);
-      
+
     Matrix& operator= (const Matrix& rhs);
     Matrix operator* (const Matrix& mat) const;
     Matrix operator/ (const double d);
 
-    void SetIdentity(void);	
-
-    double	m_[4][4];
+    void SetIdentity();	
 };
 
 #endif  // UTILITIES_MATRIX_H_

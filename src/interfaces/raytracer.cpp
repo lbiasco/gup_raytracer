@@ -271,19 +271,19 @@ void RenderCanvas::RenderStart(void) {
   window_->SetStatusText("Building world...", 0);
   w_->Build();
 
-  if(w_->tracer_ptr_ == NULL) {
+  if(w_->tracer_ptr() == NULL) {
     window_->SetStatusText("ERROR: Tracer not set, skipping render", 0);
     return;
   }
 
   window_->SetStatusText("Rendering...", 0);
-  setMinimumSize(w_->vp_.hres_, w_->vp_.vres_);
+  setMinimumSize(w_->view_plane().hres(), w_->view_plane().vres());
 
   pixels_rendered_ = 0;
-  pixels_to_render_ = w_->vp_.hres_ * w_->vp_.vres_;
+  pixels_to_render_ = w_->view_plane().hres() * w_->view_plane().vres();
 
   // Set background
-  QImage *temp = new QImage(w_->vp_.hres_, w_->vp_.vres_, QImage::Format_RGB32);
+  QImage *temp = new QImage(w_->view_plane().hres(), w_->view_plane().vres(), QImage::Format_RGB32);
   temp->fill(QColor(50, 50, 50));
   SetImage(temp);
 
@@ -330,8 +330,8 @@ void RenderCanvas::UpdatePixels(std::vector<RenderPixel*> *pixels) {
   for (std::vector<RenderPixel*>::iterator itr = pixels->begin(); 
       itr != pixels->end(); itr++) {
     RenderPixel* pixel = *itr;
-    const QColor color(pixel->red_, pixel->green_, pixel->blue_);
-    image_->setPixelColor(pixel->x_, pixel->y_, color);
+    const QColor color(pixel->r, pixel->g, pixel->b);
+    image_->setPixelColor(pixel->x, pixel->y, color);
 
     pixels_rendered_++;
     delete pixel;
@@ -379,7 +379,7 @@ RenderController::~RenderController() {
 
 RenderWorker::RenderWorker(World* w) {
   world_ = w;
-  world_->paint_area_ = this;
+  world_->paint_area(this);
 }
 
 void RenderWorker::Pause() {
@@ -422,11 +422,3 @@ void RenderWorker::Terminate()
   SendUpdate();
   emit Completed();
 }
-
-
-// ------------------------------------------------------------------------- //
-// RenderPixel
-// ------------------------------------------------------------------------- //
-
-RenderPixel::RenderPixel(int x, int y, int red, int green, int blue)
-    : x_(x), y_(y), red_(red), green_(green), blue_(blue) {}

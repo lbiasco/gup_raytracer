@@ -6,15 +6,21 @@
 
 class Ray {
   public:
-    Ray(void);			
-    Ray(const Point3D& origin, const Vector3D& dir);
-    Ray(const Ray& ray);
-    ~Ray(void);	
+    Ray() : origin_(0.0), dir_(0.0, 0.0, 1.0) {}			
+    Ray(const Point3D& o, const Vector3D& d) : origin_(o), dir_(d) {}
+    Ray(const Ray& ray) : origin_(ray.origin_), dir_(ray.dir_) {}
 
     Ray& operator= (const Ray& rhs);
 
-    Point3D   o_; // origin 
-    Vector3D  d_; // direction 
+    void origin(Point3D o) { origin_ = o; }
+    Point3D origin() const { return origin_; }
+
+    void dir(Vector3D d) { dir_ = d; }
+    Vector3D dir() const { return dir_; }
+
+  private:
+    Point3D   origin_; // origin 
+    Vector3D  dir_; // direction
 };
 
 #endif  // UTILITIES_RAY_H_

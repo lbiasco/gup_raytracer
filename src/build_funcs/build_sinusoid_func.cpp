@@ -1,11 +1,11 @@
 void World::Build(void) {
   int num_samples = 16;
 
-  vp_.SetHRes(512);
-  vp_.SetVRes(512);
-  vp_.SetPixelSize(0.040);
-  vp_.SetSampler(new MultiJittered(num_samples));
-  vp_.SetGamma(1.0);
+  view_plane_.hres(512);
+  view_plane_.vres(512);
+  view_plane_.pixel_scale(0.040);
+  view_plane_.sampler_ptr(new MultiJittered(num_samples));
+  view_plane_.gamma(1.0);
 
   // Doesn't work with Pinhole due to using ray origin as x, y coords...
   Point3D cam_eye(0, 0, 100);
@@ -15,11 +15,11 @@ void World::Build(void) {
   ptr->zoom_ = 1;
   camera_ptr_ = ptr;
 
-  background_color_ = kWhite;
+  bg_color_ = kWhite;
 
   auto ray_func = [](Ray ray) {
-    double f = 0.5 * (1 + sin(ray.o_.x_ * ray.o* ray.o_.y_ * ray.o_.y_));
-    return RGBColor(f); _.x_ 
+    double f = 0.5 * (1 + sin(ray.origin().x * ray.origin().x * ray.origin().y * ray.origin().y));
+    return RGBColor(f);
   };
   Function *func_tracer = new Function(this);
   func_tracer->SetFunction(ray_func);

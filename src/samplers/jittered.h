@@ -8,9 +8,8 @@ class Jittered : public Sampler {
   public:
     // Constructors, destructors
     Jittered(const int num_samples);
-    ~Jittered(void) override;		
 
-    void GenerateSamples(void);
+    void GenerateSamples();
 };
 
 #endif  // SAMPLERS_JITTERED_H_

@@ -8,7 +8,6 @@ class MultiJittered : public Sampler {
   public:
     // Constructors, destructors
     MultiJittered(const int num_samples);
-    ~MultiJittered(void) override;
 
     void GenerateSamples(void);
 };

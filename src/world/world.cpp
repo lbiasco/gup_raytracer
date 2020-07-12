@@ -31,7 +31,6 @@
 
 #include "utilities/vector.h"
 #include "utilities/point.h"
-#include "utilities/normal.h"
 #include "utilities/shade_rec.h"
 #include "utilities/maths.h"
 
@@ -44,9 +43,9 @@
 //#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
 
-World::World(void) : background_color_(kBlack), tracer_ptr_(NULL) {}
+World::World() : bg_color_(kBlack), tracer_ptr_(NULL) {}
 
-World::~World(void) {	
+World::~World() {	
   if(tracer_ptr_) {
     delete tracer_ptr_;
     tracer_ptr_ = NULL;
@@ -55,13 +54,13 @@ World::~World(void) {
 }
 
 // Using RenderScene thru World while camera_ptr_ targets only a single camera
-void World::RenderScene(void) {
+void World::RenderScene() {
   camera_ptr_->RenderScene(*this);
   paint_area_->Terminate();
 }
 
 RGBColor World::Normalize(const RGBColor& c) const  {
-  float max_value = std::max(c.r_, std::max(c.g_, c.b_));
+  float max_value = std::max(c.r, std::max(c.g, c.b));
 
   if (max_value > 1.0)
     return (c / max_value);
@@ -71,8 +70,8 @@ RGBColor World::Normalize(const RGBColor& c) const  {
 
 RGBColor World::ClampToColor(const RGBColor& raw_color) const {
   RGBColor c(raw_color);
-  if (raw_color.r_ > 1.0 || raw_color.g_ > 1.0 || raw_color.b_ > 1.0) {
-    c.r_ = 1.0; c.g_ = 0.0; c.b_ = 0.0;
+  if (raw_color.r > 1.0 || raw_color.g > 1.0 || raw_color.b > 1.0) {
+    c.r = 1.0; c.g = 0.0; c.b = 0.0;
   }
   return c;
 }
@@ -88,21 +87,21 @@ RGBColor World::ClampToColor(const RGBColor& raw_color) const {
 void World::DisplayPixel(const int row, const int column, const RGBColor& raw_color) const {
   RGBColor mapped_color;
 
-  if (vp_.show_out_of_gamut_)
+  if (view_plane_.show_out_of_gamut())
     mapped_color = ClampToColor(raw_color);
   else
     mapped_color = Normalize(raw_color);
 
-  if (vp_.gamma_ != 1.0)
-    mapped_color = mapped_color.Pow(vp_.inv_gamma_);
+  if (view_plane_.gamma() != 1.0)
+    mapped_color = mapped_color.Pow(view_plane_.inv_gamma());
 
     //have to start from max y coordinate to convert to screen coordinates
     int x = column;
-    int y = vp_.vres_ - row - 1;
+    int y = view_plane_.vres() - row - 1;
 
-    paint_area_->SetPixel(x, y, (int)(mapped_color.r_ * 255),
-                              (int)(mapped_color.g_ * 255),
-                              (int)(mapped_color.b_ * 255));
+    paint_area_->SetPixel(x, y, (int)(mapped_color.r * 255),
+                              (int)(mapped_color.g * 255),
+                              (int)(mapped_color.b * 255));
 }
 
 ShadeRec World::HitBareBonesObjects(const Ray& ray) {
@@ -113,9 +112,9 @@ ShadeRec World::HitBareBonesObjects(const Ray& ray) {
 
   for (int j = 0; j < num_objects; j++)
     if (objects_[j]->Hit(ray, t, sr) && (t < tmin)) {
-      sr.hit_an_object_	= true;
+      sr.hit_an_object	= true;
       tmin = t; 
-      sr.color_ = objects_[j]->GetColor(); 
+      sr.color = objects_[j]->color(); 
     }
     
   return (sr);   
@@ -123,7 +122,7 @@ ShadeRec World::HitBareBonesObjects(const Ray& ray) {
 
 // Deletes the objects in the objects array, and erases the array.
 // The objects array still exists, because it's an automatic variable, but it's empty 
-void World::DeleteObjects(void) {
+void World::DeleteObjects() {
   int num_objects = objects_.size();
 
   for (int j = 0; j < num_objects; j++) {

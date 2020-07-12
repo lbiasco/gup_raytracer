@@ -8,9 +8,10 @@ class Hammersley : public Sampler {
   public:
     // Constructors, destructors
     Hammersley(const int num_samples);
-    ~Hammersley(void) override;
 
-    void GenerateSamples(void);
+    void GenerateSamples();
+
+  private:
     // radical inverse function for base 2
     double Phi(int j);
 };

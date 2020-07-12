@@ -11,8 +11,6 @@ Sphere::Sphere(Point3D c, double r) : Geometry(), center_(c), radius_(r) {}
 Sphere::Sphere (const Sphere& sphere) 
     : Geometry(sphere), center_(sphere.center_), radius_(sphere.radius_) {}
 
-Sphere::~Sphere(void) {}
-
 Sphere& Sphere::operator= (const Sphere& rhs)	{
   if (this == &rhs)
     return (*this);
@@ -29,9 +27,9 @@ Sphere* Sphere::Clone(void) const {
 
 bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
   double    t;
-  Vector3D  temp  = ray.o_ - center_;
-  double    a     = ray.d_ * ray.d_;
-  double    b     = 2.0 * temp * ray.d_;
+  Vector3D  temp  = ray.origin() - center_;
+  double    a     = ray.dir() * ray.dir();
+  double    b     = 2.0 * temp * ray.dir();
   double    c     = temp * temp - radius_ * radius_;
   double    disc  = b * b - 4.0 * a * c;
 
@@ -44,18 +42,18 @@ bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 
     if (t > kEpsilon) {
       tmin = t;
-      sr.normal_ = (temp + t * ray.d_) / radius_;
-      sr.local_hit_point_ = ray.o_ + t * ray.d_;
+      sr.normal = (temp + t * ray.dir()) / radius_;
+      sr.local_hit_point = ray.origin() + t * ray.dir();
       return true;
     } 
 
     t = (-b + e) / denom;    // larger root
     if (t > kEpsilon) {
       tmin = t;
-      sr.normal_   = (temp + t * ray.d_) / radius_;
-      sr.local_hit_point_ = ray.o_ + t * ray.d_;
+      sr.normal   = (temp + t * ray.dir()) / radius_;
+      sr.local_hit_point = ray.origin() + t * ray.dir();
       return true;
-    } 
+    }
   }
 
   return false;

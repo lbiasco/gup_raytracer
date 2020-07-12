@@ -1,16 +1,14 @@
 #include "utilities/matrix.h"
 
-Matrix::Matrix(void) {	
+Matrix::Matrix() {	
   SetIdentity();
 }
 
 Matrix::Matrix (const Matrix& mat) {
   for (int x = 0; x < 4; x++)				
     for (int y = 0; y < 4; y++)			
-      m_[x][y] = mat.m_[x][y];	
+      m[x][y] = mat.m[x][y];	
 }
-
-Matrix::~Matrix (void) {}   
 
 Matrix& Matrix::operator= (const Matrix& rhs) {
   if (this == &rhs)
@@ -18,7 +16,7 @@ Matrix& Matrix::operator= (const Matrix& rhs) {
 
   for (int x = 0; x < 4; x++)
     for (int y = 0; y < 4; y++)
-      m_[x][y] = rhs.m_[x][y];
+      m[x][y] = rhs.m[x][y];
 
   return (*this);
 }
@@ -31,9 +29,9 @@ Matrix Matrix::operator* (const Matrix& mat) const {
       double sum = 0.0;
 
       for (int j = 0; j < 4; j++)
-        sum += m_[x][j] * mat.m_[j][y];
+        sum += m[x][j] * mat.m[j][y];
 
-      product.m_[x][y] = sum;
+      product.m[x][y] = sum;
     }
 
   return (product);
@@ -42,17 +40,17 @@ Matrix Matrix::operator* (const Matrix& mat) const {
 Matrix Matrix::operator/ (const double d) {
   for (int x = 0; x < 4; x++)
     for (int y = 0; y < 4; y++)
-      m_[x][y] = m_[x][y] / d;
+      m[x][y] = m[x][y] / d;
 
   return (*this);
 }
 
-void Matrix::SetIdentity(void) {
+void Matrix::SetIdentity() {
   for (int x = 0; x < 4; x++)
-  for (int y = 0; y < 4; y++) {
-    if (x == y)
-      m_[x][y] = 1.0;
-    else
-      m_[x][y] = 0.0;
-  }
+    for (int y = 0; y < 4; y++) {
+      if (x == y)
+        m[x][y] = 1.0;
+      else
+        m[x][y] = 0.0;
+    }
 }

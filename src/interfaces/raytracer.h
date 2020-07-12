@@ -5,8 +5,6 @@
  * Ray Tracer based on "Raytracing From the Ground Up"
  *
  * Author : Levi Biasco
- * Version: 0.1
- *
  */
 
 #include <vector>
@@ -136,12 +134,10 @@ class RenderWorker : public QObject {
 };
 
 
-class RenderPixel {
-  public:
-    RenderPixel(int x, int y, int red, int green, int blue);
-
-    int x_, y_;
-    int red_, green_, blue_;
+struct RenderPixel {
+    RenderPixel(int x, int y, int r, int g, int b) : x(x), y(y), r(r), g(g), b(b) {};
+    int x, y;
+    int r, g, b;
 };
 
 

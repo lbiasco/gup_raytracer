@@ -8,44 +8,44 @@
 #include "world/world.h"
 
 Pinhole::Pinhole(Point3D eye, Point3D lookat, Vector3D up, float d) 
-    : Camera(eye, lookat, up), d_(d) {}
+    : Camera(eye, lookat, up), vp_dist_(d) {}
 
 Pinhole::Pinhole(Point3D eye, Point3D lookat, float d) 
-    : Camera(eye, lookat), d_(d) {}
-
-Pinhole::~Pinhole(void) {}
+    : Camera(eye, lookat), vp_dist_(d) {}
 
 Vector3D Pinhole::RayDirection(const Point2D& p) const {
-  Vector3D dir = p.x_ * u_ + p.y_ * v_ - d_ * w_;
+  Vector3D dir = p.x * u() + p.y * v() - vp_dist_ * w();
   dir.Normalize();
   return dir;
 }
 
 void Pinhole::RenderScene(World& w) {
   RGBColor L;
-  ViewPlane vp(w.vp_);
+  ViewPlane vp(w.view_plane());
   Ray ray;
   int depth = 0;          // recursion depth
   Point2D sp;             // sample point in [0,1]x[0,1]
   Point2D pp;             // sample point on a pixel
 
-  vp.s_ /= zoom_;
-  ray.o_ = eye_;
+  float s = vp.pixel_scale();
+  s /= zoom_;
+  vp.pixel_scale(s);
+  ray.origin(eye());
 
-  for (int r = 0; r < vp.vres_; r++)          // up
-    for (int c = 0; c < vp.hres_; c++) {    // across
+  for (int r = 0; r < vp.vres(); r++)          // up
+    for (int c = 0; c < vp.hres(); c++) {    // across
       L = kBlack;
 
-      for (int j = 0; j < vp.num_samples_; j++) {
-        sp = vp.sampler_ptr_->SampleUnitSquare();
-        pp.x_ = vp.s_ * (c - 0.5 * vp.hres_ + sp.x_);
-        pp.y_ = vp.s_ * (r - 0.5 * vp.vres_ + sp.y_);
-        ray.d_ = RayDirection(pp);
-        L += w.tracer_ptr_->TraceRay(ray, depth);
+      for (int j = 0; j < vp.num_samples(); j++) {
+        sp = vp.sampler_ptr()->SampleUnitSquare();
+        pp.x = s * (c - 0.5 * vp.hres() + sp.x);
+        pp.y = s * (r - 0.5 * vp.vres() + sp.y);
+        ray.dir(RayDirection(pp));
+        L += w.tracer_ptr()->TraceRay(ray, depth);
       }
 
-      L /= vp.num_samples_;    // Average the colors
-      L *= exposure_;
+      L /= vp.num_samples();    // Average the colors
+      L *= exposure();
       w.DisplayPixel(r, c, L);
     }
 }

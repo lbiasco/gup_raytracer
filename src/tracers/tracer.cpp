@@ -1,10 +1,10 @@
 #include "tracers/tracer.h"
 
-Tracer::Tracer(void) : world_ptr_(NULL) {}
+Tracer::Tracer() : world_ptr_(NULL) {}
 
 Tracer::Tracer(World* world_ptr) : world_ptr_(world_ptr) {}
 
-Tracer::~Tracer(void) {
+Tracer::~Tracer() {
   if (world_ptr_)
     world_ptr_ = NULL;
 }

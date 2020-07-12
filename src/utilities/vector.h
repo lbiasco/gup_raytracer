@@ -1,169 +1,125 @@
-// This file contains the declaration of the classes Vector3D and Vector2D
+// This file contains the declaration of the structs Vector3D and Vector2D
 
 #ifndef UTILITIES_VECTOR_H_
 #define UTILITIES_VECTOR_H_
 
-#include "utilities/matrix.h"
+#include <math.h>
 
-class Normal;
-class Point3D;
-class Point2D;
+struct Point2D;
+struct Point3D;
+struct Matrix;
 
-// Implementation of Vector3D utility object
-class Vector3D {
-  public:
-    Vector3D(void);
-    Vector3D(double a);
-    Vector3D(double x, double y, double z);
-    Vector3D(const Vector3D& v);
-    Vector3D(const Normal& n);
-    Vector3D(const Point3D& p);
-    ~Vector3D (void);
+// Declaration of Vector2D utility object
+struct Vector2D {
+    double	x, y;
 
-    Vector3D& operator= (const Vector3D& rhs);
-    Vector3D& operator= (const Normal& rhs); 
-    Vector3D& operator= (const Point3D& rhs); 
-    Vector3D operator- (void) const;
-    Vector3D operator* (const double a) const;
-    Vector3D operator/ (const double a) const;
-    Vector3D operator+ (const Vector3D& v) const;
-    Vector3D& operator+= (const Vector3D& v);
-    Vector3D operator- (const Vector3D& v) const;
-    double operator* (const Vector3D& b) const;
-    Vector3D operator^ (const Vector3D& v) const;
-
-    double Length(void);
-    double LengthSquared(void);
-    void Normalize(void); 
-
-    double	x_, y_, z_;
-};
-
-
-// Inline member functions
-
-inline Vector3D Vector3D::operator- (void) const {
-  return Vector3D(-x_, -y_, -z_);    
-}
-
-
-inline double Vector3D::LengthSquared(void) {	
-  return (x_ * x_ + y_ * y_ + z_ * z_);
-}
-
-inline Vector3D Vector3D::operator* (const double a) const {	
-  return Vector3D(x_ * a, y_ * a, z_ * a);	
-}
-
-inline Vector3D Vector3D::operator/ (const double a) const {	
-  return Vector3D(x_ / a, y_ / a, z_ / a);	
-}
-
-inline Vector3D Vector3D::operator+ (const Vector3D& v) const {
-  return Vector3D(x_ + v.x_, y_ + v.y_, z_ + v.z_);
-}
-
-inline Vector3D Vector3D::operator- (const Vector3D& v) const {
-  return Vector3D(x_ - v.x_, y_ - v.y_, z_ - v.z_);
-}
-
-inline double Vector3D::operator* (const Vector3D& v) const {
-  return (x_ * v.x_ + y_ * v.y_ + z_ * v.z_);
-} 
-
-inline Vector3D Vector3D::operator^ (const Vector3D& v) const {
-  return Vector3D(y_ * v.z_ - z_ * v.y_, z_ * v.x_ - x_ * v.z_, x_ * v.y_ - y_ * v.x_);
-}
-
-inline Vector3D& Vector3D::operator+= (const Vector3D& v) {
-  x_ += v.x_; y_ += v.y_; z_ += v.z_;
-  return (*this);
-}
-
-
-// Inline, non-member function
-
-Vector3D operator* (const double a, const Vector3D& v);
-inline Vector3D operator* (const double a, const Vector3D& v) {
-  return Vector3D(a * v.x_, a * v.y_, a * v.z_);	
-}
-
-// Non-inline, non-member function
-
-Vector3D operator* (const Matrix& mat, const Vector3D& v);
-
-
-// Implementation of Vector3D utility object
-class Vector2D {
-  public:
-    Vector2D(void);
-    Vector2D(double a);
-    Vector2D(double x, double y);
-    Vector2D(const Vector2D& v);
-    Vector2D(const Normal& n);
+    Vector2D() : x(0), y(0) {}
+    Vector2D(double a) : x(a), y(a) {}
+    Vector2D(double a, double b) : x(a), y(b) {}
+    Vector2D(const Vector2D& v) : x(v.x), y(v.y) {}
     Vector2D(const Point2D& p);
-    ~Vector2D (void);
 
     Vector2D& operator= (const Vector2D& rhs);
-    Vector2D& operator= (const Normal& rhs); 
     Vector2D& operator= (const Point2D& rhs);
-    Vector2D operator- (void) const;
-    Vector2D operator* (const double a) const;
-    Vector2D operator/ (const double a) const;
-    Vector2D operator+ (const Vector2D& v) const;
+    Vector2D operator- () const { return Vector2D(-x, -y); }
+    Vector2D operator* (const double a) const { return Vector2D(x * a, y * a); }
+    Vector2D operator/ (const double a) const { return Vector2D(x / a, y / a); }
+    Vector2D operator+ (const Vector2D& v) const { return Vector2D(x + v.x, y + v.y); }
     Vector2D& operator+= (const Vector2D& v);
-    Vector2D operator- (const Vector2D& v) const;
-    double operator* (const Vector2D& b) const;
+    Vector2D operator- (const Vector2D& v) const { return Vector2D(x - v.x, y - v.y); }
+    double operator* (const Vector2D& v) const { return (x * v.x + y * v.y); }
 
-    double Length(void);
-    double LengthSquared(void);
-    void Normalize(void); 
-
-    double	x_, y_;
+    double Length() const { return std::sqrt(x * x + y * y); }
+    double LengthSquared() const { return (x * x + y * y); };
+    void Normalize();
 };
-
 
 // Inline member functions
 
-inline Vector2D Vector2D::operator- (void) const {
-  return Vector2D(-x_, -y_);    
-}
+inline Vector2D& Vector2D::operator= (const Vector2D& rhs) {
+  if (this == &rhs)
+    return *this;
 
-inline double Vector2D::LengthSquared(void) {	
-  return (x_ * x_ + y_ * y_);
-}
-
-inline Vector2D Vector2D::operator* (const double a) const {	
-  return Vector2D(x_ * a, y_ * a);	
-}
-
-inline Vector2D Vector2D::operator/ (const double a) const {	
-  return Vector2D(x_ / a, y_ / a);	
-}
-
-inline Vector2D Vector2D::operator+ (const Vector2D& v) const {
-  return Vector2D(x_ + v.x_, y_ + v.y_);
-}
-
-inline Vector2D Vector2D::operator- (const Vector2D& v) const {
-  return Vector2D(x_ - v.x_, y_ - v.y_);
-}
-
-inline double Vector2D::operator* (const Vector2D& v) const {
-  return (x_ * v.x_ + y_ * v.y_);
-} 
-
-inline Vector2D& Vector2D::operator+= (const Vector2D& v) {
-  x_ += v.x_; y_ += v.y_;
+  x = rhs.x; y = rhs.y;
   return *this;
 }
 
+inline Vector2D& Vector2D::operator+= (const Vector2D& v) {
+  x += v.x; y += v.y;
+  return *this;
+}
+
+inline void Vector2D::Normalize() {	
+  double length = Length();
+  x /= length; y /= length;
+}
 
 // Inline, non-member function
 
 Vector2D operator* (const double a, const Vector2D& v);
 inline Vector2D operator* (const double a, const Vector2D& v) {
-  return Vector2D(a * v.x_, a * v.y_);	
+  return Vector2D(a * v.x, a * v.y);	
 }
+
+
+// Declaration of Vector3D utility object
+struct Vector3D {
+    double	x, y, z;
+
+    Vector3D() : x(0), y(0), z(0) {}
+    Vector3D(double a) : x(a), y(a), z(a) {}
+    Vector3D(double a, double b, double c) : x(a), y(b), z(c) {}
+    Vector3D(const Vector3D& v) : x(v.x), y(v.y), z(v.z) {}
+    Vector3D(const Point3D& p);
+
+    Vector3D& operator= (const Vector3D& rhs);
+    Vector3D& operator= (const Point3D& rhs);
+    Vector3D operator- () const { return Vector3D(-x, -y, -z); }
+    Vector3D operator* (const double a) const { return Vector3D(x * a, y * a, z * a); }
+    Vector3D operator/ (const double a) const { return Vector3D(x / a, y / a, z / a); }
+    Vector3D operator+ (const Vector3D& v) const { return Vector3D(x + v.x, y + v.y, z + v.z); }
+    Vector3D& operator+= (const Vector3D& v);
+    Vector3D operator- (const Vector3D& v) const { return Vector3D(x - v.x, y - v.y, z - v.z); }
+    double operator* (const Vector3D& v) const { return (x * v.x + y * v.y + z * v.z); }
+    Vector3D operator^ (const Vector3D& v) const;
+
+    double Length() const { return std::sqrt(x * x + y * y + z * z); }
+    double LengthSquared() const { return (x * x + y * y + z * z); };
+    void Normalize();
+};
+
+// Inline member functions
+
+inline Vector3D& Vector3D::operator= (const Vector3D& rhs) {
+  if (this == &rhs)
+    return *this;
+
+  x = rhs.x; y = rhs.y; z = rhs.z;
+  return *this;
+}
+
+inline Vector3D& Vector3D::operator+= (const Vector3D& v) {
+  x += v.x; y += v.y; z += v.z;
+  return *this;
+}
+
+inline Vector3D Vector3D::operator^ (const Vector3D& v) const {
+  return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+}
+
+inline void Vector3D::Normalize() {	
+  double length = Length();
+  x /= length; y /= length; z /= length;
+}
+
+// Inline, non-member functions
+
+inline Vector3D operator* (const double a, const Vector3D& v) {
+  return Vector3D(a * v.x, a * v.y, a * v.z);	
+}
+
+// Non-member functions
+
+Vector3D operator* (const Matrix& mat, const Vector3D& v);
 
 #endif  // UTILITIES_VECTOR_H_

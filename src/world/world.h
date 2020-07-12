@@ -24,26 +24,42 @@ class RenderWorker; 	// Needed to connect to Qt skeleton
 
 class World {	
   public:
-    World(void);
+    World();
     ~World();
-                
+
+    void bg_color(RGBColor color) { bg_color_ = color; }
+    RGBColor bg_color() const     { return bg_color_; }
+
+    void camera_ptr(Camera *ptr)  { camera_ptr_ = ptr; }
+    Camera* camera_ptr() const    { return camera_ptr_; }
+
+    void paint_area(RenderWorker *ptr)  { paint_area_ = ptr; }
+    RenderWorker* paint_area() const    { return paint_area_; }
+
+    void tracer_ptr(Tracer *ptr)  { tracer_ptr_ = ptr; }
+    Tracer* tracer_ptr() const    { return tracer_ptr_; }
+
+    void view_plane(ViewPlane vp) { view_plane_ = vp; }
+    ViewPlane view_plane() const  { return view_plane_; }
+
+
     void AddObject(Geometry* object_ptr);
-    void Build(void);   
+    void Build();   
     RGBColor ClampToColor(const RGBColor& c) const;
     void DisplayPixel(const int row, const int column, const RGBColor& pixel_color) const;
     ShadeRec HitBareBonesObjects(const Ray& ray);
     RGBColor Normalize(const RGBColor& c) const;
-    void RenderScene(void);
-         
-    Camera*       camera_ptr_;
-    ViewPlane     vp_;
-    RGBColor      background_color_;
-    Tracer*       tracer_ptr_;
-    std::vector<Geometry*>  objects_;		
-    RenderWorker* paint_area_;
+    void RenderScene();
 
   private:
-    void DeleteObjects(void);
+    RGBColor      bg_color_;
+    Camera*       camera_ptr_;
+    std::vector<Geometry*>  objects_;		
+    RenderWorker* paint_area_;
+    Tracer*       tracer_ptr_;
+    ViewPlane     view_plane_;
+
+    void DeleteObjects();
 };
 
 inline void World::AddObject(Geometry* object_ptr) {  

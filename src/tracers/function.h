@@ -11,9 +11,8 @@
 class Function: public Tracer {
   public:
     // Constructors, destructors
-    Function(void);    
+    Function();    
     Function(World* world_ptr);
-    ~Function(void) override;
 
     void SetFunction(std::function<RGBColor (Ray)> function);
     RGBColor TraceRay(const Ray& ray) const override;

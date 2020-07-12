@@ -3,7 +3,7 @@
 ViewPlane::ViewPlane(void)							
     : hres_(400), 
       vres_(400),
-      s_(1.0),
+      pixel_scale_(1.0),
       num_samples_(1),
       sampler_ptr_(NULL),
       gamma_(1.0),
@@ -13,14 +13,12 @@ ViewPlane::ViewPlane(void)
 ViewPlane::ViewPlane(const ViewPlane& vp)   
     : hres_(vp.hres_),  
       vres_(vp.vres_), 
-      s_(vp.s_),
+      pixel_scale_(vp.pixel_scale_),
       num_samples_(vp.num_samples_),
       sampler_ptr_(vp.sampler_ptr_),
       gamma_(vp.gamma_),
       inv_gamma_(vp.inv_gamma_),
       show_out_of_gamut_(vp.show_out_of_gamut_) {}
-
-ViewPlane::~ViewPlane(void) {}
 
 ViewPlane& ViewPlane::operator= (const ViewPlane& rhs) {
   if (this == &rhs)
@@ -28,7 +26,7 @@ ViewPlane& ViewPlane::operator= (const ViewPlane& rhs) {
     
   hres_         = rhs.hres_;
   vres_         = rhs.vres_;
-  s_            = rhs.s_;
+  pixel_scale_  = rhs.pixel_scale_;
   num_samples_  = rhs.num_samples_;
   sampler_ptr_  = rhs.sampler_ptr_;
   gamma_        = rhs.gamma_;
@@ -38,16 +36,16 @@ ViewPlane& ViewPlane::operator= (const ViewPlane& rhs) {
   return *this;
 }
 
-void ViewPlane::SetSampler(Sampler *sp) {
+void ViewPlane::sampler_ptr(Sampler *sp) {
   if (sampler_ptr_) {
     delete sampler_ptr_;
     sampler_ptr_ = NULL;
   }
 
-  num_samples_ = sp->GetNumSamples();
+  num_samples_ = sp->num_samples();
   sampler_ptr_ = sp;
 }
 
-void ViewPlane::SetNumSamples(const int n) {
-  sampler_ptr_->SetNumSamples(n);
+void ViewPlane::num_samples(int n) {
+  sampler_ptr_->num_samples(n);
 }

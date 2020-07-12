@@ -8,13 +8,11 @@ Hammersley::Hammersley(const int num_samples): Sampler(num_samples) {
   GenerateSamples();
 }
 
-Hammersley::~Hammersley(void) {}
-
 void Hammersley::GenerateSamples() {
-  double samples_inv = 1 / (double)num_samples_;
+  double samples_inv = 1 / (double)num_samples();
 
-  for (int p = 0; p < num_sets_; p++)
-    for (int i = 0; i < num_samples_; i++) {
+  for (int p = 0; p < num_sets(); p++)
+    for (int i = 0; i < num_samples(); i++) {
       Point2D sp(i * samples_inv, Phi(i));
       samples_.push_back(sp);
     }

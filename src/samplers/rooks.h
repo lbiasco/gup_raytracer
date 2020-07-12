@@ -8,7 +8,6 @@ class Rooks : public Sampler {
   public:
     // Constructors, destructors
     Rooks(const int num_samples);
-    ~Rooks(void) override;	
 
     void GenerateSamples(void);
 };

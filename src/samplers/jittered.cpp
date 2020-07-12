@@ -8,13 +8,11 @@ Jittered::Jittered(const int num_samples): Sampler(num_samples) {
   GenerateSamples();
 }
 
-Jittered::~Jittered(void) {}
-
 void Jittered::GenerateSamples() {
-  int n = (int)sqrt(num_samples_);
+  int n = (int)sqrt(num_samples());
   double n_inv = 1 / (double)n;
 
-  for (int p = 0; p < num_sets_; p++)
+  for (int p = 0; p < num_sets(); p++)
     for (int i = 0; i < n; i++)
       for (int j = 0; j < n; j++) {
         Point2D sp((j + RandDouble()) * n_inv, (i + RandDouble()) * n_inv);

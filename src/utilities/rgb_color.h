@@ -1,76 +1,49 @@
 #ifndef UTILITIES_RGB_COLOR_H_
 #define UTILITIES_RGB_COLOR_H_
 
-class RGBColor {
-  public:
-    RGBColor(void);
-    RGBColor(float c);
-    RGBColor(float r, float g, float b);
-    RGBColor(const RGBColor& c);
-    ~RGBColor(void);
+#include <math.h>
+
+struct RGBColor {
+    float	r, g, b;
+
+    RGBColor() : r(0.0), g(0.0), b(0.0) {}
+    RGBColor(float c) : r(c), g(c), b(c) {}
+    RGBColor(float a, float b, float c) : r(a), g(b), b(c) {}
+    RGBColor(const RGBColor& c) : r(c.r), g(c.g), b(c.b) {}
 
     RGBColor&  operator= (const RGBColor& rhs); 
-    RGBColor operator+ (const RGBColor& c) const;
+    RGBColor operator+ (const RGBColor& c) const { return RGBColor(r + c.r, g + c.g, b + c.b); }
     RGBColor& operator+= (const RGBColor& c);
-    RGBColor operator* (const float a) const;
+    RGBColor operator* (const float a) const { return RGBColor(r * a, g * a, b * a); }
     RGBColor& operator*= (const float a);
-    RGBColor operator/ (const float a) const;
+    RGBColor operator/ (const float a) const { return RGBColor(r / a, g / a, b / a); }
     RGBColor& operator/= (const float a); 
-    RGBColor operator* (const RGBColor& c) const;
-    bool operator== (const RGBColor& c) const;
+    RGBColor operator* (const RGBColor& c) const { return RGBColor(r * c.r, g * c.g, b * c.b); }
+    bool operator== (const RGBColor& c) const { return r == c.r && g == c.g && b == c.b; }
 
-    RGBColor Pow(float p) const;
-    float Average(void) const;
-
-    float	r_, g_, b_;
+    RGBColor Pow(float p) const { return RGBColor(pow(r, p), pow(g, p), pow(b, p)); }
+    float Average(void) const { return (0.333333333333 * (r + g + b)); }
 };
 
 // Inline member functions
-inline RGBColor RGBColor::operator+ (const RGBColor& c) const {
-  return RGBColor(r_ + c.r_, g_ + c.g_, b_ + c.b_);
-}
-
 inline RGBColor& RGBColor::operator+= (const RGBColor& c) {
-  r_ += c.r_; g_ += c.g_; b_ += c.b_;
+  r += c.r; g += c.g; b += c.b;
   return *this;
-}
-
-inline RGBColor RGBColor::operator* (const float a) const {
-  return RGBColor (r_ * a, g_ * a, b_ * a);	
 }
 
 inline RGBColor& RGBColor::operator*= (const float a) {
-  r_ *= a; g_ *= a; b_ *= a;
+  r *= a; g *= a; b *= a;
   return *this;
-}
-
-inline RGBColor RGBColor::operator/ (const float a) const {
-  return RGBColor (r_ / a, g_ / a, b_ / a);
 }
 
 inline RGBColor& RGBColor::operator/= (const float a) {	
-  r_ /= a; g_ /= a; b_ /= a;
+  r /= a; g /= a; b /= a;
   return *this;
 }
 
-inline RGBColor RGBColor::operator* (const RGBColor& c) const {
-  return RGBColor (r_ * c.r_, g_ * c.g_, b_ * c.b_);
-} 
-
-inline bool RGBColor::operator== (const RGBColor& c) const {
-  return r_ == c.r_ && g_ == c.g_ && b_ == c.b_;
-}
-
-inline float RGBColor::Average(void) const {
-  return (0.333333333333 * (r_ + g_ + b_));
-}
-
-
 // Inline, non-member functions
-
-RGBColor operator* (const float a, const RGBColor& c);
 inline RGBColor operator* (const float a, const RGBColor& c) {
-  return RGBColor (a * c.r_, a * c.g_, a * c.b_);	
+  return RGBColor (a * c.r, a * c.g, a * c.b);	
 }
 
 #endif  // UTILITIES_RGB_COLOR_H_

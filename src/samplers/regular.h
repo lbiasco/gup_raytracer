@@ -9,8 +9,7 @@
 class Regular : public Sampler {
   public:
     // Constructors, destructors
-    Regular(const int num_samples);															
-    ~Regular(void) override;
+    Regular(const int num_samples);
 
     void GenerateSamples(void);
 };

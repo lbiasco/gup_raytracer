@@ -8,9 +8,7 @@ Camera::Camera(Point3D eye, Point3D lookat, Vector3D up)
   ComputeUVW();
 }
 
-Camera::~Camera(void) {}
-
-void Camera::ComputeUVW(void) {
+void Camera::ComputeUVW() {
 	w_ = eye_ - lookat_;
   w_.Normalize();
 
@@ -19,7 +17,7 @@ void Camera::ComputeUVW(void) {
   up_norm.Normalize();
   if (std::abs(w_ * up_norm) == 1)
     // Use component-swap/flip hackery to guarantee non-parallel
-    u_ = Vector3D(-up_norm.z_, up_norm.x_, up_norm.y_) ^ w_;
+    u_ = Vector3D(-up_norm.z, up_norm.x, up_norm.y) ^ w();
   else
     u_ = up_ ^ w_;
   

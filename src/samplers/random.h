@@ -9,7 +9,6 @@ class Random : public Sampler {
   public:
     // Constructors, destructors
     Random(const int num_samples);
-    ~Random(void) override;		
 
     void GenerateSamples(void);
 };

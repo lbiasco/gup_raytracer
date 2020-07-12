@@ -10,37 +10,25 @@
 class Sphere: public Geometry {
   public:
     // Constructors, destructors
-    Sphere(void);
+    Sphere();
     Sphere(Point3D center, double r);
     Sphere(const Sphere& sphere);
-    ~Sphere(void) override;
 
     Sphere& operator= (const Sphere& sphere);
 
-    void SetCenter(const Point3D& c);
-    void SetCenter(const double x, const double y, const double z);
-    void SetRadius(const double r);
+    void center(const Point3D& c)             { center_ = c; }
+    void center(double x, double y, double z) { center_ = Point3D(x, y, z); }
+    Point3D center() const                    { return center_; }
 
-    Sphere* Clone(void) const override;
+    void radius(double r) { radius_ = r; }
+    double radius() const { return radius_; }
+
+    Sphere* Clone() const override;
     bool Hit(const Ray& ray, double& t, ShadeRec& s) const override;	
     
   private:
     Point3D center_;  // center coordinates as a point
     double  radius_;  // the radius 
 };
-
-inline void Sphere::SetCenter(const Point3D& c) {
-  center_ = c;
-}
-
-inline void Sphere::SetCenter(const double x, const double y, const double z) {
-  center_.x_ = x;
-  center_.y_ = y;
-  center_.z_ = z;
-}
-
-inline void Sphere::SetRadius(const double r) {
-  radius_ = r;
-}
 
 #endif  // GEOMETRY_SPHERE_H_

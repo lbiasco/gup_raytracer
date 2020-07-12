@@ -2,7 +2,6 @@
 #define GEOMETRY_PLANE_H_
 
 #include "geometry/geometry.h"
-#include "utilities/normal.h"
 #include "utilities/point.h"
 #include "utilities/ray.h"
 #include "utilities/shade_rec.h"
@@ -11,30 +10,24 @@
 class Plane: public Geometry {
   public:
     // Constructors, destructors
-    Plane(void);
-    Plane(const Point3D& point, const Normal& normal);
+    Plane();
+    Plane(const Point3D& p, const Vector3D& n);
     Plane(const Plane& plane);
-    ~Plane(void) override;
 
     Plane& operator= (const Plane& rhs);
 
-    void SetNormal(const Normal& n);
-    void SetPoint(const Point3D& a);
+    void normal(const Vector3D& n)  { normal_ = n; }
+    Vector3D normal() const         { return normal_; }
 
-    Plane* Clone(void) const override;
+    void point(const Point3D& a)  { point_ = a; }
+    Point3D point() const         { return point_; }
+
+    Plane* Clone() const override;
     bool Hit(const Ray& ray, double& tmin, ShadeRec& sr) const override;
     
   private:
-    Point3D 	a_;   // Point through which plane passes 
-    Normal 		n_;   // Normal of the plane
+    Vector3D  normal_;  // Normal of the plane
+    Point3D   point_;   // Point through which plane passes 
 };
-
-inline void Plane::SetNormal(const Normal& n) {
-  n_ = n;
-}
-
-inline void Plane::SetPoint(const Point3D& a) {
-  a_ = a;
-}
 
 #endif  // GEOMETRY_PLANE_H_

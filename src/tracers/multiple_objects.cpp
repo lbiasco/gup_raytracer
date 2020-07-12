@@ -2,17 +2,15 @@
 
 #include "world/world.h"
 
-MultipleObjects::MultipleObjects(void) : Tracer() {}
+MultipleObjects::MultipleObjects() : Tracer() {}
 
 MultipleObjects::MultipleObjects(World* world_ptr) : Tracer(world_ptr) {}
 
-MultipleObjects::~MultipleObjects(void) {}
-
 RGBColor MultipleObjects::TraceRay(const Ray& ray) const {
-  ShadeRec sr(world_ptr_->HitBareBonesObjects(ray)); // sr is copy constructed
+  ShadeRec sr(world_ptr()->HitBareBonesObjects(ray)); // sr is copy constructed
     
-  if (sr.hit_an_object_)
-    return (sr.color_);
+  if (sr.hit_an_object)
+    return (sr.color);
   else
-    return (world_ptr_->background_color_);
+    return (world_ptr()->bg_color());
 }
