@@ -20,16 +20,16 @@ class Pinhole : public Camera {
     // Accessors, mutators
     void fov(int degrees) { fov_ = degrees; }
     int fov() const { return fov_; }
-
-    void zoom(float z) { zoom_ = z; }
-    float zoom() const { return zoom_; }
+    
+    void zoom(double z) { zoom_ = z; }
+    double zoom() const { return zoom_; }
 
     Vector3D RayDirection(const Point3D& p) const;
     void RenderScene(World& w) override;
 
   private:
     int fov_ = 45.0;    // field-of-view in degrees
-    float zoom_ = 1.0;  // zoom factor
+    double zoom_ = 1.0;  // zoom factor
 };
 
 #endif  // CAMERAS_PINHOLE_H_

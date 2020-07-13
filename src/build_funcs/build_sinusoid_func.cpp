@@ -13,6 +13,7 @@ void World::Build(void) {
   Pinhole *ptr = new Pinhole(cam_eye, cam_lookat);
   ptr->zoom(1);
   camera_ptr_ = ptr;
+  camera_ptr_->ComputeUVW();
 
   bg_color_ = kWhite;
 

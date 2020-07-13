@@ -21,6 +21,7 @@ struct Vector2D {
 
     Vector2D& operator= (const Vector2D& rhs);
     Vector2D& operator= (const Point2D& rhs);
+    bool operator== (const Vector2D& v) const { return x == v.x && y == v.y; }
     Vector2D operator- () const { return Vector2D(-x, -y); }
     Vector2D operator* (const double a) const { return Vector2D(x * a, y * a); }
     Vector2D operator/ (const double a) const { return Vector2D(x / a, y / a); }
@@ -74,6 +75,7 @@ struct Vector3D {
 
     Vector3D& operator= (const Vector3D& rhs);
     Vector3D& operator= (const Point3D& rhs);
+    bool operator== (const Vector3D& v) const { return x == v.x && y == v.y && z == v.z; }
     Vector3D operator- () const { return Vector3D(-x, -y, -z); }
     Vector3D operator* (const double a) const { return Vector3D(x * a, y * a, z * a); }
     Vector3D operator/ (const double a) const { return Vector3D(x / a, y / a, z / a); }

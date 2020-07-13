@@ -5,7 +5,7 @@ void World::Build(void) {
 
   view_plane_.hres(400);
   view_plane_.vres(400);
-  view_plane_.pixel_scale(0.5);
+  view_plane_.pixel_scale(1);
   view_plane_.sampler_ptr(new MultiJittered(num_samples));
   view_plane_.gamma(1.0);
 
@@ -15,6 +15,9 @@ void World::Build(void) {
   Pinhole *ptr = new Pinhole(cam_eye, view_dir, 60);
   ptr->zoom(1);
   camera_ptr_ = ptr;
+  camera_ptr_->rotate_v(20);
+  camera_ptr_->translate_w(-30);
+  camera_ptr_->ComputeUVW();
 
   bg_color_ = RGBColor(0.0);
   tracer_ptr_ = new MultipleObjects(this);  

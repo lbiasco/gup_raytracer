@@ -10,6 +10,7 @@ void World::Build(void) {
   Point3D cam_eye(0, -100, 0);
   Point3D cam_lookat(0, 0, 0);
   camera_ptr_ = new Pinhole(cam_eye, cam_lookat, 120);
+  camera_ptr_->ComputeUVW();
 
   tracer_ptr_ = new MultipleObjects(this); 
 

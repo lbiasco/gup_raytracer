@@ -30,21 +30,19 @@ Vector3D Pinhole::RayDirection(const Point3D& p) const {
 void Pinhole::RenderScene(World& w) {
   RGBColor L;
   ViewPlane vp(w.view_plane());
+  double s = vp.pixel_scale();
   Ray ray;
   int depth = 0;          // recursion depth
   Point2D sp;             // sample point in [0,1]x[0,1]
   Point3D pp;             // sample point on a pixel with view plane depth
 
-  float s = vp.pixel_scale();
-  int fov = std::max(1, std::min(fov_, 179));
-  float half_width = vp.hres() * s * 0.5;
+  int fov = std::max(1, std::min(fov_, 179)); // Lock fov to 1-179 for now
+  double half_width = vp.hres() * s * 0.5; // Multiply by s to maintain fov across resolutions
   pp.z = half_width / std::tan(fov * 0.5 * kPiOver180);
-
   s /= zoom_;
-  vp.pixel_scale(s);
   ray.origin(eye());
 
-  for (int r = 0; r < vp.vres(); r++)          // up
+  for (int r = 0; r < vp.vres(); r++)        // up
     for (int c = 0; c < vp.hres(); c++) {    // across
       L = kBlack;
 
