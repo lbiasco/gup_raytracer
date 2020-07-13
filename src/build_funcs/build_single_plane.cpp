@@ -9,9 +9,8 @@ void World::Build(void) {
 
   Point3D cam_eye(0, 0, 100);
   Point3D cam_lookat(0, 0, 0);
-  float cam_d = 10;
-  Pinhole *ptr = new Pinhole(cam_eye, cam_lookat, cam_d);
-  ptr->zoom_ = 1;
+  Pinhole *ptr = new Pinhole(cam_eye, cam_lookat);
+  ptr->zoom(1);
   camera_ptr_ = ptr;
 
   tracer_ptr_ = new MultipleObjects(this); 

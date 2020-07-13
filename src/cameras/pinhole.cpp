@@ -1,5 +1,7 @@
 #include "cameras/pinhole.h"
 
+#include <tgmath.h>
+
 #include "samplers/sampler.h"
 #include "utilities/constants.h"
 #include "utilities/ray.h"
@@ -7,14 +9,20 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-Pinhole::Pinhole(Point3D eye, Point3D lookat, Vector3D up, float d) 
-    : Camera(eye, lookat, up), vp_dist_(d) {}
+Pinhole::Pinhole(Point3D eye, Vector3D view_dir, Vector3D up, int fov) 
+    : Camera(eye, view_dir, up), fov_(fov) {}
 
-Pinhole::Pinhole(Point3D eye, Point3D lookat, float d) 
-    : Camera(eye, lookat), vp_dist_(d) {}
+Pinhole::Pinhole(Point3D eye, Vector3D view_dir, int fov) 
+    : Camera(eye, view_dir), fov_(fov) {}
 
-Vector3D Pinhole::RayDirection(const Point2D& p) const {
-  Vector3D dir = p.x * u() + p.y * v() - vp_dist_ * w();
+Pinhole::Pinhole(Point3D eye, Point3D lookat, Vector3D up, int fov) 
+    : Camera(eye, lookat, up), fov_(fov) {}
+
+Pinhole::Pinhole(Point3D eye, Point3D lookat, int fov) 
+    : Camera(eye, lookat), fov_(fov) {}
+
+Vector3D Pinhole::RayDirection(const Point3D& p) const {
+  Vector3D dir = p.x * u() + p.y * v() - p.z * w();
   dir.Normalize();
   return dir;
 }
@@ -25,9 +33,13 @@ void Pinhole::RenderScene(World& w) {
   Ray ray;
   int depth = 0;          // recursion depth
   Point2D sp;             // sample point in [0,1]x[0,1]
-  Point2D pp;             // sample point on a pixel
+  Point3D pp;             // sample point on a pixel with view plane depth
 
   float s = vp.pixel_scale();
+  int fov = std::max(1, std::min(fov_, 179));
+  float half_width = vp.hres() * s * 0.5;
+  pp.z = half_width / std::tan(fov * 0.5 * kPiOver180);
+
   s /= zoom_;
   vp.pixel_scale(s);
   ray.origin(eye());
