@@ -30,6 +30,7 @@ struct Vector2D {
     Vector2D operator- (const Vector2D& v) const { return Vector2D(x - v.x, y - v.y); }
     double operator* (const Vector2D& v) const { return (x * v.x + y * v.y); }
 
+    Vector2D Hat() const;
     double Length() const { return std::sqrt(x * x + y * y); }
     double LengthSquared() const { return (x * x + y * y); };
     void Normalize();
@@ -85,6 +86,7 @@ struct Vector3D {
     double operator* (const Vector3D& v) const { return (x * v.x + y * v.y + z * v.z); }
     Vector3D operator^ (const Vector3D& v) const;
 
+    Vector3D Hat() const;
     double Length() const { return std::sqrt(x * x + y * y + z * z); }
     double LengthSquared() const { return (x * x + y * y + z * z); };
     void Normalize();

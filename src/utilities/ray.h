@@ -18,6 +18,8 @@ class Ray {
     void dir(Vector3D d) { dir_ = d; }
     Vector3D dir() const { return dir_; }
 
+    Point3D Intersect(const Ray& ray);
+
   private:
     Point3D   origin_; // origin 
     Vector3D  dir_; // direction

@@ -7,9 +7,12 @@ void World::Build(void) {
   view_plane_.sampler_ptr(new MultiJittered(num_samples));
   view_plane_.gamma(1.0);
 
-  Point3D cam_eye(0, -100, 0);
+  view_plane_.sampler_ptr()->MapSamplesToHemisphere(0);
+
+  Point3D cam_eye(0, 0, -150);
   Point3D cam_lookat(0, 0, 0);
-  camera_ptr_ = new Pinhole(cam_eye, cam_lookat, 120);
+  //camera_ptr_ = new Pinhole(cam_eye, cam_lookat, 120);
+  camera_ptr_ = new ThinLens(cam_eye, cam_lookat, 11, 50);
   camera_ptr_->ComputeUVW();
 
   tracer_ptr_ = new MultipleObjects(this); 

@@ -20,7 +20,7 @@ Point3D Camera::eye() const {
 }
 
 void Camera::ComputeUVW() {
-	w_ = -Vector3D(view_dir_);
+	w_ = Vector3D(view_dir_);
   w_.Normalize();
 
   // Check for "singularity" (parallel up and w vectors)
@@ -34,6 +34,7 @@ void Camera::ComputeUVW() {
   v_ = w_ ^ u_;
 
   TransformUVW();
+
 }
 
 void Camera::LookAt(Point3D lookat) {
@@ -43,11 +44,11 @@ void Camera::LookAt(Point3D lookat) {
 }
 
 void Camera::TransformUVW() {
-  if (rot_u_ != 0)
+  if (rotate_u_ != 0)
     RotateAbout(u_, rotate_u_);
-  if (rot_v_ != 0)
+  if (rotate_v_ != 0)
     RotateAbout(v_, rotate_v_);
-  if (rot_w_ != 0)
+  if (rotate_w_ != 0)
     RotateAbout(w_, rotate_w_);
 }
 

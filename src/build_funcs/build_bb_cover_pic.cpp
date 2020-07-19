@@ -9,15 +9,20 @@ void World::Build(void) {
   view_plane_.sampler_ptr(new MultiJittered(num_samples));
   view_plane_.gamma(1.0);
 
-  Point3D cam_eye(0, 0, 100);
+  //view_plane_.sampler_ptr()->MapSamplesToUnitDisk();
+  view_plane_.sampler_ptr()->MapSamplesToHemisphere(0);
+  
+  Point3D cam_eye(0, 0, 40);
   Point3D cam_lookat(0, 0, 0);
   Vector3D view_dir(0, 0, -1);
-  Pinhole *ptr = new Pinhole(cam_eye, view_dir, 60);
-  ptr->zoom(1);
+  ThinLens *ptr = new ThinLens(cam_eye, view_dir, 400, 500);
+  //Pinhole *ptr = new Pinhole(cam_eye, view_dir, 60);
+  //ptr->zoom(1);
   camera_ptr_ = ptr;
-  camera_ptr_->rotate_v(20);
-  camera_ptr_->translate_w(-30);
+  //camera_ptr_->rotate_v(20);
+  //camera_ptr_->translate_w(-30);
   camera_ptr_->ComputeUVW();
+
 
   bg_color_ = RGBColor(0.0);
   tracer_ptr_ = new MultipleObjects(this);  

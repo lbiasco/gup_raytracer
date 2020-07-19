@@ -22,7 +22,7 @@ Pinhole::Pinhole(Point3D eye, Point3D lookat, int fov)
     : Camera(eye, lookat), fov_(fov) {}
 
 Vector3D Pinhole::RayDirection(const Point3D& p) const {
-  Vector3D dir = p.x * u() + p.y * v() - p.z * w();
+  Vector3D dir = p.x * u() + p.y * v() + p.z * w();
   dir.Normalize();
   return dir;
 }
