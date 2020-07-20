@@ -21,6 +21,12 @@ Pinhole::Pinhole(Point3D eye, Point3D lookat, Vector3D up, int fov)
 Pinhole::Pinhole(Point3D eye, Point3D lookat, int fov) 
     : Camera(eye, lookat), fov_(fov) {}
 
+double Pinhole::ComputePlaneDepth(World& w) const {
+  int fov = std::max(1, std::min(fov_, 179)); // Lock fov to 1-179 for now
+  double half_width = w.view_plane().hres() * w.view_plane().pixel_scale() * 0.5; // Multiply by s to maintain fov across resolutions
+  return half_width / std::tan(fov * 0.5 * kPiOver180);
+}
+
 Vector3D Pinhole::RayDirection(const Point3D& p) const {
   Vector3D dir = p.x * u() + p.y * v() - p.z * w();
   dir.Normalize();
@@ -36,9 +42,7 @@ void Pinhole::RenderScene(World& w) {
   Point2D sp;             // sample point in [0,1]x[0,1]
   Point3D pp;             // sample point on a pixel with view plane depth
 
-  int fov = std::max(1, std::min(fov_, 179)); // Lock fov to 1-179 for now
-  double half_width = vp.hres() * s * 0.5; // Multiply by s to maintain fov across resolutions
-  pp.z = half_width / std::tan(fov * 0.5 * kPiOver180);
+  pp.z = ComputePlaneDepth(w);
   s /= zoom_;
   ray.origin(eye());
 

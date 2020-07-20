@@ -24,6 +24,7 @@ class Pinhole : public Camera {
     void zoom(double z) { zoom_ = z; }
     double zoom() const { return zoom_; }
 
+    double ComputePlaneDepth(World& w) const;
     Vector3D RayDirection(const Point3D& p) const;
     void RenderScene(World& w) override;
 
