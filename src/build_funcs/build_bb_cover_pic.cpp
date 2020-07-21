@@ -19,8 +19,8 @@ void World::Build(void) {
   ptr->fov(60);
   ptr->zoom(1);
   camera_ptr_ = ptr;
-  //camera_ptr_->rotate_v(20);
-  //camera_ptr_->translate_w(-30);
+  camera_ptr_->rotate_v(-20);
+  camera_ptr_->translate_w(-30);
   camera_ptr_->ComputeUVW();
 
   bg_color_ = RGBColor(0.0);

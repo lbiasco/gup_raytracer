@@ -51,7 +51,6 @@ class Camera {
     virtual void RenderScene(World& w) = 0;
 
   private:
-    void RotateAbout(Vector3D vec, double degrees);
     void TransformUVW();
 
   private:
