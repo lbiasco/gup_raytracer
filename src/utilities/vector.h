@@ -74,6 +74,8 @@ struct Vector3D {
     Vector3D(const Vector3D& v) : x(v.x), y(v.y), z(v.z) {}
     Vector3D(const Point3D& p);
 
+    static Vector3D RotateAbout(Vector3D v, Vector3D axis, double degrees);
+
     Vector3D& operator= (const Vector3D& rhs);
     Vector3D& operator= (const Point3D& rhs);
     bool operator== (const Vector3D& v) const { return x == v.x && y == v.y && z == v.z; }

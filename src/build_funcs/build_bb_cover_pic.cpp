@@ -5,22 +5,15 @@ void World::Build(void) {
 
   view_plane_.hres(400);
   view_plane_.vres(400);
-  //view_plane_.pixel_scale(1);
   view_plane_.sampler_ptr(new MultiJittered(num_samples));
   view_plane_.gamma(1.0);
 
-  Point3D cam_eye(0, 0, 100);
+  Point3D cam_eye(0, 0, -20);
   Vector3D view_dir(0, 0, -1);
-  //Pinhole *ptr = new Pinhole(cam_eye, view_dir, 60);
-  ThinLens *ptr = new ThinLens(cam_eye, view_dir);
-  ptr->focal_length(60);
-  ptr->lens_radius(1);
-  ptr->sampler_ptr(new MultiJittered(num_samples));
-  ptr->fov(60);
-  ptr->zoom(1);
+  SphericalProjection *ptr = new SphericalProjection(cam_eye, view_dir);
   camera_ptr_ = ptr;
-  //camera_ptr_->rotate_v(20);
-  //camera_ptr_->translate_w(-30);
+  camera_ptr_->rotate_v(-40);
+  camera_ptr_->translate_u(-60);
   camera_ptr_->ComputeUVW();
 
   bg_color_ = RGBColor(0.0);
