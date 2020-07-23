@@ -6,17 +6,15 @@
 #include "utilities/constants.h"
 
 // cameras
-
+#include "cameras/fisheye.h"
 #include "cameras/pinhole.h"
 #include "cameras/thin_lens.h"
 
 // geometric objects
-
 #include "geometry/plane.h"
 #include "geometry/sphere.h"
 
 // sampler
-
 #include "samplers/regular.h"
 #include "samplers/jittered.h"
 #include "samplers/rooks.h"
@@ -24,24 +22,21 @@
 #include "samplers/hammersley.h"
 
 // tracers
-
 #include "tracers/multiple_objects.h"
 #include "tracers/function.h"
 
 // utilities
-
 #include "utilities/vector.h"
 #include "utilities/point.h"
 #include "utilities/shade_rec.h"
 #include "utilities/maths.h"
 
 // build functions
-
 //#include "build_funcs/build_single_sphere.cpp"
 //#include "build_funcs/build_double_sphere.cpp"
 //#include "build_funcs/build_single_plane.cpp"
-//#include "build_funcs/build_multiple_objects.cpp"
-#include "build_funcs/build_bb_cover_pic.cpp"
+#include "build_funcs/build_multiple_objects.cpp"
+//#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
 
 World::World() : bg_color_(kBlack), tracer_ptr_(NULL) {}

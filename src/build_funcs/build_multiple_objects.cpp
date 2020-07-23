@@ -9,8 +9,13 @@ void World::Build(void) {
 
   Point3D cam_eye(0, 0, 100);
   Point3D cam_lookat(0, 0, 0);
-  Pinhole *ptr = new Pinhole(cam_eye, cam_lookat, 120);
-  ptr->zoom(1);
+  //Pinhole *ptr = new Pinhole(cam_eye, cam_lookat, 120);
+  //ptr->zoom(1);
+
+  Fisheye *ptr = new Fisheye(cam_eye, cam_lookat);
+  ptr->SetFov(360);
+  camera_ptr_ = ptr;
+  
   camera_ptr_ = ptr;
   camera_ptr_->ComputeUVW();
 

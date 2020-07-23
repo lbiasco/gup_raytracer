@@ -16,6 +16,8 @@ add_executable(gup_raytracer
 
     src/cameras/camera.cpp 
     src/cameras/camera.h 
+    src/cameras/fisheye.cpp 
+    src/cameras/fisheye.h 
     src/cameras/pinhole.cpp 
     src/cameras/pinhole.h 
     src/cameras/thin_lens.cpp 

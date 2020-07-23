@@ -12,15 +12,20 @@ void World::Build(void) {
   Point3D cam_eye(0, 0, 100);
   Vector3D view_dir(0, 0, -1);
   //Pinhole *ptr = new Pinhole(cam_eye, view_dir, 60);
-  ThinLens *ptr = new ThinLens(cam_eye, view_dir);
-  ptr->focal_length(60);
-  ptr->lens_radius(1);
-  ptr->sampler_ptr(new MultiJittered(num_samples));
-  ptr->fov(60);
-  ptr->zoom(1);
+  
+  //ThinLens *ptr = new ThinLens(cam_eye, view_dir);
+  //ptr->focal_length(60);
+  //ptr->lens_radius(1);
+  //ptr->sampler_ptr(new MultiJittered(num_samples));
+  
+  //ptr->fov(60);
+  //ptr->zoom(1);
+
+  Fisheye *ptr = new Fisheye(cam_eye, view_dir);
+  ptr->SetFov(120);
   camera_ptr_ = ptr;
-  camera_ptr_->rotate_v(-20);
-  camera_ptr_->translate_w(-30);
+  //camera_ptr_->rotate_v(-20);
+  camera_ptr_->translate_w(-60);
   camera_ptr_->ComputeUVW();
 
   bg_color_ = RGBColor(0.0);
