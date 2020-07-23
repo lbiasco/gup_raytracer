@@ -8,6 +8,7 @@
 // cameras
 #include "cameras/fisheye.h"
 #include "cameras/pinhole.h"
+#include "cameras/spherical.h"
 #include "cameras/thin_lens.h"
 
 // geometric objects
