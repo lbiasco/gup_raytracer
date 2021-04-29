@@ -33,12 +33,11 @@ RenderWindow::RenderWindow() {
   CreateMenus();
 
   setWindowTitle(tr("GUP Raytracer"));
-  setMinimumSize(160, 160);
-  resize(700, 500);
+  setFixedSize(300, 300);
 
   SetStatusText(tr("Ready"), 0);
   SetStatusText(tr(""), 1);
-  statusBar()->setSizeGripEnabled(true);
+  statusBar()->setSizeGripEnabled(false);
 }
 
 void RenderWindow::SetStatusText(const QString text, int num) {
@@ -149,16 +148,18 @@ void RenderWindow::CreateActions() {
   connect(exit_act_, &QAction::triggered, this, &QWidget::close);
 
   start_act_ = new QAction(tr("&Start"), this);
-  start_act_->setShortcuts(QKeySequence::Refresh);
-  start_act_->setStatusTip(tr("Start the render"));
+  start_act_->setShortcut(QKeySequence(Qt::Key_Space));
+  //start_act_->setStatusTip(tr("Start the render"));
   connect(start_act_, &QAction::triggered, this, &RenderWindow::Start);
 
   pause_act_ = new QAction(tr("&Pause"), this);
-  pause_act_->setStatusTip(tr("Pause the render"));
+  //start_act_->setShortcut(QKeySequence(Qt::Key_A));
+  //pause_act_->setStatusTip(tr("Pause the render"));
   connect(pause_act_, &QAction::triggered, this, &RenderWindow::Pause);
 
   resume_act_ = new QAction(tr("&Resume"), this);
-  resume_act_->setStatusTip(tr("Resume the render"));
+  //start_act_->setShortcut(QKeySequence(Qt::Key_B));
+  //resume_act_->setStatusTip(tr("Resume the render"));
   connect(resume_act_, &QAction::triggered, this, &RenderWindow::Resume);
 }
 
@@ -186,9 +187,10 @@ RenderCanvas::RenderCanvas(QWidget *parent, RenderWindow *window)
      w_(NULL), 
      window_(window), 
      controller_(NULL), 
-     timer_(NULL) {
-  update_timer_ = new QTimer();
-  connect(update_timer_, &QTimer::timeout, this, &RenderCanvas::TimerUpdate);
+     timer_(NULL),
+     elapsedAtPause_(0) {
+  updateTimer_ = new QTimer();
+  connect(updateTimer_, &QTimer::timeout, this, &RenderCanvas::TimerUpdate);
 }
 
 RenderCanvas::~RenderCanvas(void) {
@@ -210,9 +212,6 @@ void RenderCanvas::SetImage(QImage *image) {
     return;
     
   image_ = image;
-  // NEED TO SUBCLASS QScrollArea ? *****************
-  //SetScrollbars(10, 10, (int)(m_image->GetWidth()  / 10.0f),
-  //                      (int)(m_image->GetHeight() / 10.0f), 0, 0, true);
 
   update();
 }
@@ -232,7 +231,7 @@ void RenderCanvas::CompleteRender() {
   }
   
   if(timer_ != NULL) {
-      QTime timeElapsed = QTime(0, 0).addMSecs(timer_->elapsed());
+      QTime timeElapsed = QTime(0, 0).addMSecs(timer_->elapsed() + elapsedAtPause_);
       QString timeString = timeElapsed.toString("'Elapsed Time: 'H:mm:ss.zzz"); // 
       window_->SetStatusText(timeString, 1);
 
@@ -245,23 +244,21 @@ void RenderCanvas::CompleteRender() {
 
 void RenderCanvas::RenderPause(void) {
   if(controller_ != NULL)
-    emit controller_->Pause();
+    controller_->Pause();
   
-  update_timer_->stop();
+  updateTimer_->stop();
   
   if(timer_ != NULL)
-    // NEED TO IMPLEMENT TIME-STORING LOGIC FOR PAUSE/RESUME *****************
-    timer_->restart();
+    elapsedAtPause_ = timer_->elapsed();
 }
 
 void RenderCanvas::RenderResume(void) {
   if(controller_ != NULL)
-    emit controller_->Resume();
+    controller_->Resume();
   
-  update_timer_->start();
+  updateTimer_->start();
   
   if(timer_ != NULL)
-    // NEED TO IMPLEMENT TIME-STORING LOGIC FOR PAUSE/RESUME *****************
     timer_->restart();
 }
 
@@ -277,7 +274,9 @@ void RenderCanvas::RenderStart(void) {
   }
 
   window_->SetStatusText("Rendering...", 0);
-  setMinimumSize(w_->view_plane().hres(), w_->view_plane().vres());
+  const int w = std::max(300, w_->view_plane().hres());
+  const int h = w_->view_plane().vres();
+  window_->setFixedSize(w, h);
 
   pixels_rendered_ = 0;
   pixels_to_render_ = w_->view_plane().hres() * w_->view_plane().vres();
@@ -287,7 +286,7 @@ void RenderCanvas::RenderStart(void) {
   temp->fill(QColor(50, 50, 50));
   SetImage(temp);
 
-  update_timer_->start(250);
+  updateTimer_->start(250);
 
   //start timer
   timer_ = new QElapsedTimer();
@@ -308,7 +307,7 @@ void RenderCanvas::TimerUpdate() {
   window_->SetStatusText(progress_string , 0);
 
   //time elapsed
-  long elapsed = timer_->elapsed();
+  long elapsed = timer_->elapsed() + elapsedAtPause_;
   QTime time_elapsed = QTime(0, 0).addMSecs(elapsed);
   
   //time remaining
@@ -351,43 +350,40 @@ void RenderCanvas::paintEvent(QPaintEvent *event) {
 // RenderController
 // ------------------------------------------------------------------------- //
 
-// Implement a  QThread::currentThread()->isInterruptionRequested() check for pausing *****************
 RenderController::RenderController(RenderCanvas* c, World* w) {
-  RenderWorker *worker = new RenderWorker(w);
-  worker->moveToThread(&worker_thread_);
-  connect(&worker_thread_, &QThread::finished, worker, &QObject::deleteLater);
-  connect(this, &RenderController::Start, worker, &RenderWorker::Start);
-  connect(this, &RenderController::Pause, worker, &RenderWorker::Pause);
-  connect(this, &RenderController::Resume, worker, &RenderWorker::Resume);
+  RenderWorker *worker = new RenderWorker(w, &workerThread_);
+  worker->moveToThread(&workerThread_);
+
+  connect(&workerThread_, &QThread::finished, worker, &QObject::deleteLater);
+  connect(this, &RenderController::Start, worker, &RenderWorker::Run);
   connect(this, &RenderController::Terminate, worker, &RenderWorker::Terminate);
 
   connect(worker, &RenderWorker::Completed, c, &RenderCanvas::CompleteRender);
   connect(worker, &RenderWorker::PixelsUpdated, c, &RenderCanvas::UpdatePixels);
-  worker_thread_.start();
+  workerThread_.start();
 }
 
 RenderController::~RenderController() {
-  // NEED TO MAKE SURE DELETION PERFORMS ALL THE PROPER STEPS
-  worker_thread_.quit();
-  worker_thread_.wait();
+  workerThread_.terminate();
+  workerThread_.wait();
 }
 
+void RenderController::Pause() {
+  workerThread_.RequestPause(true);
+}
+
+void RenderController::Resume() {
+  workerThread_.RequestPause(false);
+}
 
 // ------------------------------------------------------------------------- //
 // RenderWorker
 // ------------------------------------------------------------------------- //
 
-RenderWorker::RenderWorker(World* w) {
+RenderWorker::RenderWorker(World *w, RenderThread *thread) {
   world_ = w;
+  thread_ = thread;
   world_->paint_area(this);
-}
-
-void RenderWorker::Pause() {
-  // NEED TO IMPLEMENT *****************
-}
-
-void RenderWorker::Resume() {
-  // NEED TO IMPLEMENT *****************
 }
 
 void RenderWorker::SendUpdate() {
@@ -403,22 +399,26 @@ void RenderWorker::SendUpdate() {
 void RenderWorker::SetPixel(int x, int y, int red, int green, int blue) {
   pixels_.push_back(new RenderPixel(x, y, red, green, blue));
 
-  if(timer_->elapsed() > 40)
-      SendUpdate();
+  // If a thread interruption is issued (i.e. pause), wait for resume
+  // TODO: Holding onto the thread in the workers probably isn't the safest
+  while (thread_->IsPauseRequested()) { }
+
+  if(timer_->elapsed() > 40) {
+    SendUpdate();
+  }
 }
 
-void* RenderWorker::Start() {
+void* RenderWorker::Run() {
   timer_ = new QElapsedTimer();
   timer_->start();
   
-  // NEED TO WRAP IN INTERRUPT LOOP IN ORDER TO PAUSE/RESUME *****************
   world_->RenderScene();
+  Terminate();
 
   return NULL;
 }
 
-void RenderWorker::Terminate()
-{
+void RenderWorker::Terminate() {
   SendUpdate();
   emit Completed();
 }

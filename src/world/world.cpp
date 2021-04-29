@@ -53,7 +53,7 @@ World::~World() {
 // Using RenderScene thru World while camera_ptr_ targets only a single camera
 void World::RenderScene() {
   camera_ptr_->RenderScene(*this);
-  paint_area_->Terminate();
+  paint_area_ = NULL;
 }
 
 RGBColor World::Normalize(const RGBColor& c) const  {

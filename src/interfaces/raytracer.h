@@ -84,26 +84,42 @@ class RenderCanvas: public QWidget {
     void paintEvent(QPaintEvent *event) override;
 
     RenderController *controller_;
+
     QImage *image_;
     long pixels_rendered_;
     long pixels_to_render_;
+
     QElapsedTimer *timer_;
-    QTimer *update_timer_;
+    QTimer *updateTimer_;
+    long elapsedAtPause_;
+
     World *w_;
     RenderWindow *window_;
 };
 
+class RenderThread : public QThread {
+  public:
+    RenderThread() : QThread(), pauseRequested_(false) {}
+
+    void RequestPause(bool pause) { pauseRequested_ = pause; }
+    bool IsPauseRequested() { return pauseRequested_; }
+
+  private:
+    bool pauseRequested_;
+};
+
 class RenderController : public QObject {
     Q_OBJECT
-    QThread worker_thread_;
+    RenderThread workerThread_;
 
   public:
     RenderController(RenderCanvas* c, World* w);
     ~RenderController();
 
-  signals:
     void Pause();
     void Resume();
+
+  signals:
     void Start();
     void Terminate();
 };
@@ -112,12 +128,10 @@ class RenderWorker : public QObject {
     Q_OBJECT
     
   public:
-    RenderWorker(World *w);
+    RenderWorker(World *w, RenderThread *thread);
 
   public slots:
-    virtual void Pause();
-    virtual void Resume();
-    virtual void* Start();
+    virtual void* Run();
     virtual void Terminate();
     virtual void SetPixel(int x, int y, int red, int green, int blue);
 
@@ -131,6 +145,8 @@ class RenderWorker : public QObject {
     std::vector<RenderPixel*> pixels_;
     QElapsedTimer *timer_;
     World *world_;
+
+    RenderThread *thread_;
 };
 
 
