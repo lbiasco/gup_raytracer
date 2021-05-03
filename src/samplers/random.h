@@ -8,7 +8,7 @@
 class Random : public Sampler {
   public:
     // Constructors, destructors
-    Random(const int num_samples);
+    Random(const int numSamples);
 
     void GenerateSamples(void);
 };

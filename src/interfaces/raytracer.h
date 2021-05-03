@@ -42,19 +42,19 @@ class RenderWindow : public QMainWindow {
     void CreateActions();
     void CreateMenus();
 
-    QMenu *file_menu_;
-    QMenu *render_menu_;
-    QAction *open_act_;
-    QAction *save_act_;
-    QAction *exit_act_;
-    QAction *start_act_;
-    QAction *pause_act_;
-    QAction *resume_act_;
+    QMenu* _fileMenu;
+    QMenu* _renderMenu;
+    QAction* _openAct;
+    QAction* _saveAct;
+    QAction* _exitAct;
+    QAction* _startAct;
+    QAction* _pauseAct;
+    QAction* _resumeAct;
 
-    QLabel *status_left_;
-    QLabel *status_right_;
+    QLabel* _statusLeft;
+    QLabel* _statusRight;
 
-    RenderCanvas *canvas_;
+    RenderCanvas* _canvas;
 };
 
 
@@ -62,11 +62,11 @@ class RenderCanvas: public QWidget {
     Q_OBJECT
 
   public:
-    RenderCanvas(QWidget *parent, RenderWindow *window);
+    RenderCanvas(QWidget* parent, RenderWindow* window);
     virtual ~RenderCanvas(void);
         
-    void SetImage(QImage *image);
-    QImage *GetImage(void);
+    void SetImage(QImage* image);
+    QImage* GetImage(void);
       
     void RenderStart(void);
     void RenderPause(void);
@@ -75,42 +75,42 @@ class RenderCanvas: public QWidget {
   public slots:
     void CompleteRender();
     void TimerUpdate();
-    void UpdatePixels(std::vector<RenderPixel*> *pixels);
+    void UpdatePixels(std::vector<RenderPixel*>* pixels);
 
   signals:
     void Completed();
 
   private:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
 
-    RenderController *controller_;
+    RenderController* _controller;
 
-    QImage *image_;
-    long pixels_rendered_;
-    long pixels_to_render_;
+    QImage* _image;
+    long _pixelsRendered;
+    long _pixelsToRender;
 
-    QElapsedTimer *timer_;
-    QTimer *updateTimer_;
-    long elapsedAtPause_;
+    QElapsedTimer* _timer;
+    QTimer* _updateTimer;
+    long _elapsedAtPause;
 
-    World *w_;
-    RenderWindow *window_;
+    World* _w;
+    RenderWindow* _window;
 };
 
 class RenderThread : public QThread {
   public:
-    RenderThread() : QThread(), pauseRequested_(false) {}
+    RenderThread() : QThread(), _pauseRequested(false) {}
 
-    void RequestPause(bool pause) { pauseRequested_ = pause; }
-    bool IsPauseRequested() { return pauseRequested_; }
+    void RequestPause(bool pause) { _pauseRequested = pause; }
+    bool IsPauseRequested() { return _pauseRequested; }
 
   private:
-    bool pauseRequested_;
+    bool _pauseRequested;
 };
 
 class RenderController : public QObject {
     Q_OBJECT
-    RenderThread workerThread_;
+    RenderThread _workerThread;
 
   public:
     RenderController(RenderCanvas* c, World* w);
@@ -128,7 +128,7 @@ class RenderWorker : public QObject {
     Q_OBJECT
     
   public:
-    RenderWorker(World *w, RenderThread *thread);
+    RenderWorker(World* w, RenderThread* thread);
 
   public slots:
     virtual void* Run();
@@ -137,16 +137,16 @@ class RenderWorker : public QObject {
 
   signals:
     void Completed();
-    void PixelsUpdated(std::vector<RenderPixel*> *pixels_update);
+    void PixelsUpdated(std::vector<RenderPixel*>* pixelsUpdate);
 
   private:
     void SendUpdate();
     
-    std::vector<RenderPixel*> pixels_;
-    QElapsedTimer *timer_;
-    World *world_;
+    std::vector<RenderPixel*> _pixels;
+    QElapsedTimer* _timer;
+    World* _world;
 
-    RenderThread *thread_;
+    RenderThread* _thread;
 };
 
 

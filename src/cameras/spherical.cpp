@@ -8,11 +8,11 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-Spherical::Spherical(Point3D eye, Vector3D view_dir, Vector3D up) 
-    : Camera(eye, view_dir, up) {}
+Spherical::Spherical(Point3D eye, Vector3D viewDir, Vector3D up) 
+    : Camera(eye, viewDir, up) {}
 
-Spherical::Spherical(Point3D eye, Vector3D view_dir) 
-    : Camera(eye, view_dir) {}
+Spherical::Spherical(Point3D eye, Vector3D viewDir) 
+    : Camera(eye, viewDir) {}
 
 Spherical::Spherical(Point3D eye, Point3D lookat, Vector3D up) 
     : Camera(eye, lookat, up) {}
@@ -29,27 +29,27 @@ Vector3D Spherical::RayDirection(
   Point2D pn(2.0 / (s * hres) * pp.x, 2.0 / (s * vres) * pp.y);
 
   // compute the angles lambda and phi in radians
-  float lambda  = pn.x * lambda_max_ * kPiOver180;
-  float psi     = pn.y * psi_max_ * kPiOver180;
+  float lambda  = pn.x * _lambdaMax * kPiOver180;
+  float psi     = pn.y * _psiMax * kPiOver180;
 
   // compute the spherical azimuth and polar angles
   float phi   = kPi - lambda;
   float theta = 0.5 * kPi - psi;
 
-  float sin_phi   = std::sin(phi);
-  float cos_phi   = std::cos(phi);
-  float sin_theta = std::sin(theta);
-  float cos_theta = std::cos(theta);
+  float sinPhi   = std::sin(phi);
+  float cosPhi   = std::cos(phi);
+  float sinTheta = std::sin(theta);
+  float cosTheta = std::cos(theta);
 
-  Vector3D dir = sin_theta * sin_phi * u() + cos_theta * v() + sin_theta * cos_phi * w();
+  Vector3D dir = sinTheta * sinPhi * u() + cosTheta * v() + sinTheta * cosPhi * w();
   return dir;
 }
 
 
 void Spherical::RenderScene(World& world) {
   RGBColor L;
-  ViewPlane vp(world.view_plane());
-  double s = vp.pixel_scale();
+  ViewPlane vp(world.viewPlane());
+  double s = vp.pixelScale();
   Ray ray;
   int depth = 0;  // recursion depth
 
@@ -62,16 +62,16 @@ void Spherical::RenderScene(World& world) {
     for (int c = 0; c < vp.hres(); c++) {    // across
       L = kBlack;
 
-      for (int j = 0; j < vp.num_samples(); j++) {
-        sp = vp.sampler_ptr()->SampleUnitSquare();
+      for (int j = 0; j < vp.numSamples(); j++) {
+        sp = vp.samplerPtr()->SampleUnitSquare();
         pp.x = s * (c - 0.5 * vp.hres() + sp.x);
         pp.y = s * (r - 0.5 * vp.vres() + sp.y);
         ray.dir(RayDirection(pp, vp.hres(), vp.vres(), s));
 
-        L += world.tracer_ptr()->TraceRay(ray, depth);
+        L += world.tracerPtr()->TraceRay(ray, depth);
       }
 
-      L /= vp.num_samples();    // Average the colors
+      L /= vp.numSamples();    // Average the colors
       L *= exposure();
       world.DisplayPixel(r, c, L);
     }

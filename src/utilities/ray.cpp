@@ -4,7 +4,7 @@ Ray& Ray::operator= (const Ray& rhs) {
   if (this == &rhs)
     return (*this);
     
-  origin_ = rhs.origin_; 
-  dir_ = rhs.dir_; 
+  _origin = rhs._origin; 
+  _dir = rhs._dir; 
   return (*this);	
 }

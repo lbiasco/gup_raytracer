@@ -1,28 +1,28 @@
 void World::Build(void) {
-  int num_samples = 16;
+  int numSamples = 16;
 
-  view_plane_.hres(512);
-  view_plane_.vres(512);
-  view_plane_.pixel_scale(0.040);
-  view_plane_.sampler_ptr(new MultiJittered(num_samples));
-  view_plane_.gamma(1.0);
+  _viewPlane.hres(512);
+  _viewPlane.vres(512);
+  _viewPlane.pixelScale(0.040);
+  _viewPlane.samplerPtr(new MultiJittered(numSamples));
+  _viewPlane.gamma(1.0);
 
   // Doesn't work with Pinhole due to using ray origin as x, y coords...
-  Point3D cam_eye(0, 0, 100);
-  Point3D cam_lookat(0, 0, 0);
-  Pinhole *ptr = new Pinhole(cam_eye, cam_lookat);
+  Point3D camEye(0, 0, 100);
+  Point3D camLookat(0, 0, 0);
+  Pinhole* ptr = new Pinhole(camEye, camLookat);
   ptr->zoom(1);
-  camera_ptr_ = ptr;
-  camera_ptr_->ComputeUVW();
+  _cameraPtr = ptr;
+  _cameraPtr->ComputeUVW();
 
-  bg_color_ = kWhite;
+  _bgColor = kWhite;
 
-  auto ray_func = [](Ray ray) {
+  auto rayFunc = [](Ray ray) {
     double f = 0.5 * (1 + sin(ray.origin().x * ray.origin().x * ray.origin().y * ray.origin().y));
     return RGBColor(f);
   };
-  Function *func_tracer = new Function(this);
-  func_tracer->SetFunction(ray_func);
+  Function* funcTracer = new Function(this);
+  funcTracer->SetFunction(rayFunc);
 
-  tracer_ptr_ = func_tracer;
+  _tracerPtr = funcTracer;
 }

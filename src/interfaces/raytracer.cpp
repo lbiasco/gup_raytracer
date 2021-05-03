@@ -4,7 +4,7 @@
 // Entry point
 // ------------------------------------------------------------------------- //
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
   RenderWindow window;
   window.show();
@@ -17,16 +17,16 @@ int main(int argc, char *argv[]) {
 // ------------------------------------------------------------------------- //
 
 RenderWindow::RenderWindow() {
-  QWidget *widget = new QWidget;
+  QWidget* widget = new QWidget;
   setCentralWidget(widget);
 
-  canvas_ = new RenderCanvas(widget, this);
-  canvas_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  connect(canvas_, &RenderCanvas::Completed, this, &RenderWindow::Complete);
+  _canvas = new RenderCanvas(widget, this);
+  _canvas->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  connect(_canvas, &RenderCanvas::Completed, this, &RenderWindow::Complete);
 
-  QVBoxLayout *layout = new QVBoxLayout;
+  QVBoxLayout* layout = new QVBoxLayout;
   layout->setContentsMargins(5, 5, 5, 5);
-  layout->addWidget(canvas_);
+  layout->addWidget(_canvas);
   widget->setLayout(layout);
 
   CreateActions();
@@ -42,15 +42,15 @@ RenderWindow::RenderWindow() {
 
 void RenderWindow::SetStatusText(const QString text, int num) {
   if(num == 0) {
-    statusBar()->removeWidget(status_left_);
-    status_left_ = new QLabel(text);
-    status_left_->setMinimumWidth(80);
-    statusBar()->insertWidget(0, status_left_);
+    statusBar()->removeWidget(_statusLeft);
+    _statusLeft = new QLabel(text);
+    _statusLeft->setMinimumWidth(80);
+    statusBar()->insertWidget(0, _statusLeft);
   } else if(num == 1) {
-    statusBar()->removeWidget(status_right_);
-    status_right_ = new QLabel(text);
-    status_right_->setMinimumWidth(80);
-    statusBar()->insertWidget(1, status_right_);
+    statusBar()->removeWidget(_statusRight);
+    _statusRight = new QLabel(text);
+    _statusRight->setMinimumWidth(80);
+    statusBar()->insertWidget(1, _statusRight);
   }
 }
 
@@ -61,18 +61,18 @@ void RenderWindow::Open() {
                         "TIFF files (*.tif);;");
   QString caption = tr("Open file");
 
-  QString file_name = QFileDialog::getOpenFileName(this, caption, QString(), wildcard);
+  QString fileName = QFileDialog::getOpenFileName(this, caption, QString(), wildcard);
 
-  if (!file_name.isNull()) {
+  if (!fileName.isNull()) {
     QImage* image = new QImage();
-    bool valid = image->load(file_name);
+    bool valid = image->load(fileName);
 
     if(!valid) {
       delete image;
       QMessageBox::critical(this, tr("Load failed!"), tr("Sorry, could not load file."));
     } else {
-      canvas_->SetImage(image);
-      save_act_->setEnabled(true);
+      _canvas->SetImage(image);
+      _saveAct->setEnabled(true);
     }
   }
 }
@@ -84,96 +84,96 @@ void RenderWindow::Save() {
                         "TIFF files (*.tif);;");
   QString caption = tr("Save file");
 
-  QString file_name = QFileDialog::getSaveFileName(this, caption, QString(), wildcard);
+  QString fileName = QFileDialog::getSaveFileName(this, caption, QString(), wildcard);
 
-  if (!file_name.isNull()) {
-    QImage* image = canvas_->GetImage();
-    if(!image->save(file_name))
+  if (!fileName.isNull()) {
+    QImage* image = _canvas->GetImage();
+    if(!image->save(fileName))
       QMessageBox::critical(this, tr("Save failed!"), tr("Sorry, could not save file."));
   }
 }
 
 void RenderWindow::Complete() {
-  start_act_->setEnabled(true);
-  pause_act_->setEnabled(false);
-  resume_act_->setEnabled(false);
+  _startAct->setEnabled(true);
+  _pauseAct->setEnabled(false);
+  _resumeAct->setEnabled(false);
 
-  open_act_->setEnabled(true);
+  _openAct->setEnabled(true);
   SetStatusText(tr("Rendering complete"), 0);
 }
 
 void RenderWindow::Start() {
-  start_act_->setEnabled(false);
-  pause_act_->setEnabled(true);
-  resume_act_->setEnabled(false);
+  _startAct->setEnabled(false);
+  _pauseAct->setEnabled(true);
+  _resumeAct->setEnabled(false);
   
-  canvas_->RenderStart();
+  _canvas->RenderStart();
   
-  open_act_->setEnabled(false);
-  save_act_->setEnabled(true);
+  _openAct->setEnabled(false);
+  _saveAct->setEnabled(true);
 }
 
 void RenderWindow::Pause() {
-  start_act_->setEnabled(false);
-  pause_act_->setEnabled(false);
-  resume_act_->setEnabled(true);
+  _startAct->setEnabled(false);
+  _pauseAct->setEnabled(false);
+  _resumeAct->setEnabled(true);
   
-  canvas_->RenderPause();
+  _canvas->RenderPause();
   SetStatusText(tr("Rendering paused"), 0);
 }
 
 void RenderWindow::Resume() {
-  start_act_->setEnabled(false);
-  pause_act_->setEnabled(true);
-  resume_act_->setEnabled(false);
+  _startAct->setEnabled(false);
+  _pauseAct->setEnabled(true);
+  _resumeAct->setEnabled(false);
   
-  canvas_->RenderResume();
+  _canvas->RenderResume();
   SetStatusText(tr("Rendering resumed"), 0);
 }
 
 void RenderWindow::CreateActions() {
-  open_act_ = new QAction(tr("&Open..."), this);
-  open_act_->setShortcuts(QKeySequence::Open);
-  open_act_->setStatusTip(tr("Open an existing file"));
-  connect(open_act_, &QAction::triggered, this, &RenderWindow::Open);
+  _openAct = new QAction(tr("&Open..."), this);
+  _openAct->setShortcuts(QKeySequence::Open);
+  _openAct->setStatusTip(tr("Open an existing file"));
+  connect(_openAct, &QAction::triggered, this, &RenderWindow::Open);
 
-  save_act_ = new QAction(tr("&Save"), this);
-  save_act_->setShortcuts(QKeySequence::Save);
-  save_act_->setStatusTip(tr("Save the document to disk"));
-  connect(save_act_, &QAction::triggered, this, &RenderWindow::Save);
+  _saveAct = new QAction(tr("&Save"), this);
+  _saveAct->setShortcuts(QKeySequence::Save);
+  _saveAct->setStatusTip(tr("Save the document to disk"));
+  connect(_saveAct, &QAction::triggered, this, &RenderWindow::Save);
 
-  exit_act_ = new QAction(tr("E&xit"), this);
-  exit_act_->setShortcuts(QKeySequence::Quit);
-  exit_act_->setStatusTip(tr("Exit the application"));
-  connect(exit_act_, &QAction::triggered, this, &QWidget::close);
+  _exitAct = new QAction(tr("E&xit"), this);
+  _exitAct->setShortcuts(QKeySequence::Quit);
+  _exitAct->setStatusTip(tr("Exit the application"));
+  connect(_exitAct, &QAction::triggered, this, &QWidget::close);
 
-  start_act_ = new QAction(tr("&Start"), this);
-  start_act_->setShortcut(QKeySequence(Qt::Key_Space));
-  //start_act_->setStatusTip(tr("Start the render"));
-  connect(start_act_, &QAction::triggered, this, &RenderWindow::Start);
+  _startAct = new QAction(tr("&Start"), this);
+  _startAct->setShortcut(QKeySequence(Qt::Key_Space));
+  //_startAct->setStatusTip(tr("Start the render"));
+  connect(_startAct, &QAction::triggered, this, &RenderWindow::Start);
 
-  pause_act_ = new QAction(tr("&Pause"), this);
-  //start_act_->setShortcut(QKeySequence(Qt::Key_A));
-  //pause_act_->setStatusTip(tr("Pause the render"));
-  connect(pause_act_, &QAction::triggered, this, &RenderWindow::Pause);
+  _pauseAct = new QAction(tr("&Pause"), this);
+  //_startAct->setShortcut(QKeySequence(Qt::Key_A));
+  //_pauseAct->setStatusTip(tr("Pause the render"));
+  connect(_pauseAct, &QAction::triggered, this, &RenderWindow::Pause);
 
-  resume_act_ = new QAction(tr("&Resume"), this);
-  //start_act_->setShortcut(QKeySequence(Qt::Key_B));
-  //resume_act_->setStatusTip(tr("Resume the render"));
-  connect(resume_act_, &QAction::triggered, this, &RenderWindow::Resume);
+  _resumeAct = new QAction(tr("&Resume"), this);
+  //_startAct->setShortcut(QKeySequence(Qt::Key_B));
+  //_resumeAct->setStatusTip(tr("Resume the render"));
+  connect(_resumeAct, &QAction::triggered, this, &RenderWindow::Resume);
 }
 
 void RenderWindow::CreateMenus() {
-  file_menu_ = menuBar()->addMenu(tr("&File"));
-  file_menu_->addAction(open_act_);
-  file_menu_->addAction(save_act_);
-  file_menu_->addAction(exit_act_);
+  _fileMenu = menuBar()->addMenu(tr("&File"));
+  _fileMenu->addAction(_openAct);
+  _fileMenu->addAction(_saveAct);
+  _fileMenu->addAction(_exitAct);
 
-  render_menu_ = menuBar()->addMenu(tr("&Render"));
-  render_menu_->addAction(start_act_);
-  render_menu_->addSeparator();
-  render_menu_->addAction(pause_act_);
-  render_menu_->addAction(resume_act_);
+  _renderMenu = menuBar()->addMenu(tr("&Render"));
+  _renderMenu->addAction(_startAct);
+  _renderMenu->addSeparator();
+  _renderMenu->addAction(_pauseAct);
+  _renderMenu->addAction(_resumeAct);
 }
 
 
@@ -181,168 +181,168 @@ void RenderWindow::CreateMenus() {
 // RenderCanvas
 // ------------------------------------------------------------------------- //
 
-RenderCanvas::RenderCanvas(QWidget *parent, RenderWindow *window)
+RenderCanvas::RenderCanvas(QWidget* parent, RenderWindow* window)
    : QWidget(parent), 
-     image_(NULL), 
-     w_(NULL), 
-     window_(window), 
-     controller_(NULL), 
-     timer_(NULL),
-     elapsedAtPause_(0) {
-  updateTimer_ = new QTimer();
-  connect(updateTimer_, &QTimer::timeout, this, &RenderCanvas::TimerUpdate);
+     _image(NULL), 
+     _w(NULL), 
+     _window(window), 
+     _controller(NULL), 
+     _timer(NULL),
+     _elapsedAtPause(0) {
+  _updateTimer = new QTimer();
+  connect(_updateTimer, &QTimer::timeout, this, &RenderCanvas::TimerUpdate);
 }
 
 RenderCanvas::~RenderCanvas(void) {
-  if(image_ != NULL)
-    delete image_;
+  if(_image != NULL)
+    delete _image;
   
-  if(controller_ != NULL)
-    delete controller_;
+  if(_controller != NULL)
+    delete _controller;
   
-  if(w_ != NULL)
-    delete w_;
+  if(_w != NULL)
+    delete _w;
   
-  if(timer_ != NULL)
-    delete timer_;
+  if(_timer != NULL)
+    delete _timer;
 }
 
-void RenderCanvas::SetImage(QImage *image) {
+void RenderCanvas::SetImage(QImage* image) {
   if(image == NULL || image->isNull())
     return;
     
-  image_ = image;
+  _image = image;
 
   update();
 }
 
 QImage* RenderCanvas::GetImage(void) {
-  if(image_ != NULL)
-    return image_;
+  if(_image != NULL)
+    return _image;
   return new QImage();
 }
 
 void RenderCanvas::CompleteRender() {
-  controller_ = NULL;
+  _controller = NULL;
   
-  if(w_ != NULL) {
-      delete w_;
-      w_ = NULL;
+  if(_w != NULL) {
+      delete _w;
+      _w = NULL;
   }
   
-  if(timer_ != NULL) {
-      QTime timeElapsed = QTime(0, 0).addMSecs(timer_->elapsed() + elapsedAtPause_);
+  if(_timer != NULL) {
+      QTime timeElapsed = QTime(0, 0).addMSecs(_timer->elapsed() + _elapsedAtPause);
       QString timeString = timeElapsed.toString("'Elapsed Time: 'H:mm:ss.zzz"); // 
-      window_->SetStatusText(timeString, 1);
+      _window->SetStatusText(timeString, 1);
 
-      delete timer_;
-      timer_ = NULL;
+      delete _timer;
+      _timer = NULL;
   }
 
   emit Completed();
 }
 
 void RenderCanvas::RenderPause(void) {
-  if(controller_ != NULL)
-    controller_->Pause();
+  if(_controller != NULL)
+    _controller->Pause();
   
-  updateTimer_->stop();
+  _updateTimer->stop();
   
-  if(timer_ != NULL)
-    elapsedAtPause_ = timer_->elapsed();
+  if(_timer != NULL)
+    _elapsedAtPause = _timer->elapsed();
 }
 
 void RenderCanvas::RenderResume(void) {
-  if(controller_ != NULL)
-    controller_->Resume();
+  if(_controller != NULL)
+    _controller->Resume();
   
-  updateTimer_->start();
+  _updateTimer->start();
   
-  if(timer_ != NULL)
-    timer_->restart();
+  if(_timer != NULL)
+    _timer->restart();
 }
 
 void RenderCanvas::RenderStart(void) {
-  w_ = new World();
+  _w = new World();
   
-  window_->SetStatusText("Building world...", 0);
-  w_->Build();
+  _window->SetStatusText("Building world...", 0);
+  _w->Build();
 
-  if(w_->tracer_ptr() == NULL) {
-    window_->SetStatusText("ERROR: Tracer not set, skipping render", 0);
+  if(_w->tracerPtr() == NULL) {
+    _window->SetStatusText("ERROR: Tracer not set, skipping render", 0);
     return;
   }
 
-  window_->SetStatusText("Rendering...", 0);
-  const int w = std::max(300, w_->view_plane().hres());
-  const int h = w_->view_plane().vres();
-  window_->setFixedSize(w, h);
+  _window->SetStatusText("Rendering...", 0);
+  const int w = std::max(300, _w->viewPlane().hres());
+  const int h = _w->viewPlane().vres();
+  _window->setFixedSize(w, h);
 
-  pixels_rendered_ = 0;
-  pixels_to_render_ = w_->view_plane().hres() * w_->view_plane().vres();
+  _pixelsRendered = 0;
+  _pixelsToRender = _w->viewPlane().hres() * _w->viewPlane().vres();
 
   // Set background
-  QImage *temp = new QImage(w_->view_plane().hres(), w_->view_plane().vres(), QImage::Format_RGB32);
+  QImage* temp = new QImage(_w->viewPlane().hres(), _w->viewPlane().vres(), QImage::Format_RGB32);
   temp->fill(QColor(50, 50, 50));
   SetImage(temp);
 
-  updateTimer_->start(250);
+  _updateTimer->start(250);
 
   //start timer
-  timer_ = new QElapsedTimer();
-  timer_->start();
+  _timer = new QElapsedTimer();
+  _timer->start();
   
-  controller_ = new RenderController(this, w_);
-  emit controller_->Start();
+  _controller = new RenderController(this, _w);
+  emit _controller->Start();
 }
 
 void RenderCanvas::TimerUpdate() {
-  if(timer_ == NULL)
+  if(_timer == NULL)
     return;
 
   //percent
-  float completed = (float)pixels_rendered_ / (float)pixels_to_render_;
+  float completed = (float)_pixelsRendered / (float)_pixelsToRender;
       
-  QString progress_string = QString("Rendering...%1%").arg((int)(completed*100));
-  window_->SetStatusText(progress_string , 0);
+  QString progressString = QString("Rendering...%1%").arg((int)(completed*100));
+  _window->SetStatusText(progressString , 0);
 
   //time elapsed
-  long elapsed = timer_->elapsed() + elapsedAtPause_;
-  QTime time_elapsed = QTime(0, 0).addMSecs(elapsed);
+  long elapsed = _timer->elapsed() + _elapsedAtPause;
+  QTime timeElapsed = QTime(0, 0).addMSecs(elapsed);
   
   //time remaining
   float remaining = 1.0f - completed;
-  long msec_remaining = (long)(((double)elapsed / (completed*100)) * 100 * remaining);
-  QTime time_remaining = QTime(0, 0).addMSecs(msec_remaining);
+  long msecRemaining = (long)(((double)elapsed / (completed*100)) * 100 * remaining);
+  QTime timeRemaining = QTime(0, 0).addMSecs(msecRemaining);
   
-  QString time_remaining_string = time_remaining.toString("' / ETA: 'H:mm:ss.zzz");
-  QString time_string = time_elapsed.toString("'Elapsed Time: 'H:mm:ss.zzz");
+  QString timeRemainingString = timeRemaining.toString("' / ETA: 'H:mm:ss.zzz");
+  QString timeString = timeElapsed.toString("'Elapsed Time: 'H:mm:ss.zzz");
 
   //only display ETA if something has been completed
-  if(msec_remaining >= 0)
-    window_->SetStatusText(time_string + time_remaining_string, 1);
+  if(msecRemaining >= 0)
+    _window->SetStatusText(timeString + timeRemainingString, 1);
   else
-    window_->SetStatusText(time_string, 1);
+    _window->SetStatusText(timeString, 1);
 }
 
-void RenderCanvas::UpdatePixels(std::vector<RenderPixel*> *pixels) {
+void RenderCanvas::UpdatePixels(std::vector<RenderPixel*>* pixels) {
   for (std::vector<RenderPixel*>::iterator itr = pixels->begin(); 
       itr != pixels->end(); itr++) {
-    RenderPixel* pixel = *itr;
+    RenderPixel* pixel =* itr;
     const QColor color(pixel->r, pixel->g, pixel->b);
-    image_->setPixelColor(pixel->x, pixel->y, color);
+    _image->setPixelColor(pixel->x, pixel->y, color);
 
-    pixels_rendered_++;
+    _pixelsRendered++;
     delete pixel;
   }
   update();
 }
 
-void RenderCanvas::paintEvent(QPaintEvent *event) {
+void RenderCanvas::paintEvent(QPaintEvent* event) {
   QWidget::paintEvent(event);
   QPainter painter(this);
-  if(!(image_ == NULL) && !(image_->isNull()))
-    painter.drawImage(0, 0, *image_);
+  if(!(_image == NULL) && !(_image->isNull()))
+    painter.drawImage(0, 0, *_image);
 }
 
 
@@ -351,68 +351,68 @@ void RenderCanvas::paintEvent(QPaintEvent *event) {
 // ------------------------------------------------------------------------- //
 
 RenderController::RenderController(RenderCanvas* c, World* w) {
-  RenderWorker *worker = new RenderWorker(w, &workerThread_);
-  worker->moveToThread(&workerThread_);
+  RenderWorker* worker = new RenderWorker(w, &_workerThread);
+  worker->moveToThread(&_workerThread);
 
-  connect(&workerThread_, &QThread::finished, worker, &QObject::deleteLater);
+  connect(&_workerThread, &QThread::finished, worker, &QObject::deleteLater);
   connect(this, &RenderController::Start, worker, &RenderWorker::Run);
   connect(this, &RenderController::Terminate, worker, &RenderWorker::Terminate);
 
   connect(worker, &RenderWorker::Completed, c, &RenderCanvas::CompleteRender);
   connect(worker, &RenderWorker::PixelsUpdated, c, &RenderCanvas::UpdatePixels);
-  workerThread_.start();
+  _workerThread.start();
 }
 
 RenderController::~RenderController() {
-  workerThread_.terminate();
-  workerThread_.wait();
+  _workerThread.terminate();
+  _workerThread.wait();
 }
 
 void RenderController::Pause() {
-  workerThread_.RequestPause(true);
+  _workerThread.RequestPause(true);
 }
 
 void RenderController::Resume() {
-  workerThread_.RequestPause(false);
+  _workerThread.RequestPause(false);
 }
 
 // ------------------------------------------------------------------------- //
 // RenderWorker
 // ------------------------------------------------------------------------- //
 
-RenderWorker::RenderWorker(World *w, RenderThread *thread) {
-  world_ = w;
-  thread_ = thread;
-  world_->paint_area(this);
+RenderWorker::RenderWorker(World* w, RenderThread* thread) {
+  _world = w;
+  _thread = thread;
+  _world->paintArea(this);
 }
 
 void RenderWorker::SendUpdate() {
-  timer_->restart();
+  _timer->restart();
   
   //copy rendered pixels into a new vector and reset
-  std::vector<RenderPixel*> *pixels_update = new std::vector<RenderPixel*>(pixels_);
-  pixels_.clear();
+  std::vector<RenderPixel*>* pixelsUpdate = new std::vector<RenderPixel*>(_pixels);
+  _pixels.clear();
   
-  emit PixelsUpdated(pixels_update);
+  emit PixelsUpdated(pixelsUpdate);
 }
 
 void RenderWorker::SetPixel(int x, int y, int red, int green, int blue) {
-  pixels_.push_back(new RenderPixel(x, y, red, green, blue));
+  _pixels.push_back(new RenderPixel(x, y, red, green, blue));
 
   // If a thread interruption is issued (i.e. pause), wait for resume
   // TODO: Holding onto the thread in the workers probably isn't the safest
-  while (thread_->IsPauseRequested()) { }
+  while (_thread->IsPauseRequested()) { }
 
-  if(timer_->elapsed() > 40) {
+  if(_timer->elapsed() > 40) {
     SendUpdate();
   }
 }
 
 void* RenderWorker::Run() {
-  timer_ = new QElapsedTimer();
-  timer_->start();
+  _timer = new QElapsedTimer();
+  _timer->start();
   
-  world_->RenderScene();
+  _world->RenderScene();
   Terminate();
 
   return NULL;

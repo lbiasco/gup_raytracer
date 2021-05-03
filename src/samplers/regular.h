@@ -9,7 +9,7 @@
 class Regular : public Sampler {
   public:
     // Constructors, destructors
-    Regular(const int num_samples);
+    Regular(const int numSamples);
 
     void GenerateSamples(void);
 };

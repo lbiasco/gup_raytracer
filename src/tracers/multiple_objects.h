@@ -8,7 +8,7 @@ class MultipleObjects: public Tracer {
   public:
     // Constructors, destructors
     MultipleObjects();
-    MultipleObjects(World* world_ptr);
+    MultipleObjects(World* worldPtr);
 
     RGBColor TraceRay(const Ray& ray) const override;
 };

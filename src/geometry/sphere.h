@@ -16,19 +16,19 @@ class Sphere: public Geometry {
 
     Sphere& operator= (const Sphere& sphere);
 
-    void center(const Point3D& c)             { center_ = c; }
-    void center(double x, double y, double z) { center_ = Point3D(x, y, z); }
-    Point3D center() const                    { return center_; }
+    void center(const Point3D& c)             { _center = c; }
+    void center(double x, double y, double z) { _center = Point3D(x, y, z); }
+    Point3D center() const                    { return _center; }
 
-    void radius(double r) { radius_ = r; }
-    double radius() const { return radius_; }
+    void radius(double r) { _radius = r; }
+    double radius() const { return _radius; }
 
     Sphere* Clone() const override;
     bool Hit(const Ray& ray, double& t, ShadeRec& s) const override;	
     
   private:
-    Point3D center_;  // center coordinates as a point
-    double  radius_;  // the radius 
+    Point3D _center;  // center coordinates as a point
+    double  _radius;  // the radius 
 };
 
 #endif  // GEOMETRY_SPHERE_H_

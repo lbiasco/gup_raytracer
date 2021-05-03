@@ -1,12 +1,12 @@
 #include "tracers/tracer.h"
 
-Tracer::Tracer() : world_ptr_(NULL) {}
+Tracer::Tracer() : _worldPtr(NULL) {}
 
-Tracer::Tracer(World* world_ptr) : world_ptr_(world_ptr) {}
+Tracer::Tracer(World* worldPtr) : _worldPtr(worldPtr) {}
 
 Tracer::~Tracer() {
-  if (world_ptr_)
-    world_ptr_ = NULL;
+  if (_worldPtr)
+    _worldPtr = NULL;
 }
 
 RGBColor Tracer::TraceRay(const Ray& ray) const {

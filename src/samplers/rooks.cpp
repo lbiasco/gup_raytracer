@@ -5,24 +5,24 @@
 
 #include "utilities/random.h"
 
-Rooks::Rooks(const int num_samples) : Sampler(num_samples) {
+Rooks::Rooks(const int numSamples) : Sampler(numSamples) {
   GenerateSamples();
 }
 
 void Rooks::GenerateSamples() {
-  double samples_inv = 1 / (double)num_samples();
-  std::vector<int> y_pos(num_samples());
+  double samplesInv = 1 / (double)numSamples();
+  std::vector<int> yPos(numSamples());
 
-  for (int p = 0; p < num_sets(); p++) {
-    // Fill a vector of potential y positions, from 0 to num_samples
-    std::iota(std::begin(y_pos), std::end(y_pos), 0);
+  for (int p = 0; p < numSets(); p++) {
+    // Fill a vector of potential y positions, from 0 to numSamples
+    std::iota(std::begin(yPos), std::end(yPos), 0);
 
     // Swap all the y positions to a random order
-    for (int r = 0; r < num_samples(); r++)
-      std::swap(y_pos[r], y_pos[RandInt(num_samples())]);
+    for (int r = 0; r < numSamples(); r++)
+      std::swap(yPos[r], yPos[RandInt(numSamples())]);
 
     // Build samples using consecutive x and random-ordered y
-    for (int r = 0; r < num_samples(); r++)
-      samples_.push_back(Point2D((r + RandDouble()) * samples_inv, (y_pos[r] + RandDouble()) * samples_inv));
+    for (int r = 0; r < numSamples(); r++)
+      _samples.push_back(Point2D((r + RandDouble()) * samplesInv, (yPos[r] + RandDouble()) * samplesInv));
   }
 }

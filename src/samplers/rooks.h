@@ -7,7 +7,7 @@
 class Rooks : public Sampler {
   public:
     // Constructors, destructors
-    Rooks(const int num_samples);
+    Rooks(const int numSamples);
 
     void GenerateSamples(void);
 };

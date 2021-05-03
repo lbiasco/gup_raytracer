@@ -8,11 +8,11 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-Fisheye::Fisheye(Point3D eye, Vector3D view_dir, Vector3D up) 
-    : Camera(eye, view_dir, up) {}
+Fisheye::Fisheye(Point3D eye, Vector3D viewDir, Vector3D up) 
+    : Camera(eye, viewDir, up) {}
 
-Fisheye::Fisheye(Point3D eye, Vector3D view_dir) 
-    : Camera(eye, view_dir) {}
+Fisheye::Fisheye(Point3D eye, Vector3D viewDir) 
+    : Camera(eye, viewDir) {}
 
 Fisheye::Fisheye(Point3D eye, Point3D lookat, Vector3D up) 
     : Camera(eye, lookat, up) {}
@@ -25,19 +25,19 @@ Vector3D Fisheye::RayDirection(
     int hres,
     int vres,
     float s,
-    float& r_sq) const {
+    float& rSq) const {
   // compute the normalized device coordinates
   Point2D pn(2.0 / (s * hres) * pp.x, 2.0 / (s * vres) * pp.y);
-  r_sq = pn.x * pn.x + pn.y * pn.y;
+  rSq = pn.x * pn.x + pn.y * pn.y;
 
-  if (r_sq <= 1.0) {
-    float r = sqrt(r_sq);
-    float psi = r * psi_max_ * kPiOver180;
-    float sin_psi = std::sin(psi);
-    float cos_psi = std::cos(psi);
-    float sin_alpha = pn.y / r;
-    float cos_alpha = pn.x / r;
-    Vector3D dir = sin_psi * cos_alpha * u() + sin_psi * sin_alpha * v() - cos_psi * w();
+  if (rSq <= 1.0) {
+    float r = sqrt(rSq);
+    float psi = r * _psiMax * kPiOver180;
+    float sinPsi = std::sin(psi);
+    float cosPsi = std::cos(psi);
+    float sinAlpha = pn.y / r;
+    float cosAlpha = pn.x / r;
+    Vector3D dir = sinPsi * cosAlpha * u() + sinPsi * sinAlpha * v() - cosPsi * w();
 
     return dir;
   } else
@@ -49,14 +49,14 @@ Vector3D Fisheye::RayDirection(
 
 void Fisheye::RenderScene(World& world) {
   RGBColor L;
-  ViewPlane vp(world.view_plane());
-  double s = vp.pixel_scale();
+  ViewPlane vp(world.viewPlane());
+  double s = vp.pixelScale();
   Ray ray;
   int depth = 0;  // recursion depth
 
   Point2D sp;     // sample point in [0,1]x[0,1]
   Point2D pp;     // sample point on a pixel with view plane depth
-  float r_sq;     // sum of squares of normalized device coordinates
+  float rSq;     // sum of squares of normalized device coordinates
 
   ray.origin(eye());
 
@@ -64,17 +64,17 @@ void Fisheye::RenderScene(World& world) {
     for (int c = 0; c < vp.hres(); c++) {    // across
       L = kBlack;
 
-      for (int j = 0; j < vp.num_samples(); j++) {
-        sp = vp.sampler_ptr()->SampleUnitSquare();
+      for (int j = 0; j < vp.numSamples(); j++) {
+        sp = vp.samplerPtr()->SampleUnitSquare();
         pp.x = s * (c - 0.5 * vp.hres() + sp.x);
         pp.y = s * (r - 0.5 * vp.vres() + sp.y);
-        ray.dir(RayDirection(pp, vp.hres(), vp.vres(), s, r_sq));
+        ray.dir(RayDirection(pp, vp.hres(), vp.vres(), s, rSq));
 
-        if (r_sq <= 1.0)
-          L += world.tracer_ptr()->TraceRay(ray, depth);
+        if (rSq <= 1.0)
+          L += world.tracerPtr()->TraceRay(ray, depth);
       }
 
-      L /= vp.num_samples();    // Average the colors
+      L /= vp.numSamples();    // Average the colors
       L *= exposure();
       world.DisplayPixel(r, c, L);
     }

@@ -11,8 +11,8 @@ struct ShadeRec {
     ShadeRec(World& wr);
     ShadeRec(const ShadeRec& sr);
 
-    bool      hit_an_object;   // did the ray hit an object?
-    Point3D   local_hit_point; // world coordinates of hit point 
+    bool      hitAnObject;   // did the ray hit an object?
+    Point3D   localHitPoint; // world coordinates of hit point 
     Vector3D  normal;          // normal at hit point
     RGBColor  color;           // used in Chapter 3 only
     World&    w;               // world reference for shading

@@ -1,51 +1,51 @@
 #include "world/view_plane.h"
 	
 ViewPlane::ViewPlane(void)							
-    : hres_(400), 
-      vres_(400),
-      pixel_scale_(1.0),
-      num_samples_(1),
-      sampler_ptr_(NULL),
-      gamma_(1.0),
-      inv_gamma_(1.0),
-      show_out_of_gamut_(false) {}
+    : _hres(400), 
+      _vres(400),
+      _pixelScale(1.0),
+      _numSamples(1),
+      _samplerPtr(NULL),
+      _gamma(1.0),
+      _gammaInv(1.0),
+      _showOutOfGamut(false) {}
 
 ViewPlane::ViewPlane(const ViewPlane& vp)   
-    : hres_(vp.hres_),  
-      vres_(vp.vres_), 
-      pixel_scale_(vp.pixel_scale_),
-      num_samples_(vp.num_samples_),
-      sampler_ptr_(vp.sampler_ptr_),
-      gamma_(vp.gamma_),
-      inv_gamma_(vp.inv_gamma_),
-      show_out_of_gamut_(vp.show_out_of_gamut_) {}
+    : _hres(vp._hres),  
+      _vres(vp._vres), 
+      _pixelScale(vp._pixelScale),
+      _numSamples(vp._numSamples),
+      _samplerPtr(vp._samplerPtr),
+      _gamma(vp._gamma),
+      _gammaInv(vp._gammaInv),
+      _showOutOfGamut(vp._showOutOfGamut) {}
 
 ViewPlane& ViewPlane::operator= (const ViewPlane& rhs) {
   if (this == &rhs)
     return (*this);
     
-  hres_         = rhs.hres_;
-  vres_         = rhs.vres_;
-  pixel_scale_  = rhs.pixel_scale_;
-  num_samples_  = rhs.num_samples_;
-  sampler_ptr_  = rhs.sampler_ptr_;
-  gamma_        = rhs.gamma_;
-  inv_gamma_    = rhs.inv_gamma_;
-  show_out_of_gamut_ = rhs.show_out_of_gamut_;
+  _hres         = rhs._hres;
+  _vres         = rhs._vres;
+  _pixelScale  = rhs._pixelScale;
+  _numSamples  = rhs._numSamples;
+  _samplerPtr  = rhs._samplerPtr;
+  _gamma        = rhs._gamma;
+  _gammaInv    = rhs._gammaInv;
+  _showOutOfGamut = rhs._showOutOfGamut;
 
   return *this;
 }
 
-void ViewPlane::sampler_ptr(Sampler *sp) {
-  if (sampler_ptr_) {
-    delete sampler_ptr_;
-    sampler_ptr_ = NULL;
+void ViewPlane::samplerPtr(Sampler* sp) {
+  if (_samplerPtr) {
+    delete _samplerPtr;
+    _samplerPtr = NULL;
   }
 
-  num_samples_ = sp->num_samples();
-  sampler_ptr_ = sp;
+  _numSamples = sp->numSamples();
+  _samplerPtr = sp;
 }
 
-void ViewPlane::num_samples(int n) {
-  sampler_ptr_->num_samples(n);
+void ViewPlane::numSamples(int n) {
+  _samplerPtr->numSamples(n);
 }

@@ -4,17 +4,17 @@
 
 #include "utilities/random.h"
 
-Hammersley::Hammersley(const int num_samples): Sampler(num_samples) {
+Hammersley::Hammersley(const int numSamples): Sampler(numSamples) {
   GenerateSamples();
 }
 
 void Hammersley::GenerateSamples() {
-  double samples_inv = 1 / (double)num_samples();
+  double samplesInv = 1 / (double)numSamples();
 
-  for (int p = 0; p < num_sets(); p++)
-    for (int i = 0; i < num_samples(); i++) {
-      Point2D sp(i * samples_inv, Phi(i));
-      samples_.push_back(sp);
+  for (int p = 0; p < numSets(); p++)
+    for (int i = 0; i < numSamples(); i++) {
+      Point2D sp(i * samplesInv, Phi(i));
+      _samples.push_back(sp);
     }
 }
 

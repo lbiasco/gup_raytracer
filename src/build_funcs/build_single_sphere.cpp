@@ -1,26 +1,26 @@
 void World::Build(void) {
-  int num_samples = 16;
+  int numSamples = 16;
 
-  view_plane_.hres(200);
-  view_plane_.vres(200);
-  view_plane_.pixel_scale(1.0);
-  view_plane_.sampler_ptr(new MultiJittered(num_samples));
-  view_plane_.gamma(1.0);
+  _viewPlane.hres(200);
+  _viewPlane.vres(200);
+  _viewPlane.pixelScale(1.0);
+  _viewPlane.samplerPtr(new MultiJittered(numSamples));
+  _viewPlane.gamma(1.0);
 
-  Point3D cam_eye(0, 0, 100);
-  Point3D cam_lookat(0, 0, 0);
-  Pinhole *ptr = new Pinhole(cam_eye, cam_lookat, 120);
+  Point3D camEye(0, 0, 100);
+  Point3D camLookat(0, 0, 0);
+  Pinhole* ptr = new Pinhole(camEye, camLookat, 120);
   ptr->zoom(1);
-  camera_ptr_ = ptr;
-  camera_ptr_->ComputeUVW();
+  _cameraPtr = ptr;
+  _cameraPtr->ComputeUVW();
 
-  tracer_ptr_ = new MultipleObjects(this); 
-  bg_color_ = kWhite;
+  _tracerPtr = new MultipleObjects(this); 
+  _bgColor = kWhite;
 
   // use access functions to set centre and radius
-  Sphere* sphere_ptr = new Sphere;
-  sphere_ptr->center(0.0);
-  sphere_ptr->radius(85);
-  sphere_ptr->color(1, 0, 0);  // red
-  AddObject(sphere_ptr);	
+  Sphere* spherePtr = new Sphere;
+  spherePtr->center(0.0);
+  spherePtr->radius(85);
+  spherePtr->color(1, 0, 0);  // red
+  AddObject(spherePtr);	
 }

@@ -40,78 +40,78 @@
 //#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
 
-World::World() : bg_color_(kBlack), tracer_ptr_(NULL) {}
+World::World() : _bgColor(kBlack), _tracerPtr(NULL) {}
 
 World::~World() {	
-  if(tracer_ptr_) {
-    delete tracer_ptr_;
-    tracer_ptr_ = NULL;
+  if(_tracerPtr) {
+    delete _tracerPtr;
+    _tracerPtr = NULL;
   }
   DeleteObjects();	
 }
 
-// Using RenderScene thru World while camera_ptr_ targets only a single camera
+// Using RenderScene thru World while _cameraPtr targets only a single camera
 void World::RenderScene() {
-  camera_ptr_->RenderScene(*this);
-  paint_area_ = NULL;
+  _cameraPtr->RenderScene(*this);
+  _paintArea = NULL;
 }
 
 RGBColor World::Normalize(const RGBColor& c) const  {
-  float max_value = std::max(c.r, std::max(c.g, c.b));
+  float maxValue = std::max(c.r, std::max(c.g, c.b));
 
-  if (max_value > 1.0)
-    return (c / max_value);
+  if (maxValue > 1.0)
+    return (c / maxValue);
   else
     return c;
 }
 
-RGBColor World::ClampToColor(const RGBColor& raw_color) const {
-  RGBColor c(raw_color);
-  if (raw_color.r > 1.0 || raw_color.g > 1.0 || raw_color.b > 1.0) {
+RGBColor World::ClampToColor(const RGBColor& rawColor) const {
+  RGBColor c(rawColor);
+  if (rawColor.r > 1.0 || rawColor.g > 1.0 || rawColor.b > 1.0) {
     c.r = 1.0; c.g = 0.0; c.b = 0.0;
   }
   return c;
 }
 
-// raw_color is the pixel color computed by the ray tracer
+// rawColor is the pixel color computed by the ray tracer
 // its RGB floating point components can be arbitrarily large
-// mapped_color has all components in the range [0, 1], but still floating point
+// mappedColor has all components in the range [0, 1], but still floating point
 // display color has integer components for computer display
 // the Mac's components are in the range [0, 65535]
 // a PC's components will probably be in the range [0, 255]
 // the system-dependent code is in the function convert_to_display_color
 // the function SetCPixel is a Mac OS function
-void World::DisplayPixel(const int row, const int column, const RGBColor& raw_color) const {
-  RGBColor mapped_color;
+void World::DisplayPixel(const int row, const int column, const RGBColor& rawColor) const {
+  RGBColor mappedColor;
 
-  if (view_plane_.show_out_of_gamut())
-    mapped_color = ClampToColor(raw_color);
+  if (_viewPlane.showOutOfGamut())
+    mappedColor = ClampToColor(rawColor);
   else
-    mapped_color = Normalize(raw_color);
+    mappedColor = Normalize(rawColor);
 
-  if (view_plane_.gamma() != 1.0)
-    mapped_color = mapped_color.Pow(view_plane_.inv_gamma());
+  if (_viewPlane.gamma() != 1.0)
+    mappedColor = mappedColor.Pow(_viewPlane.gammaInv());
 
     //have to start from max y coordinate to convert to screen coordinates
     int x = column;
-    int y = view_plane_.vres() - row - 1;
+    int y = _viewPlane.vres() - row - 1;
 
-    paint_area_->SetPixel(x, y, (int)(mapped_color.r * 255),
-                              (int)(mapped_color.g * 255),
-                              (int)(mapped_color.b * 255));
+    _paintArea->SetPixel(x, y, (int)(mappedColor.r * 255),
+                              (int)(mappedColor.g * 255),
+                              (int)(mappedColor.b * 255));
 }
 
 ShadeRec World::HitBareBonesObjects(const Ray& ray) {
   ShadeRec  sr(*this); 
   double    t;
   float     tmin          = kHugeValue;
-  int       num_objects   = objects_.size();
+  int       numObjects   = _objects.size();
 
-  for (int j = 0; j < num_objects; j++)
-    if (objects_[j]->Hit(ray, t, sr) && (t < tmin)) {
-      sr.hit_an_object	= true;
+  for (int j = 0; j < numObjects; j++)
+    if (_objects[j]->Hit(ray, t, sr) && (t < tmin)) {
+      sr.hitAnObject	= true;
       tmin = t; 
-      sr.color = objects_[j]->color(); 
+      sr.color = _objects[j]->color(); 
     }
     
   return (sr);   
@@ -120,11 +120,11 @@ ShadeRec World::HitBareBonesObjects(const Ray& ray) {
 // Deletes the objects in the objects array, and erases the array.
 // The objects array still exists, because it's an automatic variable, but it's empty 
 void World::DeleteObjects() {
-  int num_objects = objects_.size();
+  int numObjects = _objects.size();
 
-  for (int j = 0; j < num_objects; j++) {
-    delete objects_[j];
-    objects_[j] = NULL;
+  for (int j = 0; j < numObjects; j++) {
+    delete _objects[j];
+    _objects[j] = NULL;
   }
-  objects_.erase(objects_.begin(), objects_.end());
+  _objects.erase(_objects.begin(), _objects.end());
 }

@@ -16,15 +16,15 @@ class Geometry {
 
     Geometry&	operator= (const Geometry& rhs);
 
-    RGBColor color() const { return color_; }
-    void color(const RGBColor& c) { color_ = c; }
-    void color(const float r, const float g, const float b) { color_ = RGBColor(r, g, b); }
+    RGBColor color() const { return _color; }
+    void color(const RGBColor& c) { _color = c; }
+    void color(const float r, const float g, const float b) { _color = RGBColor(r, g, b); }
 
     virtual Geometry*	Clone() const = 0;
     virtual bool Hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
 
   private:    
-    RGBColor  color_;		// only used for Bare Bones ray tracing
+    RGBColor  _color;		// only used for Bare Bones ray tracing
 };
 
 #endif  // GEOMETRY_GEOMETRY_H_

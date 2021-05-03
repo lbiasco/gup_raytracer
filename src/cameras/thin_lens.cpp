@@ -9,11 +9,11 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-ThinLens::ThinLens(Point3D eye, Vector3D view_dir, Vector3D up) 
-    : Pinhole(eye, view_dir, up) {}
+ThinLens::ThinLens(Point3D eye, Vector3D viewDir, Vector3D up) 
+    : Pinhole(eye, viewDir, up) {}
 
-ThinLens::ThinLens(Point3D eye, Vector3D view_dir) 
-    : Pinhole(eye, view_dir) {}
+ThinLens::ThinLens(Point3D eye, Vector3D viewDir) 
+    : Pinhole(eye, viewDir) {}
 
 ThinLens::ThinLens(Point3D eye, Point3D lookat, Vector3D up) 
     : Pinhole(eye, lookat, up) {}
@@ -21,32 +21,32 @@ ThinLens::ThinLens(Point3D eye, Point3D lookat, Vector3D up)
 ThinLens::ThinLens(Point3D eye, Point3D lookat) 
     : Pinhole(eye, lookat) {}
 
-void ThinLens::sampler_ptr(Sampler *sp) {
-  if (sampler_ptr_) {
-    delete sampler_ptr_;
-    sampler_ptr_ = NULL;
+void ThinLens::samplerPtr(Sampler* sp) {
+  if (_samplerPtr) {
+    delete _samplerPtr;
+    _samplerPtr = NULL;
   }
-  sampler_ptr_ = sp;
-  sampler_ptr_->MapSamplesToUnitDisk();
+  _samplerPtr = sp;
+  _samplerPtr->MapSamplesToUnitDisk();
 }
 
 Vector3D ThinLens::RayDirection(
-  const Point3D& pixel_point,
-  const Point2D& lens_point) const {
+  const Point3D& pixelPoint,
+  const Point2D& lensPoint) const {
       Point2D p;  // hit point on focal plane
-      p.x = pixel_point.x * focal_length_ / pixel_point.z;
-      p.y = pixel_point.y * focal_length_ / pixel_point.z;
+      p.x = pixelPoint.x * _focalLength / pixelPoint.z;
+      p.y = pixelPoint.y * _focalLength / pixelPoint.z;
 
-      Vector3D dir = (p.x - lens_point.x) * u() + 
-                    (p.y - lens_point.y) * v() - focal_length_ * w();
+      Vector3D dir = (p.x - lensPoint.x) * u() + 
+                    (p.y - lensPoint.y) * v() - _focalLength * w();
       dir.Normalize();
       return dir;
 }
 
 void ThinLens::RenderScene(World& world) {
   RGBColor L;
-  ViewPlane vp(world.view_plane());
-  double s = vp.pixel_scale();
+  ViewPlane vp(world.viewPlane());
+  double s = vp.pixelScale();
   Ray ray;
   int depth = 0;  // recursion depth
 
@@ -62,20 +62,20 @@ void ThinLens::RenderScene(World& world) {
     for (int c = 0; c < vp.hres(); c++) {    // across
       L = kBlack;
 
-      for (int j = 0; j < vp.num_samples(); j++) {
-        sp = vp.sampler_ptr()->SampleUnitSquare();
+      for (int j = 0; j < vp.numSamples(); j++) {
+        sp = vp.samplerPtr()->SampleUnitSquare();
         pp.x = s * (c - 0.5 * vp.hres() + sp.x);
         pp.y = s * (r - 0.5 * vp.vres() + sp.y);
 
-        dp = sampler_ptr_->SampleUnitDisk();
-        lp = dp * lens_radius_;
+        dp = _samplerPtr->SampleUnitDisk();
+        lp = dp * _lensRadius;
 
         ray.origin(eye() + lp.x * u() + lp.y * v());
         ray.dir(RayDirection(pp, lp));
-        L += world.tracer_ptr()->TraceRay(ray, depth);
+        L += world.tracerPtr()->TraceRay(ray, depth);
       }
 
-      L /= vp.num_samples();    // Average the colors
+      L /= vp.numSamples();    // Average the colors
       L *= exposure();
       world.DisplayPixel(r, c, L);
     }

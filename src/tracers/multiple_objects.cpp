@@ -4,13 +4,13 @@
 
 MultipleObjects::MultipleObjects() : Tracer() {}
 
-MultipleObjects::MultipleObjects(World* world_ptr) : Tracer(world_ptr) {}
+MultipleObjects::MultipleObjects(World* worldPtr) : Tracer(worldPtr) {}
 
 RGBColor MultipleObjects::TraceRay(const Ray& ray) const {
-  ShadeRec sr(world_ptr()->HitBareBonesObjects(ray)); // sr is copy constructed
+  ShadeRec sr(worldPtr()->HitBareBonesObjects(ray)); // sr is copy constructed
     
-  if (sr.hit_an_object)
+  if (sr.hitAnObject)
     return (sr.color);
   else
-    return (world_ptr()->bg_color());
+    return (worldPtr()->bgColor());
 }

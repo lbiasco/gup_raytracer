@@ -1,13 +1,13 @@
 #include "geometry/geometry.h"
 
-Geometry::Geometry() : color_(kBlack) {}
+Geometry::Geometry() : _color(kBlack) {}
 
-Geometry::Geometry (const Geometry& object) : color_(object.color_) {}
+Geometry::Geometry (const Geometry& object) : _color(object._color) {}
 
 Geometry&	Geometry::operator= (const Geometry& rhs) {
   if (this == &rhs)
     return *this;
     
-  color_ = rhs.color_;
+  _color = rhs._color;
   return *this;
 }

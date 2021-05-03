@@ -4,20 +4,20 @@
 
 #include "utilities/constants.h"
 
-Sphere::Sphere(void) : Geometry(), center_(0.0), radius_(1.0) {}
+Sphere::Sphere(void) : Geometry(), _center(0.0), _radius(1.0) {}
 
-Sphere::Sphere(Point3D c, double r) : Geometry(), center_(c), radius_(r) {}
+Sphere::Sphere(Point3D c, double r) : Geometry(), _center(c), _radius(r) {}
 
 Sphere::Sphere (const Sphere& sphere) 
-    : Geometry(sphere), center_(sphere.center_), radius_(sphere.radius_) {}
+    : Geometry(sphere), _center(sphere._center), _radius(sphere._radius) {}
 
 Sphere& Sphere::operator= (const Sphere& rhs)	{
   if (this == &rhs)
     return (*this);
 
   Geometry::operator= (rhs);
-  center_ = rhs.center_;
-  radius_	= rhs.radius_;
+  _center = rhs._center;
+  _radius	= rhs._radius;
   return *this;
 }
 
@@ -27,10 +27,10 @@ Sphere* Sphere::Clone(void) const {
 
 bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
   double    t;
-  Vector3D  temp  = ray.origin() - center_;
+  Vector3D  temp  = ray.origin() - _center;
   double    a     = ray.dir() * ray.dir();
   double    b     = 2.0 * temp * ray.dir();
-  double    c     = temp * temp - radius_ * radius_;
+  double    c     = temp * temp - _radius * _radius;
   double    disc  = b * b - 4.0 * a * c;
 
   if (disc < 0.0) {
@@ -42,16 +42,16 @@ bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 
     if (t > kEpsilon) {
       tmin = t;
-      sr.normal = (temp + t * ray.dir()) / radius_;
-      sr.local_hit_point = ray.origin() + t * ray.dir();
+      sr.normal = (temp + t * ray.dir()) / _radius;
+      sr.localHitPoint = ray.origin() + t * ray.dir();
       return true;
     } 
 
     t = (-b + e) / denom;    // larger root
     if (t > kEpsilon) {
       tmin = t;
-      sr.normal   = (temp + t * ray.dir()) / radius_;
-      sr.local_hit_point = ray.origin() + t * ray.dir();
+      sr.normal   = (temp + t * ray.dir()) / _radius;
+      sr.localHitPoint = ray.origin() + t * ray.dir();
       return true;
     }
   }

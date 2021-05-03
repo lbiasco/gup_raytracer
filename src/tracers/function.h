@@ -12,20 +12,20 @@ class Function: public Tracer {
   public:
     // Constructors, destructors
     Function();    
-    Function(World* world_ptr);
+    Function(World* worldPtr);
 
     void SetFunction(std::function<RGBColor (Ray)> function);
     RGBColor TraceRay(const Ray& ray) const override;
 
-    std::function<RGBColor (Ray)> function_ = [](Ray ray) { return RGBColor(0); };
+    std::function<RGBColor (Ray)> _function = [](Ray ray) { return RGBColor(0); };
 };
 
 inline void Function::SetFunction(std::function<RGBColor (Ray)> function) {
-  function_ = function;
+  _function = function;
 }
 
 inline RGBColor Function::TraceRay(const Ray& ray) const {
-  return function_(ray);
+  return _function(ray);
 }
 
 #endif  // TRACERS_FUNCTION_H_

@@ -17,18 +17,18 @@ class Tracer {
   public:
     // Constructors, destructors
     Tracer();
-    Tracer(World* world_ptr);
+    Tracer(World* worldPtr);
     virtual	~Tracer();
 
-    void world_ptr(World *ptr)  { world_ptr_ = ptr; }
-    World* world_ptr() const    { return world_ptr_; }
+    void worldPtr(World* ptr)  { _worldPtr = ptr; }
+    World* worldPtr() const    { return _worldPtr; }
 
     virtual RGBColor TraceRay(const Ray& ray) const;
 
     virtual RGBColor TraceRay(const Ray ray, const int depth) const;
 
   private:
-    World* world_ptr_;
+    World* _worldPtr;
 };
 
 #endif  // TRACERS_TRACER_H_

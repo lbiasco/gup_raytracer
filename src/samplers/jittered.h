@@ -7,7 +7,7 @@
 class Jittered : public Sampler {
   public:
     // Constructors, destructors
-    Jittered(const int num_samples);
+    Jittered(const int numSamples);
 
     void GenerateSamples();
 };

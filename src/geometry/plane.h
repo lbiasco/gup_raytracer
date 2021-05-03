@@ -16,18 +16,18 @@ class Plane: public Geometry {
 
     Plane& operator= (const Plane& rhs);
 
-    void normal(const Vector3D& n)  { normal_ = n; }
-    Vector3D normal() const         { return normal_; }
+    void normal(const Vector3D& n)  { _normal = n; }
+    Vector3D normal() const         { return _normal; }
 
-    void point(const Point3D& a)  { point_ = a; }
-    Point3D point() const         { return point_; }
+    void point(const Point3D& a)  { _point = a; }
+    Point3D point() const         { return _point; }
 
     Plane* Clone() const override;
     bool Hit(const Ray& ray, double& tmin, ShadeRec& sr) const override;
     
   private:
-    Vector3D  normal_;  // Normal of the plane
-    Point3D   point_;   // Point through which plane passes 
+    Vector3D  _normal;  // Normal of the plane
+    Point3D   _point;   // Point through which plane passes 
 };
 
 #endif  // GEOMETRY_PLANE_H_

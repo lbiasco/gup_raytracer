@@ -6,50 +6,50 @@
 #include "utilities/constants.h"
 #include "utilities/matrix.h"
 
-Camera::Camera(Point3D eye, Vector3D view_dir, Vector3D up) 
-    : eye_(eye), view_dir_(view_dir), up_(up) {
+Camera::Camera(Point3D eye, Vector3D viewDir, Vector3D up) 
+    : _eye(eye), _viewDir(viewDir), _up(up) {
 }
 
 Camera::Camera(Point3D eye, Point3D lookat, Vector3D up) 
-    : eye_(eye), up_(up) {
+    : _eye(eye), _up(up) {
   LookAt(lookat);
 }
 
 Point3D Camera::eye() const {
-  return eye_ + translate_u_ * u_ + translate_v_ * v_ + translate_w_ * w_;
+  return _eye + _translateU * _u + _translateV * _v + _translateW * _w;
 }
 
 void Camera::ComputeUVW() {
-	w_ = -Vector3D(view_dir_);
-  w_.Normalize();
+	_w = -Vector3D(_viewDir);
+  _w.Normalize();
 
   // Check for "singularity" (parallel up and w vectors)
-  if ((up_ ^ w_) == Vector3D(0, 0, 0))
+  if ((_up ^ _w) == Vector3D(0, 0, 0))
     // Use component-swap/flip hackery to guarantee non-parallel
-    u_ = Vector3D(-up_.z, up_.x, up_.y) ^ w_;
+    _u = Vector3D(-_up.z, _up.x, _up.y) ^ _w;
   else
-    u_ = up_ ^ w_;
+    _u = _up ^ _w;
   
-  u_.Normalize();
-  v_ = w_ ^ u_;
+  _u.Normalize();
+  _v = _w ^ _u;
 
   TransformUVW();
 }
 
 void Camera::LookAt(Point3D lookat) {
-  view_dir_ = lookat - eye_;
-  if (view_dir_ == Vector3D(0, 0, 0))
-    view_dir_ = Vector3D(0, 0, 1);
+  _viewDir = lookat - _eye;
+  if (_viewDir == Vector3D(0, 0, 0))
+    _viewDir = Vector3D(0, 0, 1);
 }
 
 void Camera::TransformUVW() {
-  if (rotate_u_ != 0)
-    v_ = Vector3D::RotateAbout(v_, u_, rotate_u_);
-    w_ = Vector3D::RotateAbout(w_, u_, rotate_u_);
-  if (rotate_v_ != 0)
-    u_ = Vector3D::RotateAbout(u_, v_, rotate_v_);
-    w_ = Vector3D::RotateAbout(w_, v_, rotate_v_);
-  if (rotate_w_ != 0)
-    u_ = Vector3D::RotateAbout(u_, w_, rotate_w_);
-    v_ = Vector3D::RotateAbout(v_, w_, rotate_w_);
+  if (_rotateU != 0)
+    _v = Vector3D::RotateAbout(_v, _u, _rotateU);
+    _w = Vector3D::RotateAbout(_w, _u, _rotateU);
+  if (_rotateV != 0)
+    _u = Vector3D::RotateAbout(_u, _v, _rotateV);
+    _w = Vector3D::RotateAbout(_w, _v, _rotateV);
+  if (_rotateW != 0)
+    _u = Vector3D::RotateAbout(_u, _w, _rotateW);
+    _v = Vector3D::RotateAbout(_v, _w, _rotateW);
 }

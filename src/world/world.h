@@ -27,23 +27,23 @@ class World {
     World();
     ~World();
 
-    void bg_color(RGBColor color) { bg_color_ = color; }
-    RGBColor bg_color() const     { return bg_color_; }
+    void bgColor(RGBColor color) { _bgColor = color; }
+    RGBColor bgColor() const     { return _bgColor; }
 
-    void camera_ptr(Camera *ptr)  { camera_ptr_ = ptr; }
-    Camera* camera_ptr() const    { return camera_ptr_; }
+    void cameraPtr(Camera* ptr)  { _cameraPtr = ptr; }
+    Camera* cameraPtr() const    { return _cameraPtr; }
 
-    void paint_area(RenderWorker *ptr)  { paint_area_ = ptr; }
-    RenderWorker* paint_area() const    { return paint_area_; }
+    void paintArea(RenderWorker* ptr)  { _paintArea = ptr; }
+    RenderWorker* paintArea() const    { return _paintArea; }
 
-    void tracer_ptr(Tracer *ptr)  { tracer_ptr_ = ptr; }
-    Tracer* tracer_ptr() const    { return tracer_ptr_; }
+    void tracerPtr(Tracer* ptr)  { _tracerPtr = ptr; }
+    Tracer* tracerPtr() const    { return _tracerPtr; }
 
-    void view_plane(ViewPlane vp) { view_plane_ = vp; }
-    ViewPlane view_plane() const  { return view_plane_; }
+    void viewPlane(ViewPlane vp) { _viewPlane = vp; }
+    ViewPlane viewPlane() const  { return _viewPlane; }
 
 
-    void AddObject(Geometry* object_ptr);
+    void AddObject(Geometry* objectPtr);
     void Build();   
     RGBColor ClampToColor(const RGBColor& c) const;
     void DisplayPixel(const int row, const int column, const RGBColor& pixel_color) const;
@@ -52,18 +52,18 @@ class World {
     void RenderScene();
 
   private:
-    RGBColor      bg_color_;
-    Camera*       camera_ptr_;
-    std::vector<Geometry*>  objects_;		
-    RenderWorker* paint_area_;
-    Tracer*       tracer_ptr_;
-    ViewPlane     view_plane_;
+    RGBColor      _bgColor;
+    Camera*       _cameraPtr;
+    std::vector<Geometry*>  _objects;		
+    RenderWorker* _paintArea;
+    Tracer*       _tracerPtr;
+    ViewPlane     _viewPlane;
 
     void DeleteObjects();
 };
 
-inline void World::AddObject(Geometry* object_ptr) {  
-  objects_.push_back(object_ptr);	
+inline void World::AddObject(Geometry* objectPtr) {  
+  _objects.push_back(objectPtr);	
 }
 
 #endif  // WORLD_WORLD_H_

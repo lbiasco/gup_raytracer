@@ -9,13 +9,13 @@
 class Sampler {
   public:
     // Constructors, destructors
-    Sampler(const int num_samples);
+    Sampler(const int numSamples);
     virtual ~Sampler();
 
-    void num_samples(int n);
-    int num_samples() const { return num_samples_; }
+    void numSamples(int n);
+    int numSamples() const { return _numSamples; }
 
-    int num_sets() const { return num_sets_; }
+    int numSets() const { return _numSets; }
 
     // generate sample patterns in a unit square
     virtual void GenerateSamples() = 0;
@@ -30,16 +30,16 @@ class Sampler {
     void SetupShuffledIndices();
 
   protected:
-    std::vector<Point2D> samples_;  // sample points on a unit square
+    std::vector<Point2D> _samples;  // sample points on a unit square
 
   private:
-    int num_samples_;               // the number of sample points in a pattern
-    int num_sets_;                  // the number of sample sets (patterns) stored
-    std::vector<Point2D> disk_samples_;         // sample points on a unit disk
-    std::vector<Point3D> hemisphere_samples_;   // sample points on a hemisphere
-    std::vector<int> shuffled_indices_;         // shuffled samples array indices
-    unsigned long count_;           // the current number of sample points used
-    int jump_;                      // random index jump
+    int _numSamples;               // the number of sample points in a pattern
+    int _numSets;                  // the number of sample sets (patterns) stored
+    std::vector<Point2D> _diskSamples;         // sample points on a unit disk
+    std::vector<Point3D> _hemisphereSamples;   // sample points on a hemisphere
+    std::vector<int> _shuffledIndices;         // shuffled samples array indices
+    unsigned long _count;           // the current number of sample points used
+    int _jump;                      // random index jump
 };
 
 #endif  // SAMPLERS_SAMPLER_H_

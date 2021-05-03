@@ -4,4 +4,4 @@
 
 Function::Function(void) : Tracer() {}
 
-Function::Function(World* world_ptr) : Tracer(world_ptr) {}
+Function::Function(World* worldPtr) : Tracer(worldPtr) {}

@@ -7,7 +7,7 @@
 class Hammersley : public Sampler {
   public:
     // Constructors, destructors
-    Hammersley(const int num_samples);
+    Hammersley(const int numSamples);
 
     void GenerateSamples();
 

@@ -12,20 +12,20 @@ class World;
 class Fisheye : public Camera {
   public:
     // Constructors, destructors
-    Fisheye(Point3D eye, Vector3D view_dir, Vector3D up);
-    Fisheye(Point3D eye, Vector3D view_dir);
+    Fisheye(Point3D eye, Vector3D viewDir, Vector3D up);
+    Fisheye(Point3D eye, Vector3D viewDir);
     Fisheye(Point3D eye, Point3D lookat, Vector3D up);
     Fisheye(Point3D eye, Point3D lookat);
 
     // Accessors, mutators
-    double psi_max() const { return psi_max_; }
+    double psiMax() const { return _psiMax; }
 
-    Vector3D RayDirection(const Point2D& pp, int hres, int vres, float s, float& r_sq) const;
+    Vector3D RayDirection(const Point2D& pp, int hres, int vres, float s, float& rSq) const;
     void RenderScene(World& w) override;
-    void SetFov(double degrees) { psi_max_ = degrees / 2;}
+    void SetFov(double degrees) { _psiMax = degrees / 2;}
 
   private:
-    double psi_max_ = 90;  // in degrees
+    double _psiMax = 90;  // in degrees
 };
 
 #endif  // CAMERAS_FISHEYE_H_
