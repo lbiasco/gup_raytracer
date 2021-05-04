@@ -6,7 +6,7 @@
 
 // Random impementation of the Sampler object
 class Random : public Sampler {
-  public:
+public:
     // Constructors, destructors
     Random(const int numSamples);
 

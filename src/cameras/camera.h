@@ -9,7 +9,7 @@ class World;
 
 // Base class for Camera objects
 class Camera {
-  public:
+public:
     // Constructors, destructors
     Camera(Point3D eye, Vector3D viewDir, Vector3D up=Vector3D(0, 1, 0));
     Camera(Point3D eye, Point3D lookat, Vector3D up=Vector3D(0, 1, 0));
@@ -50,10 +50,10 @@ class Camera {
     void LookAt(Point3D lookat);
     virtual void RenderScene(World& w) = 0;
 
-  private:
+private:
     void TransformUVW();
 
-  private:
+private:
     double _exposure = 1.0;  // Used further in Ch28
     Point3D _eye;
     double _rotateU = 0.0;     // Rotate around u

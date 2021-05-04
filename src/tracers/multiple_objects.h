@@ -5,7 +5,7 @@
 
 // MultipleObjects impementation of the Tracer object
 class MultipleObjects: public Tracer {
-  public:
+public:
     // Constructors, destructors
     MultipleObjects();
     MultipleObjects(World* worldPtr);

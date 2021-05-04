@@ -9,7 +9,7 @@
 
 // Function impementation of the Tracer object
 class Function: public Tracer {
-  public:
+public:
     // Constructors, destructors
     Function();    
     Function(World* worldPtr);
@@ -21,11 +21,11 @@ class Function: public Tracer {
 };
 
 inline void Function::SetFunction(std::function<RGBColor (Ray)> function) {
-  _function = function;
+    _function = function;
 }
 
 inline RGBColor Function::TraceRay(const Ray& ray) const {
-  return _function(ray);
+    return _function(ray);
 }
 
 #endif  // TRACERS_FUNCTION_H_

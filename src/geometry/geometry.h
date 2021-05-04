@@ -9,7 +9,7 @@
 
 // Base class for Geometry objects
 class Geometry {	
-  public:
+public:
     // Constructors, destructors
     Geometry();
     Geometry(const Geometry& object);
@@ -23,7 +23,7 @@ class Geometry {
     virtual Geometry*	Clone() const = 0;
     virtual bool Hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
 
-  private:    
+private:    
     RGBColor  _color;		// only used for Bare Bones ray tracing
 };
 

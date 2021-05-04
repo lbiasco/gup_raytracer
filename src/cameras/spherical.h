@@ -10,7 +10,7 @@ class World;
 
 // Spherical impementation of the Camera object
 class Spherical : public Camera {
-  public:
+public:
     // Constructors, destructors
     Spherical(Point3D eye, Vector3D viewDir, Vector3D up);
     Spherical(Point3D eye, Vector3D viewDir);
@@ -25,7 +25,7 @@ class Spherical : public Camera {
     void SetHFov(double degrees) { _lambdaMax = degrees / 2;}
     void SetVFov(double degrees) { _psiMax = degrees / 2;}
 
-  private:
+private:
     double _lambdaMax  = 90; // in degrees
     double _psiMax     = 45; // in degrees
 };

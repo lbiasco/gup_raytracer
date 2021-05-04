@@ -27,7 +27,7 @@ struct Point2D {
 
 // Inline, non-member functions
 inline Point2D operator* (const double a, const Point2D& p) {
-  return Point2D(a * p.x, a * p.y);
+    return Point2D(a * p.x, a * p.y);
 }
 
 
@@ -53,14 +53,14 @@ struct Point3D {
 
 // Inline member functions
 inline double Point3D::DistanceSquared(const Point3D& p) const {
-  return std::sqrt((x - p.x) * (x - p.x) 
-      + (y - p.y) * (y - p.y)
-      + (z - p.z) * (z - p.z) );
+    return std::sqrt((x - p.x) * (x - p.x) 
+        + (y - p.y) * (y - p.y)
+        + (z - p.z) * (z - p.z) );
 }
 
 // Inline, non-member functions
 inline Point3D operator* (const double a, const Point3D& p) {
-  return Point3D(a * p.x, a * p.y, a * p.z);
+    return Point3D(a * p.x, a * p.y, a * p.z);
 }
 
 

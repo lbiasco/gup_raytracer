@@ -14,7 +14,7 @@ class World;
 
 // Base class for Tracer objects
 class Tracer {
-  public:
+public:
     // Constructors, destructors
     Tracer();
     Tracer(World* worldPtr);
@@ -27,7 +27,7 @@ class Tracer {
 
     virtual RGBColor TraceRay(const Ray ray, const int depth) const;
 
-  private:
+private:
     World* _worldPtr;
 };
 

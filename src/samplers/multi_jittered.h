@@ -5,7 +5,7 @@
 
 // MultiJittered impementation of the Sampler object
 class MultiJittered : public Sampler {
-  public:
+public:
     // Constructors, destructors
     MultiJittered(const int numSamples);
 

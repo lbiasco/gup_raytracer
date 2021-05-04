@@ -5,27 +5,28 @@
 #include "utilities/random.h"
 
 Hammersley::Hammersley(const int numSamples): Sampler(numSamples) {
-  GenerateSamples();
+    GenerateSamples();
 }
 
 void Hammersley::GenerateSamples() {
-  double samplesInv = 1 / (double)numSamples();
+    double samplesInv = 1 / (double)numSamples();
 
-  for (int p = 0; p < numSets(); p++)
-    for (int i = 0; i < numSamples(); i++) {
-      Point2D sp(i * samplesInv, Phi(i));
-      _samples.push_back(sp);
+    for (int p = 0; p < numSets(); p++) {
+        for (int i = 0; i < numSamples(); i++) {
+            Point2D sp(i * samplesInv, Phi(i));
+            _samples.push_back(sp);
+        }
     }
 }
 
 double Hammersley::Phi(int j) {
-  double x = 0.0;
-  double f = 0.5;
+    double x = 0.0;
+    double f = 0.5;
 
-  while (j) {
-    x += f * (j & 1);
-    j /= 2;
-    f *= 0.5;
-  }
-  return x;
+    while (j) {
+        x += f * (j & 1);
+        j /= 2;
+        f *= 0.5;
+    }
+    return x;
 }

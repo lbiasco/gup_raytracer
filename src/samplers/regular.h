@@ -7,7 +7,7 @@
 
 // Regular impementation of the Sampler object
 class Regular : public Sampler {
-  public:
+public:
     // Constructors, destructors
     Regular(const int numSamples);
 

@@ -22,44 +22,45 @@ Pinhole::Pinhole(Point3D eye, Point3D lookat, int fov)
     : Camera(eye, lookat), _fov(fov) {}
 
 double Pinhole::ComputePlaneDepth(World& w) const {
-  int fov = std::max(1, std::min(_fov, 179)); // Lock fov to 1-179 for now
-  double halfWidth = w.viewPlane().hres() * w.viewPlane().pixelScale() * 0.5; // Multiply by s to maintain fov across resolutions
-  return halfWidth / std::tan(fov * 0.5 * kPiOver180);
+    int fov = std::max(1, std::min(_fov, 179)); // Lock fov to 1-179 for now
+    double halfWidth = w.viewPlane().hres() * w.viewPlane().pixelScale() * 0.5; // Multiply by s to maintain fov across resolutions
+    return halfWidth / std::tan(fov * 0.5 * kPiOver180);
 }
 
 Vector3D Pinhole::RayDirection(const Point3D& p) const {
-  Vector3D dir = p.x * u() + p.y * v() - p.z * w();
-  dir.Normalize();
-  return dir;
+    Vector3D dir = p.x * u() + p.y * v() - p.z * w();
+    dir.Normalize();
+    return dir;
 }
 
 void Pinhole::RenderScene(World& w) {
-  RGBColor L;
-  ViewPlane vp(w.viewPlane());
-  double s = vp.pixelScale();
-  Ray ray;
-  int depth = 0;          // recursion depth
-  Point2D sp;             // sample point in [0,1]x[0,1]
-  Point3D pp;             // sample point on a pixel with view plane depth
+    RGBColor L;
+    ViewPlane vp(w.viewPlane());
+    double s = vp.pixelScale();
+    Ray ray;
+    int depth = 0;          // recursion depth
+    Point2D sp;             // sample point in [0,1]x[0,1]
+    Point3D pp;             // sample point on a pixel with view plane depth
 
-  pp.z = ComputePlaneDepth(w);
-  s /= _zoom;
-  ray.origin(eye());
+    pp.z = ComputePlaneDepth(w);
+    s /= _zoom;
+    ray.origin(eye());
 
-  for (int r = 0; r < vp.vres(); r++)        // up
-    for (int c = 0; c < vp.hres(); c++) {    // across
-      L = kBlack;
+    for (int r = 0; r < vp.vres(); r++) {        // up
+        for (int c = 0; c < vp.hres(); c++) {    // across
+            L = kBlack;
 
-      for (int j = 0; j < vp.numSamples(); j++) {
-        sp = vp.samplerPtr()->SampleUnitSquare();
-        pp.x = s * (c - 0.5 * vp.hres() + sp.x);
-        pp.y = s * (r - 0.5 * vp.vres() + sp.y);
-        ray.dir(RayDirection(pp));
-        L += w.tracerPtr()->TraceRay(ray, depth);
-      }
+            for (int j = 0; j < vp.numSamples(); j++) {
+                sp = vp.samplerPtr()->SampleUnitSquare();
+                pp.x = s * (c - 0.5 * vp.hres() + sp.x);
+                pp.y = s * (r - 0.5 * vp.vres() + sp.y);
+                ray.dir(RayDirection(pp));
+                L += w.tracerPtr()->TraceRay(ray, depth);
+            }
 
-      L /= vp.numSamples();    // Average the colors
-      L *= exposure();
-      w.DisplayPixel(r, c, L);
+            L /= vp.numSamples();    // Average the colors
+            L *= exposure();
+            w.DisplayPixel(r, c, L);
+        }
     }
 }

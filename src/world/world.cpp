@@ -43,34 +43,34 @@
 World::World() : _bgColor(kBlack), _tracerPtr(NULL) {}
 
 World::~World() {	
-  if(_tracerPtr) {
-    delete _tracerPtr;
-    _tracerPtr = NULL;
-  }
-  DeleteObjects();	
+    if(_tracerPtr) {
+        delete _tracerPtr;
+        _tracerPtr = NULL;
+    }
+    DeleteObjects();	
 }
 
 // Using RenderScene thru World while _cameraPtr targets only a single camera
 void World::RenderScene() {
-  _cameraPtr->RenderScene(*this);
-  _paintArea = NULL;
+    _cameraPtr->RenderScene(*this);
+    _paintArea = NULL;
 }
 
 RGBColor World::Normalize(const RGBColor& c) const  {
-  float maxValue = std::max(c.r, std::max(c.g, c.b));
+    float maxValue = std::max(c.r, std::max(c.g, c.b));
 
-  if (maxValue > 1.0)
-    return (c / maxValue);
-  else
-    return c;
+    if (maxValue > 1.0)
+        return (c / maxValue);
+    else
+        return c;
 }
 
 RGBColor World::ClampToColor(const RGBColor& rawColor) const {
-  RGBColor c(rawColor);
-  if (rawColor.r > 1.0 || rawColor.g > 1.0 || rawColor.b > 1.0) {
-    c.r = 1.0; c.g = 0.0; c.b = 0.0;
-  }
-  return c;
+    RGBColor c(rawColor);
+    if (rawColor.r > 1.0 || rawColor.g > 1.0 || rawColor.b > 1.0) {
+        c.r = 1.0; c.g = 0.0; c.b = 0.0;
+    }
+    return c;
 }
 
 // rawColor is the pixel color computed by the ray tracer
@@ -82,49 +82,53 @@ RGBColor World::ClampToColor(const RGBColor& rawColor) const {
 // the system-dependent code is in the function convert_to_display_color
 // the function SetCPixel is a Mac OS function
 void World::DisplayPixel(const int row, const int column, const RGBColor& rawColor) const {
-  RGBColor mappedColor;
+    RGBColor mappedColor;
 
-  if (_viewPlane.showOutOfGamut())
-    mappedColor = ClampToColor(rawColor);
-  else
-    mappedColor = Normalize(rawColor);
+    if (_viewPlane.showOutOfGamut())
+        mappedColor = ClampToColor(rawColor);
+    else
+        mappedColor = Normalize(rawColor);
 
-  if (_viewPlane.gamma() != 1.0)
-    mappedColor = mappedColor.Pow(_viewPlane.gammaInv());
+    if (_viewPlane.gamma() != 1.0)
+        mappedColor = mappedColor.Pow(_viewPlane.gammaInv());
 
-    //have to start from max y coordinate to convert to screen coordinates
-    int x = column;
-    int y = _viewPlane.vres() - row - 1;
+        //have to start from max y coordinate to convert to screen coordinates
+        int x = column;
+        int y = _viewPlane.vres() - row - 1;
 
-    _paintArea->SetPixel(x, y, (int)(mappedColor.r * 255),
-                              (int)(mappedColor.g * 255),
-                              (int)(mappedColor.b * 255));
+        _paintArea->SetPixel(
+            x, y, 
+            (int)(mappedColor.r * 255),
+            (int)(mappedColor.g * 255),
+            (int)(mappedColor.b * 255)
+        );
 }
 
 ShadeRec World::HitBareBonesObjects(const Ray& ray) {
-  ShadeRec  sr(*this); 
-  double    t;
-  float     tmin          = kHugeValue;
-  int       numObjects   = _objects.size();
+    ShadeRec  sr(*this); 
+    double    t;
+    float     tmin          = kHugeValue;
+    int       numObjects   = _objects.size();
 
-  for (int j = 0; j < numObjects; j++)
-    if (_objects[j]->Hit(ray, t, sr) && (t < tmin)) {
-      sr.hitAnObject	= true;
-      tmin = t; 
-      sr.color = _objects[j]->color(); 
+    for (int j = 0; j < numObjects; j++) {
+        if (_objects[j]->Hit(ray, t, sr) && (t < tmin)) {
+            sr.hitAnObject	= true;
+            tmin = t; 
+            sr.color = _objects[j]->color(); 
+        }
     }
-    
-  return (sr);   
+        
+    return (sr);   
 }
 
 // Deletes the objects in the objects array, and erases the array.
 // The objects array still exists, because it's an automatic variable, but it's empty 
 void World::DeleteObjects() {
-  int numObjects = _objects.size();
+    int numObjects = _objects.size();
 
-  for (int j = 0; j < numObjects; j++) {
-    delete _objects[j];
-    _objects[j] = NULL;
-  }
-  _objects.erase(_objects.begin(), _objects.end());
+    for (int j = 0; j < numObjects; j++) {
+        delete _objects[j];
+        _objects[j] = NULL;
+    }
+    _objects.erase(_objects.begin(), _objects.end());
 }

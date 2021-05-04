@@ -11,7 +11,7 @@ class World;
 
 // ThinLens impementation of the Camera object
 class ThinLens : public Pinhole {
-  public:
+public:
     // Constructors, destructors
     ThinLens(Point3D eye, Vector3D viewDir, Vector3D up);
     ThinLens(Point3D eye, Vector3D viewDir);
@@ -31,7 +31,7 @@ class ThinLens : public Pinhole {
     Vector3D RayDirection(const Point3D& pixelPoint, const Point2D& lensPoint) const;
     void RenderScene(World& w) override;
 
-  private:
+private:
     double _focalLength = 10;  // focal plane distance
     double _lensRadius = 1;    // lensRadius
     Sampler* _samplerPtr = NULL;       // sampler object

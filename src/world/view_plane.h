@@ -4,7 +4,7 @@
 #include "samplers/sampler.h"
 
 class ViewPlane {
-  public:
+public:
     ViewPlane();
     ViewPlane(const ViewPlane& vp);
     ViewPlane& operator= (const ViewPlane& rhs);
@@ -30,7 +30,7 @@ class ViewPlane {
     void showOutOfGamut(bool b) { _showOutOfGamut = b; }
     bool showOutOfGamut() const { return _showOutOfGamut; }
 
-  private:
+private:
     float	_gamma;           // gamma correction factor
     float	_gammaInv;       // the inverse of the gamma correction factor
     int   _hres;            // horizontal image resolution 

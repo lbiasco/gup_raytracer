@@ -5,7 +5,7 @@
 
 // Jittered impementation of the Sampler object
 class Jittered : public Sampler {
-  public:
+public:
     // Constructors, destructors
     Jittered(const int numSamples);
 

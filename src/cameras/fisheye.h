@@ -10,7 +10,7 @@ class World;
 
 // Fisheye impementation of the Camera object
 class Fisheye : public Camera {
-  public:
+public:
     // Constructors, destructors
     Fisheye(Point3D eye, Vector3D viewDir, Vector3D up);
     Fisheye(Point3D eye, Vector3D viewDir);
@@ -24,7 +24,7 @@ class Fisheye : public Camera {
     void RenderScene(World& w) override;
     void SetFov(double degrees) { _psiMax = degrees / 2;}
 
-  private:
+private:
     double _psiMax = 90;  // in degrees
 };
 

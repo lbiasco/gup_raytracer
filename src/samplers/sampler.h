@@ -7,7 +7,7 @@
 
 // Base class for Sampler Objects
 class Sampler {
-  public:
+public:
     // Constructors, destructors
     Sampler(const int numSamples);
     virtual ~Sampler();
@@ -29,10 +29,10 @@ class Sampler {
 
     void SetupShuffledIndices();
 
-  protected:
+protected:
     std::vector<Point2D> _samples;  // sample points on a unit square
 
-  private:
+private:
     int _numSamples;               // the number of sample points in a pattern
     int _numSets;                  // the number of sample sets (patterns) stored
     std::vector<Point2D> _diskSamples;         // sample points on a unit disk

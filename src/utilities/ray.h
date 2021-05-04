@@ -5,7 +5,7 @@
 #include "utilities/vector.h"
 
 class Ray {
-  public:
+public:
     Ray() : _origin(0.0), _dir(0.0, 0.0, 1.0) {}			
     Ray(const Point3D& o, const Vector3D& d) : _origin(o), _dir(d) {}
     Ray(const Ray& ray) : _origin(ray._origin), _dir(ray._dir) {}
@@ -18,7 +18,7 @@ class Ray {
     void dir(Vector3D d) { _dir = d; }
     Vector3D dir() const { return _dir; }
 
-  private:
+private:
     Point3D   _origin; // origin 
     Vector3D  _dir; // direction
 };

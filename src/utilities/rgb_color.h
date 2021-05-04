@@ -27,23 +27,23 @@ struct RGBColor {
 
 // Inline member functions
 inline RGBColor& RGBColor::operator+= (const RGBColor& c) {
-  r += c.r; g += c.g; b += c.b;
-  return *this;
+    r += c.r; g += c.g; b += c.b;
+    return *this;
 }
 
 inline RGBColor& RGBColor::operator*= (const float a) {
-  r *= a; g *= a; b *= a;
-  return *this;
+    r *= a; g *= a; b *= a;
+    return *this;
 }
 
 inline RGBColor& RGBColor::operator/= (const float a) {	
-  r /= a; g /= a; b /= a;
-  return *this;
+    r /= a; g /= a; b /= a;
+    return *this;
 }
 
 // Inline, non-member functions
 inline RGBColor operator* (const float a, const RGBColor& c) {
-  return RGBColor (a * c.r, a * c.g, a * c.b);	
+    return RGBColor (a * c.r, a * c.g, a * c.b);	
 }
 
 #endif  // UTILITIES_RGB_COLOR_H_

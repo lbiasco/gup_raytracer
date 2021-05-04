@@ -9,14 +9,14 @@
 #include "utilities/constants.h"
 
 ShadeRec::ShadeRec(World& wr) 
-    : hitAnObject(false),
-		  localHitPoint(),
-		  normal(),
-		  color(kBlack),
-		  w(wr) {}
+    :   hitAnObject(false),
+        localHitPoint(),
+        normal(),
+        color(kBlack),
+        w(wr) {}
 
 ShadeRec::ShadeRec(const ShadeRec& sr)
-    : hitAnObject(sr.hitAnObject),
-		  localHitPoint(sr.localHitPoint),
-		  color(sr.color),
-		  w(sr.w) {}
+    :   hitAnObject(sr.hitAnObject),
+        localHitPoint(sr.localHitPoint),
+        color(sr.color),
+        w(sr.w) {}

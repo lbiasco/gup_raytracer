@@ -39,28 +39,28 @@ struct Vector2D {
 // Inline member functions
 
 inline Vector2D& Vector2D::operator= (const Vector2D& rhs) {
-  if (this == &rhs)
-    return *this;
+    if (this == &rhs)
+        return *this;
 
-  x = rhs.x; y = rhs.y;
-  return *this;
+    x = rhs.x; y = rhs.y;
+    return *this;
 }
 
 inline Vector2D& Vector2D::operator+= (const Vector2D& v) {
-  x += v.x; y += v.y;
-  return *this;
+    x += v.x; y += v.y;
+    return *this;
 }
 
 inline void Vector2D::Normalize() {	
-  double length = Length();
-  x /= length; y /= length;
+    double length = Length();
+    x /= length; y /= length;
 }
 
 // Inline, non-member function
 
 Vector2D operator* (const double a, const Vector2D& v);
 inline Vector2D operator* (const double a, const Vector2D& v) {
-  return Vector2D(a * v.x, a * v.y);	
+    return Vector2D(a * v.x, a * v.y);	
 }
 
 
@@ -97,31 +97,31 @@ struct Vector3D {
 // Inline member functions
 
 inline Vector3D& Vector3D::operator= (const Vector3D& rhs) {
-  if (this == &rhs)
-    return *this;
+    if (this == &rhs)
+        return *this;
 
-  x = rhs.x; y = rhs.y; z = rhs.z;
-  return *this;
+    x = rhs.x; y = rhs.y; z = rhs.z;
+    return *this;
 }
 
 inline Vector3D& Vector3D::operator+= (const Vector3D& v) {
-  x += v.x; y += v.y; z += v.z;
-  return *this;
+    x += v.x; y += v.y; z += v.z;
+    return *this;
 }
 
 inline Vector3D Vector3D::operator^ (const Vector3D& v) const {
-  return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+    return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
 inline void Vector3D::Normalize() {	
-  double length = Length();
-  x /= length; y /= length; z /= length;
+    double length = Length();
+    x /= length; y /= length; z /= length;
 }
 
 // Inline, non-member functions
 
 inline Vector3D operator* (const double a, const Vector3D& v) {
-  return Vector3D(a * v.x, a * v.y, a * v.z);	
+    return Vector3D(a * v.x, a * v.y, a * v.z);	
 }
 
 // Non-member functions

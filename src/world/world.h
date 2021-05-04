@@ -23,7 +23,7 @@
 class RenderWorker; 	// Needed to connect to Qt skeleton
 
 class World {	
-  public:
+public:
     World();
     ~World();
 
@@ -51,7 +51,7 @@ class World {
     RGBColor Normalize(const RGBColor& c) const;
     void RenderScene();
 
-  private:
+private:
     RGBColor      _bgColor;
     Camera*       _cameraPtr;
     std::vector<Geometry*>  _objects;		
@@ -63,7 +63,7 @@ class World {
 };
 
 inline void World::AddObject(Geometry* objectPtr) {  
-  _objects.push_back(objectPtr);	
+    _objects.push_back(objectPtr);	
 }
 
 #endif  // WORLD_WORLD_H_

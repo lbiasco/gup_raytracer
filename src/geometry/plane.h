@@ -8,7 +8,7 @@
 
 // Plane impementation of the Geometry object
 class Plane: public Geometry {
-  public:
+public:
     // Constructors, destructors
     Plane();
     Plane(const Point3D& p, const Vector3D& n);
@@ -25,7 +25,7 @@ class Plane: public Geometry {
     Plane* Clone() const override;
     bool Hit(const Ray& ray, double& tmin, ShadeRec& sr) const override;
     
-  private:
+private:
     Vector3D  _normal;  // Normal of the plane
     Point3D   _point;   // Point through which plane passes 
 };

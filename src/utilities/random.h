@@ -9,16 +9,16 @@
 
 // Return a random double in [0, 1]
 inline double RandDouble(void) {
-  return (double)rand() * kInvRandMax;
+    return (double)rand() * kInvRandMax;
 }
 
 // Return a random int in
 inline int RandInt(int range=RAND_MAX, int offset=0) {
-  int x;
-  do {
-      x = rand();
-  } while (x >= (RAND_MAX - RAND_MAX % range));
-  return x % range + offset;
+    int x;
+    do {
+        x = rand();
+    } while (x >= (RAND_MAX - RAND_MAX % range));
+    return x % range + offset;
 }
 
 // Set random generation seed

@@ -26,11 +26,11 @@ class RenderPixel;
 class RenderWindow : public QMainWindow {
     Q_OBJECT
 
-  public:
+public:
     RenderWindow();
     void SetStatusText(const QString text, int col=0);
 
-  private slots:
+private slots:
     void Open();
     void Save();
     void Complete();
@@ -38,7 +38,7 @@ class RenderWindow : public QMainWindow {
     void Pause();
     void Resume();
 
-  private:
+private:
     void CreateActions();
     void CreateMenus();
 
@@ -61,26 +61,26 @@ class RenderWindow : public QMainWindow {
 class RenderCanvas: public QWidget {
     Q_OBJECT
 
-  public:
+public:
     RenderCanvas(QWidget* parent, RenderWindow* window);
     virtual ~RenderCanvas(void);
         
     void SetImage(QImage* image);
     QImage* GetImage(void);
-      
+    
     void RenderStart(void);
     void RenderPause(void);
     void RenderResume(void);
 
-  public slots:
+public slots:
     void CompleteRender();
     void TimerUpdate();
     void UpdatePixels(std::vector<RenderPixel*>* pixels);
 
-  signals:
+signals:
     void Completed();
 
-  private:
+private:
     void paintEvent(QPaintEvent* event) override;
 
     RenderController* _controller;
@@ -98,13 +98,13 @@ class RenderCanvas: public QWidget {
 };
 
 class RenderThread : public QThread {
-  public:
+public:
     RenderThread() : QThread(), _pauseRequested(false) {}
 
     void RequestPause(bool pause) { _pauseRequested = pause; }
     bool IsPauseRequested() { return _pauseRequested; }
 
-  private:
+private:
     bool _pauseRequested;
 };
 
@@ -112,14 +112,14 @@ class RenderController : public QObject {
     Q_OBJECT
     RenderThread _workerThread;
 
-  public:
+public:
     RenderController(RenderCanvas* c, World* w);
     ~RenderController();
 
     void Pause();
     void Resume();
 
-  signals:
+signals:
     void Start();
     void Terminate();
 };
@@ -127,19 +127,19 @@ class RenderController : public QObject {
 class RenderWorker : public QObject {
     Q_OBJECT
     
-  public:
+public:
     RenderWorker(World* w, RenderThread* thread);
 
-  public slots:
+public slots:
     virtual void* Run();
     virtual void Terminate();
     virtual void SetPixel(int x, int y, int red, int green, int blue);
 
-  signals:
+signals:
     void Completed();
     void PixelsUpdated(std::vector<RenderPixel*>* pixelsUpdate);
 
-  private:
+private:
     void SendUpdate();
     
     std::vector<RenderPixel*> _pixels;

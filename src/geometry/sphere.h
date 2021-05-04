@@ -8,7 +8,7 @@
 
 // Sphere impementation of the Geometry object
 class Sphere: public Geometry {
-  public:
+public:
     // Constructors, destructors
     Sphere();
     Sphere(Point3D center, double r);
@@ -26,7 +26,7 @@ class Sphere: public Geometry {
     Sphere* Clone() const override;
     bool Hit(const Ray& ray, double& t, ShadeRec& s) const override;	
     
-  private:
+private:
     Point3D _center;  // center coordinates as a point
     double  _radius;  // the radius 
 };

@@ -10,7 +10,7 @@ class World;
 
 // Pinhole impementation of the Camera object
 class Pinhole : public Camera {
-  public:
+public:
     // Constructors, destructors
     Pinhole(Point3D eye, Vector3D viewDir, Vector3D up, int fov=45);
     Pinhole(Point3D eye, Vector3D viewDir, int fov=45);
@@ -28,7 +28,7 @@ class Pinhole : public Camera {
     Vector3D RayDirection(const Point3D& p) const;
     void RenderScene(World& w) override;
 
-  private:
+private:
     int _fov = 45.0;    // field-of-view in degrees
     double _zoom = 1.0;  // zoom factor
 };
