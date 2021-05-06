@@ -19,13 +19,17 @@ Point3D Camera::eye() const {
     return _eye + _translateU * _u + _translateV * _v + _translateW * _w;
 }
 
+double Camera::ComputeStereoHalfSeparationFromAngle(double angle, double distance) {
+    return distance * std::tan(0.5 * angle * kPiOver180);
+}
+
 void Camera::ComputeUVW() {
 	_w = -Vector3D(_viewDir);
     _w.Normalize();
 
     // Check for "singularity" (parallel up and w vectors)
+    // Use component-swap/flip hackery to guarantee non-parallel
     if ((_up ^ _w) == Vector3D(0, 0, 0))
-        // Use component-swap/flip hackery to guarantee non-parallel
         _u = Vector3D(-_up.z, _up.x, _up.y) ^ _w;
     else
         _u = _up ^ _w;

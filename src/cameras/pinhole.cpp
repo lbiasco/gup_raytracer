@@ -33,16 +33,16 @@ Vector3D Pinhole::RayDirection(const Point3D& p) const {
     return dir;
 }
 
-void Pinhole::RenderScene(World& w) {
+void Pinhole::RenderScene(World& world) {
     RGBColor L;
-    ViewPlane vp(w.viewPlane());
+    ViewPlane vp(world.viewPlane());
     double s = vp.pixelScale();
     Ray ray;
     int depth = 0;          // recursion depth
     Point2D sp;             // sample point in [0,1]x[0,1]
     Point3D pp;             // sample point on a pixel with view plane depth
 
-    pp.z = ComputePlaneDepth(w);
+    pp.z = ComputePlaneDepth(world);
     s /= _zoom;
     ray.origin(eye());
 
@@ -52,15 +52,15 @@ void Pinhole::RenderScene(World& w) {
 
             for (int j = 0; j < vp.numSamples(); j++) {
                 sp = vp.samplerPtr()->SampleUnitSquare();
-                pp.x = s * (c - 0.5 * vp.hres() + sp.x);
-                pp.y = s * (r - 0.5 * vp.vres() + sp.y);
+                pp.x = s * (c - 0.5 * vp.hres() + sp.x) + _apertureOffsetX;
+                pp.y = s * (r - 0.5 * vp.vres() + sp.y) + _apertureOffsetY;
                 ray.dir(RayDirection(pp));
-                L += w.tracerPtr()->TraceRay(ray, depth);
+                L += world.tracerPtr()->TraceRay(ray, depth);
             }
 
             L /= vp.numSamples();    // Average the colors
             L *= exposure();
-            w.DisplayPixel(r, c, L);
+            world.DisplayPixel(r, c, L);
         }
     }
 }

@@ -62,8 +62,8 @@ void ThinLens::RenderScene(World& world) {
 
             for (int j = 0; j < vp.numSamples(); j++) {
                 sp = vp.samplerPtr()->SampleUnitSquare();
-                pp.x = s * (c - 0.5 * vp.hres() + sp.x);
-                pp.y = s * (r - 0.5 * vp.vres() + sp.y);
+                pp.x = s * (c - 0.5 * vp.hres() + sp.x) + apertureOffsetX();
+                pp.y = s * (r - 0.5 * vp.vres() + sp.y) + apertureOffsetY();
 
                 dp = _samplerPtr->SampleUnitDisk();
                 lp = dp * _lensRadius;

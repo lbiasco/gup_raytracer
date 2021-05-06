@@ -24,13 +24,22 @@ public:
     void zoom(double z) { _zoom = z; }
     double zoom() const { return _zoom; }
 
-    double ComputePlaneDepth(World& w) const;
+    void apertureOffsetX(double x) { _apertureOffsetX = x; }
+    double apertureOffsetX() { return _apertureOffsetX; }
+    
+    void apertureOffsetY(double y) { _apertureOffsetY = y; }
+    double apertureOffsetY() { return _apertureOffsetY; }
+
+    double ComputePlaneDepth(World& world) const;
     Vector3D RayDirection(const Point3D& p) const;
     void RenderScene(World& w) override;
 
 private:
     int _fov = 45.0;    // field-of-view in degrees
     double _zoom = 1.0;  // zoom factor
+
+    double _apertureOffsetX = 0.0;  // aperture variables required for stereo
+    double _apertureOffsetY = 0.0;
 };
 
 #endif  // CAMERAS_PINHOLE_H_

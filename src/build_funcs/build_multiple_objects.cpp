@@ -7,18 +7,29 @@ void World::Build(void) {
     _viewPlane.samplerPtr(new MultiJittered(numSamples));
     _viewPlane.gamma(1.0);
 
-    Point3D camEye(0, 0, 100);
+    Point3D camEye(0, 0, 300);
     Point3D camLookat(0, 0, 0);
     
+    double offset = Camera::ComputeStereoHalfSeparationFromAngle(5, camEye.Distance(camLookat));
+
     //Pinhole* ptr = new Pinhole(camEye, camLookat, 120);
     //ptr->zoom(1);
+    //ptr->apertureOffsetX(offset);
+
+    ThinLens* ptr = new ThinLens(camEye, camLookat);
+    ptr->zoom(1);
+    ptr->fov(120);
+    ptr->focalLength(20);
+    ptr->lensRadius(5);
+    ptr->samplerPtr(new MultiJittered(numSamples));
+    ptr->apertureOffsetX(-offset);
 
     //Fisheye* ptr = new Fisheye(camEye, camLookat);
     //ptr->SetFov(360);
     
-    Spherical* ptr = new Spherical(camEye, camLookat);
-    ptr->SetHFov(360);
-    ptr->SetVFov(180);
+    //Spherical* ptr = new Spherical(camEye, camLookat);
+    //ptr->SetHFov(360);
+    //ptr->SetVFov(180);
 
     _cameraPtr = ptr;
     _cameraPtr->ComputeUVW();

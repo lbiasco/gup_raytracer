@@ -46,6 +46,8 @@ public:
     Vector3D w() const  { return _w; }
 
     // Functions
+    static double ComputeStereoHalfSeparationFromAngle(double angle, double distance);
+
     void ComputeUVW();
     void LookAt(Point3D lookat);
     virtual void RenderScene(World& w) = 0;

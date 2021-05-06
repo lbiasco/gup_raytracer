@@ -53,6 +53,12 @@ struct Point3D {
 
 // Inline member functions
 inline double Point3D::DistanceSquared(const Point3D& p) const {
+    return (x - p.x) * (x - p.x) 
+        + (y - p.y) * (y - p.y)
+        + (z - p.z) * (z - p.z);
+}
+
+inline double Point3D::Distance(const Point3D& p) const {
     return std::sqrt((x - p.x) * (x - p.x) 
         + (y - p.y) * (y - p.y)
         + (z - p.z) * (z - p.z) );
