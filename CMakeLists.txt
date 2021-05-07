@@ -14,6 +14,10 @@ add_executable(gup_raytracer
     src/interfaces/raytracer.cpp 
     src/interfaces/raytracer.h 
 
+    src/brdfs/brdf.h
+    src/brdfs/lambertian.cpp
+    src/brdfs/lambertian.h
+
     src/cameras/camera.cpp 
     src/cameras/camera.h 
     src/cameras/fisheye.cpp 
