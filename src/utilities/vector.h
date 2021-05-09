@@ -88,6 +88,8 @@ struct Vector3D {
     double operator* (const Vector3D& v) const { return (x * v.x + y * v.y + z * v.z); }
     Vector3D operator^ (const Vector3D& v) const;
 
+    double DistanceSquared(const Vector3D& p) const;
+    double Distance(const Vector3D& p) const;
     Vector3D Hat() const;
     double Length() const { return std::sqrt(x * x + y * y + z * z); }
     double LengthSquared() const { return (x * x + y * y + z * z); };
@@ -111,6 +113,19 @@ inline Vector3D& Vector3D::operator+= (const Vector3D& v) {
 
 inline Vector3D Vector3D::operator^ (const Vector3D& v) const {
     return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+}
+
+// Inline member functions
+inline double Vector3D::DistanceSquared(const Vector3D& p) const {
+    return (x - p.x) * (x - p.x) 
+        + (y - p.y) * (y - p.y)
+        + (z - p.z) * (z - p.z);
+}
+
+inline double Vector3D::Distance(const Vector3D& p) const {
+    return std::sqrt((x - p.x) * (x - p.x) 
+        + (y - p.y) * (y - p.y)
+        + (z - p.z) * (z - p.z) );
 }
 
 inline void Vector3D::Normalize() {	

@@ -19,7 +19,6 @@ struct ShadeRec {
     Point3D     hitPoint;       // world coordinates of hit point
     Point3D     localHitPoint;  // for attaching textures to objects 
     Vector3D    normal;         // normal at hit point
-    RGBColor    color;          // used in Chapter 3 only
     Ray         ray;            // for specular highlights
     int         depth;          // for recursion depth
     Vector3D    dir;            // for area lights

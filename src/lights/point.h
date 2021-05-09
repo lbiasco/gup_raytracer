@@ -22,6 +22,9 @@ public:
     void location(Vector3D val) { _location = val; }
     Vector3D location() const { return _location; }
 
+    void attenuation(float val) { _attenuation = val; }
+    float attenuation() const { return _attenuation; }
+
     // Functions
     virtual Vector3D GetDirection(ShadeRec& sr);
     virtual RGBColor L(ShadeRec& sr);
@@ -30,6 +33,7 @@ private:
     float       _ls;
     RGBColor    _color;
     Vector3D    _location;
+    float       _attenuation;
 };
 
 #endif  // LIGHTS_POINT_H_

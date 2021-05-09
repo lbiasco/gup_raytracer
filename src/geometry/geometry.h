@@ -14,12 +14,7 @@ public:
     // Constructors, destructors
     Geometry();
     Geometry(const Geometry& object);
-
     Geometry&	operator= (const Geometry& rhs);
-
-    RGBColor color() const { return _color; }
-    void color(const RGBColor& c) { _color = c; }
-    void color(const float r, const float g, const float b) { _color = RGBColor(r, g, b); }
 
     void material(Material* mat) { _material = mat; }
     Material* material() const { return _material; }

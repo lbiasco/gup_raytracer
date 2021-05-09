@@ -7,6 +7,8 @@
 class Matte : public Material {
 public:
     Matte();
+    Matte(const Matte& mat);
+    Matte(float ka, float kd, RGBColor c);
 
     void SetKa(const float k);
     void SetKd(const float k);

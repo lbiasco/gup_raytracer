@@ -66,9 +66,7 @@ add_executable(gup_raytracer
     src/tracers/tracer.cpp
     src/tracers/tracer.h 
     src/tracers/function.cpp 
-    src/tracers/function.h 
-    src/tracers/multiple_objects.cpp 
-    src/tracers/multiple_objects.h 
+    src/tracers/function.h
     src/tracers/raycast.cpp
     src/tracers/raycast.h
 

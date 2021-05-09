@@ -4,6 +4,14 @@
 #include "world/world.h"
 
 Matte::Matte() : Material(), _ambientBrdf(new Lambertian), _diffuseBrdf(new Lambertian) {}
+Matte::Matte(const Matte& mat) 
+    :   Material(), 
+        _ambientBrdf(new Lambertian(*mat._ambientBrdf)), 
+        _diffuseBrdf(new Lambertian(*mat._diffuseBrdf)) {}
+Matte::Matte(float ka, float kd, RGBColor c) 
+    :   Material(),
+        _ambientBrdf(new Lambertian(ka, c)),
+        _diffuseBrdf(new Lambertian(kd, c)) {}
 
 void Matte::SetKa(const float k) {
     _ambientBrdf->kd(k);

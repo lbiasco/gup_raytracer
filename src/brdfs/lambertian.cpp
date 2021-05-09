@@ -6,7 +6,11 @@ Lambertian::Lambertian() :  _kd(1), _cd(1) {
     _samplerPtr = NULL;
 }
 
-Lambertian::Lambertian(Sampler* samplerPtr, float kd, RGBColor cd)
+Lambertian::Lambertian(const Lambertian& brdf) : _kd(brdf._kd), _cd(brdf._cd) {
+    _samplerPtr = brdf._samplerPtr;
+}
+
+Lambertian::Lambertian(float kd, RGBColor cd, Sampler* samplerPtr)
     :   _kd(kd), _cd(cd) {
     _samplerPtr = samplerPtr;
 }

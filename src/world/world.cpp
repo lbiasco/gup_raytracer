@@ -32,7 +32,6 @@
 
 // tracers
 #include "tracers/function.h"
-#include "tracers/multiple_objects.h"
 #include "tracers/raycast.h"
 
 // utilities
@@ -42,13 +41,10 @@
 #include "utilities/maths.h"
 
 // build functions
-//#include "build_funcs/build_single_sphere.cpp"
-//#include "build_funcs/build_double_sphere.cpp"
-//#include "build_funcs/build_single_plane.cpp"
-//#include "build_funcs/build_multiple_objects.cpp"
+#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
-#include "build_funcs/build_two_sphere_and_lights.cpp"
+//#include "build_funcs/build_two_sphere_and_lights.cpp"
 
 World::World() 
     :   _ambientPtr(new Ambient), 
@@ -66,6 +62,8 @@ World::~World() {
 
 // Using RenderScene thru World while _cameraPtr targets only a single camera
 void World::RenderScene() {
+    assert(("No tracer has been set.", _tracerPtr != NULL));
+
     _cameraPtr->RenderScene(*this);
     _paintArea = NULL;
 }

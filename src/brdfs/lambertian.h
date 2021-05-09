@@ -12,7 +12,8 @@ class Lambertian : public BRDF {
 public:
     // Constructors, destructors
     Lambertian();
-    Lambertian(Sampler* samplerPtr, float kd, RGBColor cd);
+    Lambertian(const Lambertian& brdf);
+    Lambertian(float kd, RGBColor cd, Sampler* samplerPtr=NULL);
 
     // Accessors, mutators
     void kd(float val) { _kd = val; }
