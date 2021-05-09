@@ -1,6 +1,7 @@
 #ifndef GEOMETRY_GEOMETRY_H_
 #define GEOMETRY_GEOMETRY_H_
 
+#include "materials/material.h"
 #include "utilities/rgb_color.h"
 #include "utilities/point.h"
 #include "utilities/ray.h"
@@ -20,11 +21,15 @@ public:
     void color(const RGBColor& c) { _color = c; }
     void color(const float r, const float g, const float b) { _color = RGBColor(r, g, b); }
 
+    void material(Material* mat) { _material = mat; }
+    Material* material() const { return _material; }
+
     virtual Geometry*	Clone() const = 0;
     virtual bool Hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
 
-private:    
-    RGBColor  _color;		// only used for Bare Bones ray tracing
+private:
+    RGBColor  _color;		// only used for Bare Bones ray tracing (and legacy support for a bit)
+    Material* _material;
 };
 
 #endif  // GEOMETRY_GEOMETRY_H_

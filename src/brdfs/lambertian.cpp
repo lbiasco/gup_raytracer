@@ -2,10 +2,14 @@
 
 #include "utilities/constants.h"
 
+Lambertian::Lambertian() :  _kd(1), _cd(1) {
+    _samplerPtr = NULL;
+}
+
 Lambertian::Lambertian(Sampler* samplerPtr, float kd, RGBColor cd)
-    :  _kd(kd), _cd(cd) {
-        _samplerPtr = samplerPtr;
-    }
+    :   _kd(kd), _cd(cd) {
+    _samplerPtr = samplerPtr;
+}
 
 RGBColor Lambertian::F(const ShadeRec& sr, const Vector3D& wi, const Vector3D& wo) const {
     return (_kd * _cd * kInvPi);

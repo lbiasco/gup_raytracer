@@ -14,7 +14,8 @@
 
 #include "cameras/camera.h"
 #include "geometry/geometry.h"
-#include "geometry/sphere.h"
+#include "lights/light.h"
+#include "materials/material.h"
 #include "tracers/tracer.h"
 #include "utilities/ray.h"
 #include "utilities/rgb_color.h"
@@ -27,11 +28,20 @@ public:
     World();
     ~World();
 
+    void ambientPtr(Light* ptr) { _ambientPtr = ptr; }
+    Light* ambientPtr() const   { return _ambientPtr; }
+
     void bgColor(RGBColor color) { _bgColor = color; }
     RGBColor bgColor() const     { return _bgColor; }
 
     void cameraPtr(Camera* ptr)  { _cameraPtr = ptr; }
     Camera* cameraPtr() const    { return _cameraPtr; }
+
+    void lights(std::vector<Light*> lights) { _lights = lights; }
+    std::vector<Light*> lights() const      { return _lights; }
+
+    void objects(std::vector<Geometry*> objs)   { _objects = objs; }
+    std::vector<Geometry*> objects() const      { return _objects; }
 
     void paintArea(RenderWorker* ptr)  { _paintArea = ptr; }
     RenderWorker* paintArea() const    { return _paintArea; }
@@ -42,25 +52,31 @@ public:
     void viewPlane(ViewPlane vp) { _viewPlane = vp; }
     ViewPlane viewPlane() const  { return _viewPlane; }
 
-
+    void AddLight(Light* lightPtr);
     void AddObject(Geometry* objectPtr);
     void Build();   
     RGBColor ClampToColor(const RGBColor& c) const;
     void DisplayPixel(const int row, const int column, const RGBColor& pixel_color) const;
-    ShadeRec HitBareBonesObjects(const Ray& ray);
+    ShadeRec HitObjects(const Ray& ray);
     RGBColor Normalize(const RGBColor& c) const;
     void RenderScene();
 
 private:
+    Light*        _ambientPtr;
     RGBColor      _bgColor;
     Camera*       _cameraPtr;
-    std::vector<Geometry*>  _objects;		
+    std::vector<Light*> _lights;
+    std::vector<Geometry*>  _objects;
     RenderWorker* _paintArea;
     Tracer*       _tracerPtr;
     ViewPlane     _viewPlane;
 
     void DeleteObjects();
 };
+
+inline void World::AddLight(Light* lightPtr) {  
+    _lights.push_back(lightPtr);	
+}
 
 inline void World::AddObject(Geometry* objectPtr) {  
     _objects.push_back(objectPtr);	

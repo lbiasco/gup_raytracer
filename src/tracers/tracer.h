@@ -24,8 +24,8 @@ public:
     World* worldPtr() const    { return _worldPtr; }
 
     virtual RGBColor TraceRay(const Ray& ray) const;
-
     virtual RGBColor TraceRay(const Ray ray, const int depth) const;
+    virtual RGBColor TraceRay(const Ray ray, float& tmin, const int depth) const;
 
 private:
     World* _worldPtr;

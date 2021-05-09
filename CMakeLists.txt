@@ -36,6 +36,18 @@ add_executable(gup_raytracer
     src/geometry/sphere.cpp 
     src/geometry/sphere.h 
 
+    src/lights/light.h
+    src/lights/ambient.cpp
+    src/lights/ambient.h
+    src/lights/directional.cpp
+    src/lights/directional.h
+    src/lights/point.cpp
+    src/lights/point.h
+
+    src/materials/material.h
+    src/materials/matte.cpp
+    src/materials/matte.h
+
     src/samplers/sampler.cpp
     src/samplers/sampler.h
     src/samplers/regular.cpp
@@ -51,12 +63,14 @@ add_executable(gup_raytracer
     src/samplers/hammersley.cpp
     src/samplers/hammersley.h
 
-    src/tracers/multiple_objects.cpp 
-    src/tracers/multiple_objects.h 
-    src/tracers/function.cpp 
-    src/tracers/function.h 
     src/tracers/tracer.cpp
     src/tracers/tracer.h 
+    src/tracers/function.cpp 
+    src/tracers/function.h 
+    src/tracers/multiple_objects.cpp 
+    src/tracers/multiple_objects.h 
+    src/tracers/raycast.cpp
+    src/tracers/raycast.h
 
     src/utilities/constants.h 
     src/utilities/maths.h 

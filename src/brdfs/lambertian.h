@@ -7,17 +7,18 @@
 #include "utilities/shade_rec.h"
 #include "utilities/vector.h"
 
-// Base class for BRDF objects
+// Lambertian implementation of BRDF
 class Lambertian : public BRDF {
 public:
     // Constructors, destructors
+    Lambertian();
     Lambertian(Sampler* samplerPtr, float kd, RGBColor cd);
 
     // Accessors, mutators
-    void kd(float kd) { _kd = kd; }
+    void kd(float val) { _kd = val; }
     float kd() const { return _kd; }
 
-    void cd(RGBColor cd) { _cd = cd; }
+    void cd(RGBColor val) { _cd = val; }
     RGBColor cd() const { return _cd; }
 
     // Functions

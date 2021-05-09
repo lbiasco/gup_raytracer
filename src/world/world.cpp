@@ -15,6 +15,14 @@
 #include "geometry/plane.h"
 #include "geometry/sphere.h"
 
+// lights
+#include "lights/ambient.h"
+#include "lights/directional.h"
+#include "lights/point.h"
+
+// materials
+#include "materials/matte.h"
+
 // sampler
 #include "samplers/regular.h"
 #include "samplers/jittered.h"
@@ -23,8 +31,9 @@
 #include "samplers/hammersley.h"
 
 // tracers
-#include "tracers/multiple_objects.h"
 #include "tracers/function.h"
+#include "tracers/multiple_objects.h"
+#include "tracers/raycast.h"
 
 // utilities
 #include "utilities/vector.h"
@@ -36,11 +45,16 @@
 //#include "build_funcs/build_single_sphere.cpp"
 //#include "build_funcs/build_double_sphere.cpp"
 //#include "build_funcs/build_single_plane.cpp"
-#include "build_funcs/build_multiple_objects.cpp"
+//#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
+#include "build_funcs/build_two_sphere_and_lights.cpp"
 
-World::World() : _bgColor(kBlack), _tracerPtr(NULL) {}
+World::World() 
+    :   _ambientPtr(new Ambient), 
+        _bgColor(kBlack), 
+        _cameraPtr(NULL), 
+        _tracerPtr(NULL) {}
 
 World::~World() {	
     if(_tracerPtr) {
@@ -104,18 +118,28 @@ void World::DisplayPixel(const int row, const int column, const RGBColor& rawCol
         );
 }
 
-ShadeRec World::HitBareBonesObjects(const Ray& ray) {
+ShadeRec World::HitObjects(const Ray& ray) {
     ShadeRec  sr(*this); 
     double    t;
-    float     tmin          = kHugeValue;
-    int       numObjects   = _objects.size();
+    Vector3D  normal;
+    Point3D   localHitPoint;
+    float     tmin       = kHugeValue;
+    int       numObjects = _objects.size();
 
     for (int j = 0; j < numObjects; j++) {
         if (_objects[j]->Hit(ray, t, sr) && (t < tmin)) {
             sr.hitAnObject	= true;
             tmin = t; 
-            sr.color = _objects[j]->color(); 
+            sr.materialPtr = _objects[j]->material();
+            sr.hitPoint = ray.origin() + t * ray.dir();
+            normal = sr.normal;
+            localHitPoint = sr.localHitPoint;
         }
+    }
+
+    if (sr.hitAnObject) {
+        sr.normal = normal;
+        sr.localHitPoint = localHitPoint;
     }
         
     return (sr);   

@@ -10,13 +10,24 @@
 
 ShadeRec::ShadeRec(World& wr) 
     :   hitAnObject(false),
+        materialPtr(NULL),
+        hitPoint(),
         localHitPoint(),
         normal(),
         color(kBlack),
+        ray(),
+        depth(0),
+        dir(),
         w(wr) {}
 
 ShadeRec::ShadeRec(const ShadeRec& sr)
     :   hitAnObject(sr.hitAnObject),
+        materialPtr(sr.materialPtr),
+        hitPoint(sr.hitPoint),
         localHitPoint(sr.localHitPoint),
+        normal(sr.normal),
         color(sr.color),
+        ray(sr.ray),
+        depth(sr.depth),
+        dir(sr.dir),
         w(sr.w) {}
