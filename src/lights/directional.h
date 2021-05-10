@@ -24,6 +24,7 @@ class Directional : public Light {
 
         // Functions
         virtual Vector3D GetDirection(ShadeRec& sr);
+        virtual bool InShadow(const Ray& ray, const ShadeRec& sr) const;
         virtual RGBColor L(ShadeRec& sr);
 
     private:

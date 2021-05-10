@@ -23,7 +23,8 @@ void World::Build(void) {
 
     double offset = Camera::ComputeStereoHalfSeparationFromAngle(5, camEye.Distance(camLookat));
 
-    Pinhole* ptr = new Pinhole(camEye, camLookat, 120);
+    Pinhole* ptr = new Pinhole(camEye, Vector3D(0), 120);
+    ptr->LookAt(camLookat);
     ptr->zoom(1);
     ptr->apertureOffsetX(offset);
 

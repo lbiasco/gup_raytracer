@@ -15,14 +15,17 @@ class Geometry {
         Geometry(const Geometry& object);
         Geometry&	operator= (const Geometry& rhs);
 
+        void castsShadows(bool b) { _castsShadows = b; }
+        bool castsShadows() const { return _castsShadows; }
+
         void material(Material* mat) { _material = mat; }
         Material* material() const { return _material; }
 
         virtual Geometry*	Clone() const = 0;
-        virtual bool Hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
+        virtual bool Hit(const Ray& ray, double& t, ShadeRec& s, bool skipNormal=false) const = 0;
 
     private:
-        RGBColor  _color;		// only used for Bare Bones ray tracing (and legacy support for a bit)
+        bool _castsShadows = true;
         Material* _material;
 };
 

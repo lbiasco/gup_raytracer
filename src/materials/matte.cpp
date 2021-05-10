@@ -1,5 +1,6 @@
 #include "materials/matte.h"
 
+#include "lights/light.h"
 #include "utilities/vector.h"
 #include "world/world.h"
 
@@ -29,14 +30,22 @@ void Matte::SetCd(const RGBColor& c) {
 RGBColor Matte::RayCastShade(ShadeRec& sr) {
     Vector3D wo = -sr.ray.dir();
     RGBColor L = _ambientBrdf->Rho(sr, wo) * sr.w.ambientPtr()->L(sr);
-    int numLights = sr.w.lights().size();
 
-    for (int j = 0; j < numLights; j++) {
-        Vector3D wi = sr.w.lights()[j]->GetDirection(sr);
+    for (Light* lightPtr : sr.w.lights()) {
+        Vector3D wi = lightPtr->GetDirection(sr);
         float ndotwi = sr.normal * wi;
 
         if (ndotwi > 0.0) {
-            L += _diffuseBrdf->F(sr, wo, wi) * sr.w.lights()[j]->L(sr) * ndotwi;
+            bool inShadow = false;
+
+            if (receivesShadows() && lightPtr->createsShadows()) {
+                Ray shadowRay(sr.hitPoint, wi);
+                inShadow = lightPtr->InShadow(shadowRay, sr);
+            }
+
+            if (!inShadow) {
+                L += _diffuseBrdf->F(sr, wo, wi) * lightPtr->L(sr) * ndotwi;
+            }
         }
     }
 

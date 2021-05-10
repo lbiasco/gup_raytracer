@@ -13,10 +13,14 @@ void World::Build(void) {
     ambientPtr->ls(1.0);
     _ambientPtr = ambientPtr;
 
-    PointLight* pointPtr = new PointLight(Vector3D(100, 50, 150));
-    pointPtr->ls(3.0);
-    pointPtr->attenuation(0.0);
-    AddLight(pointPtr);
+    //PointLight* pointPtr = new PointLight(Vector3D(100, 50, 150));
+    //pointPtr->ls(3.0);
+    //pointPtr->attenuation(0.0);
+    //pointPtr->createsShadows(true);
+    //AddLight(pointPtr);
+
+    Directional* dirPtr = new Directional(Vector3D(-1, 0.5, -1));
+    AddLight(dirPtr);
 
     Vector3D camEye(0, 0, 100);
     Vector3D viewDir(0, 0, -1);
@@ -51,29 +55,34 @@ void World::Build(void) {
     RGBColor darkYellow(0.61, 0.61, 0);    // dark yellow
     RGBColor lightPurple(0.65, 0.3, 1);    // light purple
     RGBColor darkPurple(0.5, 0, 1);        // dark purple
+    RGBColor darkRed(0.5, 0, 0);
 
     // spheres
     Sphere*	spherePtr1 = new Sphere(Vector3D(5, 3, 0), 30);
-    //Glossy* glossyPtr = new Glossy(0.25, 0.6, 0.2, 3, yellow);
-    //glossyPtr->SetCs(darkPurple);
-    //spherePtr1->material(glossyPtr);
-    spherePtr1->material(new Glossy(0.25, 0.6, 0.2, 3, yellow));
-    ((Glossy*)spherePtr1->material())->SetCs(green);
+    spherePtr1->castsShadows(true);
+    Glossy* glossyPtr = new Glossy(0.25, 0.6, 0.2, 3, yellow);
+    glossyPtr->SetCs(darkPurple);
+    spherePtr1->material(glossyPtr);
+    //spherePtr1->material(new Glossy(0.25, 0.6, 0.2, 3, yellow));
+    //((Glossy*)spherePtr1->material())->SetCs(green);
     AddObject(spherePtr1);
 
     Lambertian* ambient = new Lambertian(0.5, brown);
     Lambertian* diffuse = new Lambertian(0.3, brown);
     Phong* specular = new Phong(0.1, 0, brown);
+    Plastic* plasticPtr = new Plastic(ambient, diffuse, specular);
     Sphere*	spherePtr2 = new Sphere(Vector3D(45, -7, -60), 20); 
-    spherePtr2->material(new Plastic(ambient, diffuse, specular));
+    spherePtr2->material(plasticPtr);
     AddObject(spherePtr2);
         
     Sphere*	spherePtr3 = new Sphere(Vector3D(40, 43, -100), 17); 
     spherePtr3->material(new Glossy(0.25, 0.6, 0.2, 3, darkGreen));
     AddObject(spherePtr3);
 
+    glossyPtr = new Glossy(0.25, 0.6, 0.2, 3, orange);
+    glossyPtr->receivesShadows(true);
     Sphere*	spherePtr4 = new Sphere(Vector3D(-20, 28, -15), 20); 
-    spherePtr4->material(new Glossy(0.25, 0.6, 0.2, 3, orange));
+    spherePtr4->material(glossyPtr);
     AddObject(spherePtr4);
 
     Sphere*	spherePtr5 = new Sphere(Vector3D(-25, -7, -35), 27);
@@ -199,5 +208,9 @@ void World::Build(void) {
     Sphere*	spherePtr35 = new Sphere(Vector3D(-3, -72, -130), 12); 
     spherePtr35->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr35);
+
+    Plane* planePtr = new Plane(Vector3D(0, 0, -250), Vector3D(0, 0, 1));
+    planePtr->material(new Matte(0.5, 1.5, darkRed));
+    AddObject(planePtr);
 }
 

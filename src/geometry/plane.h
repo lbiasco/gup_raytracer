@@ -23,11 +23,13 @@ class Plane: public Geometry {
         Vector3D point() const         { return _point; }
 
         Plane* Clone() const override;
-        bool Hit(const Ray& ray, double& tmin, ShadeRec& sr) const override;
+        bool Hit(const Ray& ray, double& tmin, ShadeRec& sr, bool skipNormal=false) const override;
         
     private:
+        static const double kEpsilon;
+
         Vector3D  _normal;  // Normal of the plane
-        Vector3D   _point;   // Point through which plane passes 
+        Vector3D  _point;   // Point through which plane passes 
 };
 
 #endif  // GEOMETRY_PLANE_H_

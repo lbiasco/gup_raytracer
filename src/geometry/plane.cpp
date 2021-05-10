@@ -1,6 +1,6 @@
 #include "geometry/plane.h"
 
-#include "utilities/constants.h"
+const double Plane::kEpsilon = 0.0001;
 
 Plane::Plane(void) : Geometry(), _point(0.0), _normal(0, 1, 0) {}
 
@@ -26,14 +26,16 @@ Plane* Plane::Clone(void) const {
     return (new Plane(*this));
 }
 
-bool Plane::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {	
+bool Plane::Hit(const Ray& ray, double& tmin, ShadeRec& sr, bool skipNormal) const {	
     float t = (_point - ray.origin()) * _normal / (ray.dir() * _normal); 
 
     if (t > kEpsilon) {
         tmin = t;
-        sr.normal = _normal;
         sr.localHitPoint = ray.origin() + t * ray.dir();
-        return (true);	
+        if (!skipNormal) {
+            sr.normal = _normal;
+        }
+        return true;	
     }
-    return(false);
+    return false;
 }

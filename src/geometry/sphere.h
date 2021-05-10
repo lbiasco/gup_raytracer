@@ -24,9 +24,11 @@ class Sphere: public Geometry {
         double radius() const { return _radius; }
 
         Sphere* Clone() const override;
-        bool Hit(const Ray& ray, double& t, ShadeRec& s) const override;	
+        bool Hit(const Ray& ray, double& t, ShadeRec& s, bool skipNormal=false) const override;	
         
     private:
+        static const double kEpsilon;
+
         Vector3D _center;  // center coordinates as a point
         double  _radius;  // the radius 
 };

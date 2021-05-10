@@ -11,8 +11,8 @@ const double kPiOver180   = 0.0174532925199432957;
 const double kInvPi   = 0.3183098861837906715;
 const double kInv2Pi  = 0.1591549430918953358;
 
-const double kEpsilon   = 0.0001; 
-const double kHugeValue = 1.0E10;
+const double kEpsilonGlobal = 0.0001; 
+const double kHugeValue     = 1.0E10;
 
 const RGBColor kBlack(0.0);
 const RGBColor kWhite(1.0);

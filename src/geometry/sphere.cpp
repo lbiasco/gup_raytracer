@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#include "utilities/constants.h"
+const double Sphere::kEpsilon = 0.0001;
 
 Sphere::Sphere(void) : Geometry(), _center(0.0), _radius(1.0) {}
 
@@ -25,7 +25,7 @@ Sphere* Sphere::Clone(void) const {
     return (new Sphere(*this));
 }
 
-bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
+bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr, bool skipNormal) const {
     double    t;
     Vector3D  temp  = ray.origin() - _center;
     double    a     = ray.dir() * ray.dir();
@@ -42,16 +42,20 @@ bool Sphere::Hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 
         if (t > kEpsilon) {
             tmin = t;
-            sr.normal = (temp + t * ray.dir()) / _radius;
             sr.localHitPoint = ray.origin() + t * ray.dir();
+            if (!skipNormal) {
+                sr.normal = (temp + t * ray.dir()) / _radius;
+            }
             return true;
         } 
 
         t = (-b + e) / denom;    // larger root
         if (t > kEpsilon) {
             tmin = t;
-            sr.normal   = (temp + t * ray.dir()) / _radius;
             sr.localHitPoint = ray.origin() + t * ray.dir();
+            if (!skipNormal) {
+                sr.normal   = (temp + t * ray.dir()) / _radius;
+            }
             return true;
         }
     }

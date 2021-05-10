@@ -47,8 +47,8 @@
 #include "utilities/maths.h"
 
 // build functions
-#include "build_funcs/build_bb_cover_pic.cpp"
 //#include "build_funcs/build_bb_cover_pic.cpp"
+#include "build_funcs/build_multiple_objects.cpp"
 //#include "build_funcs/build_sinusoid_func.cpp"
 //#include "build_funcs/build_two_sphere_and_lights.cpp"
 
