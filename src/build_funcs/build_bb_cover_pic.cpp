@@ -14,7 +14,7 @@ void World::Build(void) {
     _ambientPtr = ambientPtr;
 
     PointLight* pointPtr = new PointLight(Vector3D(100, 50, 150));
-    pointPtr->ls(8.0);
+    pointPtr->ls(3.0);
     pointPtr->attenuation(0.0);
     AddLight(pointPtr);
 
@@ -22,13 +22,13 @@ void World::Build(void) {
     Vector3D viewDir(0, 0, -1);
     //Pinhole* ptr = new Pinhole(camEye, viewDir, 60);
     
-    ThinLens* ptr = new ThinLens(camEye, viewDir, 60);
+    ThinLens* ptr = new ThinLens(camEye, viewDir);
     ptr->focalLength(80);
     ptr->lensRadius(0.2);
     ptr->samplerPtr(new MultiJittered(numSamples));
     
-    //ptr->fov(60);
-    //ptr->zoom(1);
+    ptr->fov(60);
+    ptr->zoom(1);
 
     //Fisheye* ptr = new Fisheye(camEye, viewDir);
     //ptr->SetFov(120);
@@ -54,143 +54,150 @@ void World::Build(void) {
 
     // spheres
     Sphere*	spherePtr1 = new Sphere(Point3D(5, 3, 0), 30);
-    spherePtr1->material(new Matte(0.25, 1.2, yellow));
+    //Glossy* glossyPtr = new Glossy(0.25, 0.6, 0.2, 3, yellow);
+    //glossyPtr->SetCs(darkPurple);
+    //spherePtr1->material(glossyPtr);
+    spherePtr1->material(new Glossy(0.25, 0.6, 0.2, 3, yellow));
+    ((Glossy*)spherePtr1->material())->SetCs(green);
     AddObject(spherePtr1);
 
+    Lambertian* ambient = new Lambertian(0.5, brown);
+    Lambertian* diffuse = new Lambertian(0.3, brown);
+    Phong* specular = new Phong(0.1, 0, brown);
     Sphere*	spherePtr2 = new Sphere(Point3D(45, -7, -60), 20); 
-    spherePtr2->material(new Matte(0.25, 1.2, brown));
+    spherePtr2->material(new Plastic(ambient, diffuse, specular));
     AddObject(spherePtr2);
         
     Sphere*	spherePtr3 = new Sphere(Point3D(40, 43, -100), 17); 
-    spherePtr3->material(new Matte(0.25, 1.2, darkGreen));
+    spherePtr3->material(new Glossy(0.25, 0.6, 0.2, 3, darkGreen));
     AddObject(spherePtr3);
 
     Sphere*	spherePtr4 = new Sphere(Point3D(-20, 28, -15), 20); 
-    spherePtr4->material(new Matte(0.25, 1.2, orange));
+    spherePtr4->material(new Glossy(0.25, 0.6, 0.2, 3, orange));
     AddObject(spherePtr4);
 
     Sphere*	spherePtr5 = new Sphere(Point3D(-25, -7, -35), 27);
-    spherePtr5->material(new Matte(0.25, 1.2, green));
+    spherePtr5->material(new Glossy(0.25, 0.6, 0.2, 3, green));
     AddObject(spherePtr5);
 
     Sphere*	spherePtr6 = new Sphere(Point3D(20, -27, -35), 25); 
-    spherePtr6->material(new Matte(0.25, 1.2, lightGreen));
+    spherePtr6->material(new Glossy(0.25, 0.6, 0.2, 3, lightGreen));
     AddObject(spherePtr6);
 
     Sphere*	spherePtr7 = new Sphere(Point3D(35, 18, -35), 22); 
-    spherePtr7->material(new Matte(0.25, 1.2, green));
+    spherePtr7->material(new Glossy(0.25, 0.6, 0.2, 3, green));
     AddObject(spherePtr7);
 
     Sphere*	spherePtr8 = new Sphere(Point3D(-57, -17, -50), 15);  
-    spherePtr8->material(new Matte(0.25, 1.2, brown));
+    spherePtr8->material(new Glossy(0.25, 0.6, 0.2, 3, brown));
     AddObject(spherePtr8);
 
     Sphere*	spherePtr9 = new Sphere(Point3D(-47, 16, -80), 23); 
-    spherePtr9->material(new Matte(0.25, 1.2, lightGreen));
+    spherePtr9->material(new Glossy(0.25, 0.6, 0.2, 3, lightGreen));
     AddObject(spherePtr9);
         
     Sphere*	spherePtr10 = new Sphere(Point3D(-15, -32, -60), 22); 
-    spherePtr10->material(new Matte(0.25, 1.2, darkGreen));
+    spherePtr10->material(new Glossy(0.25, 0.6, 0.2, 3, darkGreen));
     AddObject(spherePtr10);
 
     Sphere*	spherePtr11 = new Sphere(Point3D(-35, -37, -80), 22); 
-    spherePtr11->material(new Matte(0.25, 1.2, darkYellow));
+    spherePtr11->material(new Glossy(0.25, 0.6, 0.2, 3, darkYellow));
     AddObject(spherePtr11);
 
     Sphere*	spherePtr12 = new Sphere(Point3D(10, 43, -80), 22); 
-    spherePtr12->material(new Matte(0.25, 1.2, darkYellow));
+    spherePtr12->material(new Glossy(0.25, 0.6, 0.2, 3, darkYellow));
     AddObject(spherePtr12);
         
     Sphere*	spherePtr13 = new Sphere(Point3D(30, -7, -80), 10); 
-    spherePtr13->material(new Matte(0.25, 1.2, darkYellow));
+    spherePtr13->material(new Glossy(0.25, 0.6, 0.2, 3, darkYellow));
     AddObject(spherePtr13);
         
     Sphere*	spherePtr14 = new Sphere(Point3D(-40, 48, -110), 18); 
-    spherePtr14->material(new Matte(0.25, 1.2, darkGreen));
+    spherePtr14->material(new Glossy(0.25, 0.6, 0.2, 3, darkGreen));
     AddObject(spherePtr14);
         
     Sphere*	spherePtr15 = new Sphere(Point3D(-10, 53, -120), 18); 
-    spherePtr15->material(new Matte(0.25, 1.2, brown));
+    spherePtr15->material(new Glossy(0.25, 0.6, 0.2, 3, brown));
     AddObject(spherePtr15);
 
     Sphere*	spherePtr16 = new Sphere(Point3D(-55, -52, -100), 10); 
-    spherePtr16->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr16->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr16);
 
     Sphere*	spherePtr17 = new Sphere(Point3D(5, -52, -100), 15);
-    spherePtr17->material(new Matte(0.25, 1.2, brown));
+    spherePtr17->material(new Glossy(0.25, 0.6, 0.2, 3, brown));
     AddObject(spherePtr17);
 
     Sphere*	spherePtr18 = new Sphere(Point3D(-20, -57, -120), 15); 
-    spherePtr18->material(new Matte(0.25, 1.2, darkPurple));
+    spherePtr18->material(new Glossy(0.25, 0.6, 0.2, 3, darkPurple));
     AddObject(spherePtr18);
 
     Sphere*	spherePtr19 = new Sphere(Point3D(55, -27, -100), 17); 
-    spherePtr19->material(new Matte(0.25, 1.2, darkGreen));
+    spherePtr19->material(new Glossy(0.25, 0.6, 0.2, 3, darkGreen));
     AddObject(spherePtr19);
 
     Sphere*	spherePtr20 = new Sphere(Point3D(50, -47, -120), 15); 
-    spherePtr20->material(new Matte(0.25, 1.2, brown));
+    spherePtr20->material(new Glossy(0.25, 0.6, 0.2, 3, brown));
     AddObject(spherePtr20);
         
     Sphere*	spherePtr21 = new Sphere(Point3D(70, -42, -150), 10); 
-    spherePtr21->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr21->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr21);
 
     Sphere*	spherePtr22 = new Sphere(Point3D(5, 73, -130), 12); 
-    spherePtr22->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr22->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr22);
 
     Sphere*	spherePtr23 = new Sphere(Point3D(66, 21, -130), 13);
-    spherePtr23->material(new Matte(0.25, 1.2, darkPurple));
+    spherePtr23->material(new Glossy(0.25, 0.6, 0.2, 3, darkPurple));
     AddObject(spherePtr23);	
         
     Sphere*	spherePtr24 = new Sphere(Point3D(72, -12, -140), 12);
-    spherePtr24->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr24->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr24);
 
     Sphere*	spherePtr25 = new Sphere(Point3D(64, 5, -160), 11);
-    spherePtr25->material(new Matte(0.25, 1.2, green));
+    spherePtr25->material(new Glossy(0.25, 0.6, 0.2, 3, green));
     AddObject(spherePtr25);
         
     Sphere*	spherePtr26 = new Sphere(Point3D(55, 38, -160), 12);
-    spherePtr26->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr26->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr26);
 
     Sphere*	spherePtr27 = new Sphere(Point3D(-73, -2, -160), 12);
-    spherePtr27->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr27->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr27);
         
     Sphere*	spherePtr28 = new Sphere(Point3D(30, -62, -140), 15); 
-    spherePtr28->material(new Matte(0.25, 1.2, darkPurple));
+    spherePtr28->material(new Glossy(0.25, 0.6, 0.2, 3, darkPurple));
     AddObject(spherePtr28);
 
     Sphere*	spherePtr29 = new Sphere(Point3D(25, 63, -140), 15); 
-    spherePtr29->material(new Matte(0.25, 1.2, darkPurple));
+    spherePtr29->material(new Glossy(0.25, 0.6, 0.2, 3, darkPurple));
     AddObject(spherePtr29);
 
     Sphere*	spherePtr30 = new Sphere(Point3D(-60, 46, -140), 15);  
-    spherePtr30->material(new Matte(0.25, 1.2, darkPurple));
+    spherePtr30->material(new Glossy(0.25, 0.6, 0.2, 3, darkPurple));
     AddObject(spherePtr30);
 
     Sphere*	spherePtr31 = new Sphere(Point3D(-30, 68, -130), 12); 
-    spherePtr31->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr31->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr31);
 
     Sphere*	spherePtr32 = new Sphere(Point3D(58, 56, -180), 11);   
-    spherePtr32->material(new Matte(0.25, 1.2, green));
+    spherePtr32->material(new Glossy(0.25, 0.6, 0.2, 3, green));
     AddObject(spherePtr32);
 
     Sphere*	spherePtr33 = new Sphere(Point3D(-63, -39, -180), 11); 
-    spherePtr33->material(new Matte(0.25, 1.2, green));
+    spherePtr33->material(new Glossy(0.25, 0.6, 0.2, 3, green));
     AddObject(spherePtr33);
 
     Sphere*	spherePtr34 = new Sphere(Point3D(46, 68, -200), 10);
-    spherePtr34->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr34->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr34);
 
     Sphere*	spherePtr35 = new Sphere(Point3D(-3, -72, -130), 12); 
-    spherePtr35->material(new Matte(0.25, 1.2, lightPurple));
+    spherePtr35->material(new Glossy(0.25, 0.6, 0.2, 3, lightPurple));
     AddObject(spherePtr35);
 }
 

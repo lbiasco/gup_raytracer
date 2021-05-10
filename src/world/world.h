@@ -12,6 +12,7 @@
 
 #include <vector>
 
+#include "brdfs/brdf.h"
 #include "cameras/camera.h"
 #include "geometry/geometry.h"
 #include "lights/light.h"

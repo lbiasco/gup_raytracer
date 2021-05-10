@@ -15,8 +15,12 @@ add_executable(gup_raytracer
     src/interfaces/raytracer.h 
 
     src/brdfs/brdf.h
+    src/brdfs/blinn.cpp
+    src/brdfs/blinn.h
     src/brdfs/lambertian.cpp
     src/brdfs/lambertian.h
+    src/brdfs/phong.cpp
+    src/brdfs/phong.h
 
     src/cameras/camera.cpp 
     src/cameras/camera.h 
@@ -47,6 +51,10 @@ add_executable(gup_raytracer
     src/materials/material.h
     src/materials/matte.cpp
     src/materials/matte.h
+    src/materials/glossy.cpp
+    src/materials/glossy.h
+    src/materials/plastic.cpp
+    src/materials/plastic.h
 
     src/samplers/sampler.cpp
     src/samplers/sampler.h

@@ -5,6 +5,11 @@
 #include "world/world.h"
 #include "utilities/constants.h"
 
+// brdfs
+#include "brdfs/blinn.h"
+#include "brdfs/lambertian.h"
+#include "brdfs/phong.h"
+
 // cameras
 #include "cameras/fisheye.h"
 #include "cameras/pinhole.h"
@@ -21,7 +26,9 @@
 #include "lights/point.h"
 
 // materials
+#include "materials/glossy.h"
 #include "materials/matte.h"
+#include "materials/plastic.h"
 
 // sampler
 #include "samplers/regular.h"
