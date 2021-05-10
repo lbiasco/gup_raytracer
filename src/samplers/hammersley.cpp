@@ -13,7 +13,7 @@ void Hammersley::GenerateSamples() {
 
     for (int p = 0; p < numSets(); p++) {
         for (int i = 0; i < numSamples(); i++) {
-            Point2D sp(i * samplesInv, Phi(i));
+            Vector2D sp(i * samplesInv, Phi(i));
             _samples.push_back(sp);
         }
     }

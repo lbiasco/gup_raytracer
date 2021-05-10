@@ -3,7 +3,7 @@
 PointLight::PointLight(Vector3D loc) : Light(), _ls(1.0), _color(1.0), _location(loc), _attenuation(0) {};
 
 Vector3D PointLight::GetDirection(ShadeRec& sr) {
-    return (_location - sr.hitPoint).Hat();
+    return (_location - sr.hitPoint).Normalized();
 }
 
 RGBColor PointLight::L(ShadeRec& sr) {

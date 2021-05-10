@@ -6,16 +6,11 @@
 #include "utilities/constants.h"
 #include "utilities/matrix.h"
 
-Camera::Camera(Point3D eye, Vector3D viewDir, Vector3D up) 
+Camera::Camera(Vector3D eye, Vector3D viewDir, Vector3D up) 
     : _eye(eye), _viewDir(viewDir), _up(up) {
 }
 
-Camera::Camera(Point3D eye, Point3D lookat, Vector3D up) 
-    : _eye(eye), _up(up) {
-    LookAt(lookat);
-}
-
-Point3D Camera::eye() const {
+Vector3D Camera::eye() const {
     return _eye + _translateU * _u + _translateV * _v + _translateW * _w;
 }
 
@@ -40,7 +35,7 @@ void Camera::ComputeUVW() {
     TransformUVW();
 }
 
-void Camera::LookAt(Point3D lookat) {
+void Camera::LookAt(Vector3D lookat) {
     _viewDir = lookat - _eye;
     if (_viewDir == Vector3D(0, 0, 0))
         _viewDir = Vector3D(0, 0, 1);

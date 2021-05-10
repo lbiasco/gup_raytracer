@@ -4,7 +4,7 @@
 
 Plane::Plane(void) : Geometry(), _point(0.0), _normal(0, 1, 0) {}
 
-Plane::Plane(const Point3D& p, const Vector3D& n) 
+Plane::Plane(const Vector3D& p, const Vector3D& n) 
     : Geometry(), _point(p), _normal(n) {
     _normal.Normalize();
 }

@@ -14,8 +14,8 @@ void World::Build(void) {
     ambientPtr->ls(1.0);
     _ambientPtr = ambientPtr;
 
-    Point3D camEye(0, 0, 500);
-    Point3D camLookat(-5, 0, 0);
+    Vector3D camEye(0, 0, 500);
+    Vector3D camLookat(-5, 0, 0);
     Pinhole* pinholePtr = new Pinhole(camEye, camLookat, 10);
     _cameraPtr = pinholePtr;
     _cameraPtr->ComputeUVW();
@@ -28,7 +28,7 @@ void World::Build(void) {
     mattePtr->SetKa(0.25);
     mattePtr->SetKd(2.65);
     mattePtr->SetCd(RGBColor(1, 1, 0));
-    Sphere* spherePtr = new Sphere(Point3D(-15, -15, -15), 27);
+    Sphere* spherePtr = new Sphere(Vector3D(-15, -15, -15), 27);
     spherePtr->material(mattePtr);
     AddObject(spherePtr);
 
@@ -36,7 +36,7 @@ void World::Build(void) {
     mattePtr->SetKa(0.25);
     mattePtr->SetKd(2.65);
     mattePtr->SetCd(RGBColor(1, 0.5, 0.25));
-    spherePtr = new Sphere(Point3D(15, 15, 15), 27);
+    spherePtr = new Sphere(Vector3D(15, 15, 15), 27);
     spherePtr->material(mattePtr);
     AddObject(spherePtr);
 }

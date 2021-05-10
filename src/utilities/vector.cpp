@@ -5,34 +5,18 @@
 
 #include "utilities/constants.h"
 #include "utilities/matrix.h"
-#include "utilities/point.h"
 
 // Implementations of struct Vector2D
 
-Vector2D::Vector2D(const Point2D& p) : x(p.x), y(p.y) {}
-
-Vector2D& Vector2D::Vector2D::operator= (const Point2D& rhs) {
-    x = rhs.x; y = rhs.y;
-    return *this;
-}
-
-Vector2D Vector2D::Hat() const {
+Vector2D Vector2D::Normalized() const {
     Vector2D copy(*this);
     copy.Normalize();
     return copy;
 }
 
-
 // Implementations of struct Vector3D
 
-Vector3D::Vector3D(const Point3D& p) : x(p.x), y(p.y), z(p.z) {}
-
-Vector3D& Vector3D::Vector3D::operator= (const Point3D& rhs) {
-    x = rhs.x; y = rhs.y;  z = rhs.z;
-    return *this;
-}
-
-Vector3D Vector3D::Hat() const {
+Vector3D Vector3D::Normalized() const {
     Vector3D copy(*this);
     copy.Normalize();
     return copy;

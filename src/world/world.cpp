@@ -43,7 +43,6 @@
 
 // utilities
 #include "utilities/vector.h"
-#include "utilities/point.h"
 #include "utilities/shade_rec.h"
 #include "utilities/maths.h"
 
@@ -127,7 +126,7 @@ ShadeRec World::HitObjects(const Ray& ray) {
     ShadeRec  sr(*this); 
     double    t;
     Vector3D  normal;
-    Point3D   localHitPoint;
+    Vector3D   localHitPoint;
     float     tmin       = kHugeValue;
     int       numObjects = _objects.size();
 

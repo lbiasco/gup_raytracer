@@ -7,27 +7,27 @@
 #include "brdfs/lambertian.h"
 
 class Glossy : public Material {
-public:
-    Glossy();
-    Glossy(const Glossy& mat);
-    Glossy(float ka, float kd, float ks, float exp, RGBColor c);
+    public:
+        Glossy();
+        Glossy(const Glossy& mat);
+        Glossy(float ka, float kd, float ks, float exp, RGBColor c);
 
-    void SetKa(const float k);
-    void SetKd(const float k);
-    void SetKs(const float k);
-    
-    void SetCa(const RGBColor& c);
-    void SetCd(const RGBColor& c);
-    void SetCs(const RGBColor& c);
+        void SetKa(const float k);
+        void SetKd(const float k);
+        void SetKs(const float k);
+        
+        void SetCa(const RGBColor& c);
+        void SetCd(const RGBColor& c);
+        void SetCs(const RGBColor& c);
 
-    void SetExp(const float exp);
+        void SetExp(const float exp);
 
-    virtual RGBColor RayCastShade(ShadeRec& sr);
+        virtual RGBColor RayCastShade(ShadeRec& sr);
 
-private:
-    Lambertian*     _ambientBrdf;
-    Lambertian*     _diffuseBrdf;
-    Phong* _specularBrdf;
+    private:
+        Lambertian*     _ambientBrdf;
+        Lambertian*     _diffuseBrdf;
+        Phong* _specularBrdf;
 };
 
 #endif // MATERIALS_GLOSSY_H_

@@ -81,9 +81,7 @@ add_executable(gup_raytracer
     src/utilities/constants.h 
     src/utilities/maths.h 
     src/utilities/matrix.cpp 
-    src/utilities/matrix.h 
-    src/utilities/point.cpp 
-    src/utilities/point.h 
+    src/utilities/matrix.h
     src/utilities/ray.cpp 
     src/utilities/ray.h 
     src/utilities/rgb_color.cpp 

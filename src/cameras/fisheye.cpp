@@ -8,21 +8,15 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-Fisheye::Fisheye(Point3D eye, Vector3D viewDir, Vector3D up) 
+Fisheye::Fisheye(Vector3D eye, Vector3D viewDir, Vector3D up) 
     : Camera(eye, viewDir, up) {}
 
-Fisheye::Fisheye(Point3D eye, Vector3D viewDir) 
+Fisheye::Fisheye(Vector3D eye, Vector3D viewDir) 
     : Camera(eye, viewDir) {}
 
-Fisheye::Fisheye(Point3D eye, Point3D lookat, Vector3D up) 
-    : Camera(eye, lookat, up) {}
-
-Fisheye::Fisheye(Point3D eye, Point3D lookat) 
-    : Camera(eye, lookat) {}
-
-Vector3D Fisheye::RayDirection(const Point2D& pp, int hres, int vres, float s, float& rSq) const {
+Vector3D Fisheye::RayDirection(const Vector2D& pp, int hres, int vres, float s, float& rSq) const {
     // compute the normalized device coordinates
-    Point2D pn(2.0 / (s * hres) * pp.x, 2.0 / (s * vres) * pp.y);
+    Vector2D pn(2.0 / (s * hres) * pp.x, 2.0 / (s * vres) * pp.y);
     rSq = pn.x * pn.x + pn.y * pn.y;
 
     if (rSq <= 1.0) {
@@ -49,8 +43,8 @@ void Fisheye::RenderScene(World& world) {
     Ray ray;
     int depth = 0;  // recursion depth
 
-    Point2D sp;     // sample point in [0,1]x[0,1]
-    Point2D pp;     // sample point on a pixel with view plane depth
+    Vector2D sp;     // sample point in [0,1]x[0,1]
+    Vector2D pp;     // sample point on a pixel with view plane depth
     float rSq;     // sum of squares of normalized device coordinates
 
     ray.origin(eye());

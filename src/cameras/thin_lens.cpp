@@ -9,17 +9,11 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-ThinLens::ThinLens(Point3D eye, Vector3D viewDir, Vector3D up) 
+ThinLens::ThinLens(Vector3D eye, Vector3D viewDir, Vector3D up) 
     : Pinhole(eye, viewDir, up) {}
 
-ThinLens::ThinLens(Point3D eye, Vector3D viewDir) 
+ThinLens::ThinLens(Vector3D eye, Vector3D viewDir) 
     : Pinhole(eye, viewDir) {}
-
-ThinLens::ThinLens(Point3D eye, Point3D lookat, Vector3D up) 
-    : Pinhole(eye, lookat, up) {}
-
-ThinLens::ThinLens(Point3D eye, Point3D lookat) 
-    : Pinhole(eye, lookat) {}
 
 void ThinLens::samplerPtr(Sampler* sp) {
     if (_samplerPtr) {
@@ -30,8 +24,8 @@ void ThinLens::samplerPtr(Sampler* sp) {
     _samplerPtr->MapSamplesToUnitDisk();
 }
 
-Vector3D ThinLens::RayDirection(const Point3D& pixelPoint, const Point2D& lensPoint) const {
-    Point2D p;  // hit point on focal plane
+Vector3D ThinLens::RayDirection(const Vector3D& pixelPoint, const Vector2D& lensPoint) const {
+    Vector2D p;  // hit point on focal plane
     p.x = pixelPoint.x * _focalLength / pixelPoint.z;
     p.y = pixelPoint.y * _focalLength / pixelPoint.z;
 
@@ -48,10 +42,10 @@ void ThinLens::RenderScene(World& world) {
     Ray ray;
     int depth = 0;  // recursion depth
 
-    Point2D sp;     // sample point in [0,1]x[0,1]
-    Point3D pp;     // sample point on a pixel with view plane depth
-    Point2D dp;     // sample point on unit disk
-    Point2D lp;     // sample point on lens
+    Vector2D sp;     // sample point in [0,1]x[0,1]
+    Vector3D pp;     // sample point on a pixel with view plane depth
+    Vector2D dp;     // sample point on unit disk
+    Vector2D lp;     // sample point on lens
 
     pp.z = ComputePlaneDepth(world);
     s /= zoom();

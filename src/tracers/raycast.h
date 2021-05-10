@@ -5,12 +5,12 @@
 
 // RayCast impementation of the Tracer object
 class RayCast: public Tracer {
-public:
-    // Constructors, destructors
-    RayCast();
-    RayCast(World* worldPtr);
+    public:
+        // Constructors, destructors
+        RayCast();
+        RayCast(World* worldPtr);
 
-    RGBColor TraceRay(const Ray& ray) const override;
+        RGBColor TraceRay(const Ray& ray) const override;
 };
 
 #endif  // TRACERS_RAYCAST_H_

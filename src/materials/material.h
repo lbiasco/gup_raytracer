@@ -6,12 +6,12 @@
 
 // Base class for Materials
 class Material {
-public:
-    // Shade function per tracer type (base material doesn't do anything with these)
-    virtual RGBColor RayCastShade(ShadeRec& sr) { return RGBColor(); }
-    virtual RGBColor AreaLightShade(ShadeRec& sr) { return RGBColor(); }
-    virtual RGBColor PathShade(ShadeRec& sr) { return RGBColor(); }
-    virtual RGBColor WhittedShade(ShadeRec &sr) { return RGBColor(); }
+    public:
+        // Shade function per tracer type (base material doesn't do anything with these)
+        virtual RGBColor RayCastShade(ShadeRec& sr) { return RGBColor(); }
+        virtual RGBColor AreaLightShade(ShadeRec& sr) { return RGBColor(); }
+        virtual RGBColor PathShade(ShadeRec& sr) { return RGBColor(); }
+        virtual RGBColor WhittedShade(ShadeRec &sr) { return RGBColor(); }
 };
 
 #endif // MATERIALS_MATERIAL_H_

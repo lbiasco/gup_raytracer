@@ -8,21 +8,15 @@
 #include "world/view_plane.h"
 #include "world/world.h"
 
-Spherical::Spherical(Point3D eye, Vector3D viewDir, Vector3D up) 
+Spherical::Spherical(Vector3D eye, Vector3D viewDir, Vector3D up) 
     : Camera(eye, viewDir, up) {}
 
-Spherical::Spherical(Point3D eye, Vector3D viewDir) 
+Spherical::Spherical(Vector3D eye, Vector3D viewDir) 
     : Camera(eye, viewDir) {}
 
-Spherical::Spherical(Point3D eye, Point3D lookat, Vector3D up) 
-    : Camera(eye, lookat, up) {}
-
-Spherical::Spherical(Point3D eye, Point3D lookat) 
-    : Camera(eye, lookat) {}
-
-Vector3D Spherical::RayDirection(const Point2D& pp, int hres, int vres, float s) const {
+Vector3D Spherical::RayDirection(const Vector2D& pp, int hres, int vres, float s) const {
     // compute the normalized device coordinates
-    Point2D pn(2.0 / (s * hres) * pp.x, 2.0 / (s * vres) * pp.y);
+    Vector2D pn(2.0 / (s * hres) * pp.x, 2.0 / (s * vres) * pp.y);
 
     // compute the angles lambda and phi in radians
     float lambda  = pn.x * _lambdaMax * kPiOver180;
@@ -49,8 +43,8 @@ void Spherical::RenderScene(World& world) {
     Ray ray;
     int depth = 0;  // recursion depth
 
-    Point2D sp;     // sample point in [0,1]x[0,1]
-    Point2D pp;     // sample point on a pixel with view plane depth
+    Vector2D sp;     // sample point in [0,1]x[0,1]
+    Vector2D pp;     // sample point on a pixel with view plane depth
 
     ray.origin(eye());
 

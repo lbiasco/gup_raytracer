@@ -8,23 +8,23 @@
 
 // Ambient light implementation
 class Ambient : public Light {
-public:
-    // Constructors, destructors
-    Ambient();
+    public:
+        // Constructors, destructors
+        Ambient();
 
-    // Accessors, mutators
-    void ls(float val) { _ls = val; }
-    float ls() const { return _ls; }
+        // Accessors, mutators
+        void ls(float val) { _ls = val; }
+        float ls() const { return _ls; }
 
-    void color(RGBColor val) { _color = val; }
-    RGBColor color() const { return _color; }
+        void color(RGBColor val) { _color = val; }
+        RGBColor color() const { return _color; }
 
-    // Functions
-    virtual Vector3D GetDirection(ShadeRec& sr);
-    virtual RGBColor L(ShadeRec& sr);
+        // Functions
+        virtual Vector3D GetDirection(ShadeRec& sr);
+        virtual RGBColor L(ShadeRec& sr);
 
-private:
-    float       _ls;
+    private:
+        float       _ls;
     RGBColor    _color;
 };
 

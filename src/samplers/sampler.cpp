@@ -32,14 +32,14 @@ void Sampler::MapSamplesToHemisphere(const float e) {
         float pv = sinTheta * sinPhi;
         float pw = cosTheta;
 
-        _hemisphereSamples.push_back(Point3D(pu, pv, pw));
+        _hemisphereSamples.push_back(Vector3D(pu, pv, pw));
     }
 }
 
 void Sampler::MapSamplesToUnitDisk(void) {
     int size = _samples.size();
     float r, phi;   // polar coordinates
-    Point2D sp;     // sample point on unit disk
+    Vector2D sp;     // sample point on unit disk
 
     _diskSamples.reserve(size);
     for (int j = 0; j < size; j++) {
@@ -75,21 +75,21 @@ void Sampler::MapSamplesToUnitDisk(void) {
     }
 }
 
-Point3D Sampler::SampleHemisphere(void) {
+Vector3D Sampler::SampleHemisphere(void) {
     if (_count % _numSamples == 0)
         _jump = RandInt(_numSets) * _numSamples;
 
     return _hemisphereSamples[_jump + _shuffledIndices[_jump + _count++ % _numSamples]];
 }
 
-Point2D Sampler::SampleUnitDisk(void) {
+Vector2D Sampler::SampleUnitDisk(void) {
     if (_count % _numSamples == 0)
         _jump = RandInt(_numSets) * _numSamples;
 
     return _diskSamples[_jump + _shuffledIndices[_jump + _count++ % _numSamples]];
 }
 
-Point2D Sampler::SampleUnitSquare(void) {
+Vector2D Sampler::SampleUnitSquare(void) {
     if (_count % _numSamples == 0)
         _jump = RandInt(_numSets) * _numSamples;
 

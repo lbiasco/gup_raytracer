@@ -8,15 +8,15 @@
 
 // Base class for Light objects
 class Light {
-public:
-    // Virtual, no constructors/destructors
+    public:
+        // Virtual, no constructors/destructors
 
-    // Functions
-    virtual Vector3D GetDirection(ShadeRec& sr) = 0;
-    virtual RGBColor L(ShadeRec& sr) = 0;
+        // Functions
+        virtual Vector3D GetDirection(ShadeRec& sr) = 0;
+        virtual RGBColor L(ShadeRec& sr) = 0;
 
-protected:
-    bool _shadows;
+    protected:
+        bool _shadows;
 };
 
 #endif  // LIGHTS_LIGHT_H_

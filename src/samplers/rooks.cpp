@@ -23,6 +23,6 @@ void Rooks::GenerateSamples() {
 
         // Build samples using consecutive x and random-ordered y
         for (int r = 0; r < numSamples(); r++)
-            _samples.push_back(Point2D((r + RandDouble()) * samplesInv, (yPos[r] + RandDouble()) * samplesInv));
+            _samples.push_back(Vector2D((r + RandDouble()) * samplesInv, (yPos[r] + RandDouble()) * samplesInv));
     }
 }

@@ -9,16 +9,16 @@
 
 // Base class for BRDF objects
 class BRDF {
-public:
-    // Virtual, no constructors/destructors
+    public:
+        // Virtual, no constructors/destructors
 
-    // Functions
-    virtual RGBColor F(const ShadeRec& sr, const Vector3D& wi, const Vector3D& wo) const = 0;
-    virtual RGBColor SampleF(const ShadeRec& sr, Vector3D& wi, const Vector3D& wo) const = 0;
-    virtual RGBColor Rho(const ShadeRec& sr, const Vector3D& wo) const = 0;
+        // Functions
+        virtual RGBColor F(const ShadeRec& sr, const Vector3D& wi, const Vector3D& wo) const = 0;
+        virtual RGBColor SampleF(const ShadeRec& sr, Vector3D& wi, const Vector3D& wo) const = 0;
+        virtual RGBColor Rho(const ShadeRec& sr, const Vector3D& wo) const = 0;
 
-protected:
-    Sampler* _samplerPtr;
+    protected:
+        Sampler* _samplerPtr;
 };
 
 #endif  // BRDFS_BRDF_H_

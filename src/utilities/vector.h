@@ -5,8 +5,6 @@
 
 #include <math.h>
 
-struct Point2D;
-struct Point3D;
 struct Matrix;
 
 // Declaration of Vector2D utility object
@@ -17,10 +15,8 @@ struct Vector2D {
     Vector2D(double a) : x(a), y(a) {}
     Vector2D(double a, double b) : x(a), y(b) {}
     Vector2D(const Vector2D& v) : x(v.x), y(v.y) {}
-    Vector2D(const Point2D& p);
 
     Vector2D& operator= (const Vector2D& rhs);
-    Vector2D& operator= (const Point2D& rhs);
     bool operator== (const Vector2D& v) const { return x == v.x && y == v.y; }
     Vector2D operator- () const { return Vector2D(-x, -y); }
     Vector2D operator* (const double a) const { return Vector2D(x * a, y * a); }
@@ -30,10 +26,10 @@ struct Vector2D {
     Vector2D operator- (const Vector2D& v) const { return Vector2D(x - v.x, y - v.y); }
     double operator* (const Vector2D& v) const { return (x * v.x + y * v.y); }
 
-    Vector2D Hat() const;
     double Length() const { return std::sqrt(x * x + y * y); }
     double LengthSquared() const { return (x * x + y * y); };
     void Normalize();
+    Vector2D Normalized() const;
 };
 
 // Inline member functions
@@ -72,12 +68,10 @@ struct Vector3D {
     Vector3D(double a) : x(a), y(a), z(a) {}
     Vector3D(double a, double b, double c) : x(a), y(b), z(c) {}
     Vector3D(const Vector3D& v) : x(v.x), y(v.y), z(v.z) {}
-    Vector3D(const Point3D& p);
 
     static Vector3D RotateAbout(Vector3D v, Vector3D axis, double degrees);
 
     Vector3D& operator= (const Vector3D& rhs);
-    Vector3D& operator= (const Point3D& rhs);
     bool operator== (const Vector3D& v) const { return x == v.x && y == v.y && z == v.z; }
     Vector3D operator- () const { return Vector3D(-x, -y, -z); }
     Vector3D operator* (const double a) const { return Vector3D(x * a, y * a, z * a); }
@@ -88,12 +82,11 @@ struct Vector3D {
     double operator* (const Vector3D& v) const { return (x * v.x + y * v.y + z * v.z); }
     Vector3D operator^ (const Vector3D& v) const;
 
-    double DistanceSquared(const Vector3D& p) const;
-    double Distance(const Vector3D& p) const;
-    Vector3D Hat() const;
-    double Length() const { return std::sqrt(x * x + y * y + z * z); }
+    double Distance(const Vector3D& v) const;
+    double Length() const { return std::sqrt(LengthSquared()); }
     double LengthSquared() const { return (x * x + y * y + z * z); };
     void Normalize();
+    Vector3D Normalized() const;
 };
 
 // Inline member functions
@@ -116,16 +109,8 @@ inline Vector3D Vector3D::operator^ (const Vector3D& v) const {
 }
 
 // Inline member functions
-inline double Vector3D::DistanceSquared(const Vector3D& p) const {
-    return (x - p.x) * (x - p.x) 
-        + (y - p.y) * (y - p.y)
-        + (z - p.z) * (z - p.z);
-}
-
-inline double Vector3D::Distance(const Vector3D& p) const {
-    return std::sqrt((x - p.x) * (x - p.x) 
-        + (y - p.y) * (y - p.y)
-        + (z - p.z) * (z - p.z) );
+inline double Vector3D::Distance(const Vector3D& v) const {
+    return (*this - v).Length();
 }
 
 inline void Vector3D::Normalize() {	

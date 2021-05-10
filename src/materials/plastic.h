@@ -5,16 +5,16 @@
 #include "brdfs/brdf.h"
 
 class Plastic : public Material {
-public:
-    Plastic(const Plastic& mat);
-    Plastic(BRDF* ambient, BRDF* diffuse, BRDF* specular);
+    public:
+        Plastic(const Plastic& mat);
+        Plastic(BRDF* ambient, BRDF* diffuse, BRDF* specular);
 
-    virtual RGBColor RayCastShade(ShadeRec& sr);
+        virtual RGBColor RayCastShade(ShadeRec& sr);
 
-private:
-    BRDF* _ambientBrdf;
-    BRDF* _diffuseBrdf;
-    BRDF* _specularBrdf;
+    private:
+        BRDF* _ambientBrdf;
+        BRDF* _diffuseBrdf;
+        BRDF* _specularBrdf;
 };
 
 #endif // MATERIALS_PLASTIC_H_

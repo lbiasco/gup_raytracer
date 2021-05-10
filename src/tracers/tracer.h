@@ -14,21 +14,21 @@ class World;
 
 // Base class for Tracer objects
 class Tracer {
-public:
-    // Constructors, destructors
-    Tracer();
-    Tracer(World* worldPtr);
-    virtual	~Tracer();
+    public:
+        // Constructors, destructors
+        Tracer();
+        Tracer(World* worldPtr);
+        virtual	~Tracer();
 
-    void worldPtr(World* ptr)  { _worldPtr = ptr; }
-    World* worldPtr() const    { return _worldPtr; }
+        void worldPtr(World* ptr)  { _worldPtr = ptr; }
+        World* worldPtr() const    { return _worldPtr; }
 
-    virtual RGBColor TraceRay(const Ray& ray) const;
-    virtual RGBColor TraceRay(const Ray ray, const int depth) const;
-    virtual RGBColor TraceRay(const Ray ray, float& tmin, const int depth) const;
+        virtual RGBColor TraceRay(const Ray& ray) const;
+        virtual RGBColor TraceRay(const Ray ray, const int depth) const;
+        virtual RGBColor TraceRay(const Ray ray, float& tmin, const int depth) const;
 
-private:
-    World* _worldPtr;
+    private:
+        World* _worldPtr;
 };
 
 #endif  // TRACERS_TRACER_H_

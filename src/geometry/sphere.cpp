@@ -6,7 +6,7 @@
 
 Sphere::Sphere(void) : Geometry(), _center(0.0), _radius(1.0) {}
 
-Sphere::Sphere(Point3D c, double r) : Geometry(), _center(c), _radius(r) {}
+Sphere::Sphere(Vector3D c, double r) : Geometry(), _center(c), _radius(r) {}
 
 Sphere::Sphere (const Sphere& sphere) 
     : Geometry(sphere), _center(sphere._center), _radius(sphere._radius) {}

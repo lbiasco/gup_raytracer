@@ -18,8 +18,8 @@ void World::Build(void) {
     pointPtr->ls(3.0);
     AddLight(pointPtr);
 
-    Point3D camEye(0, 0, 300);
-    Point3D camLookat(0, 0, 0);
+    Vector3D camEye(0, 0, 300);
+    Vector3D camLookat(0, 0, 0);
 
     double offset = Camera::ComputeStereoHalfSeparationFromAngle(5, camEye.Distance(camLookat));
 
@@ -59,13 +59,13 @@ void World::Build(void) {
     mattePtr = new Matte(*mattePtr);
     mattePtr->SetCd(RGBColor(1, 1, 0));
     // use constructor to set centre and radius 
-    spherePtr = new Sphere(Point3D(0, 30, 0), 60);
+    spherePtr = new Sphere(Vector3D(0, 30, 0), 60);
     spherePtr->material(mattePtr);  // yellow
     AddObject(spherePtr);
 
     mattePtr = new Matte(*mattePtr);
     mattePtr->SetCd(RGBColor(0, 1, 0));
-    Plane* planePtr = new Plane(Point3D(0), Vector3D(0, 1, 1));
+    Plane* planePtr = new Plane(Vector3D(0), Vector3D(0, 1, 1));
     planePtr->material(mattePtr);
     AddObject(planePtr);
 }

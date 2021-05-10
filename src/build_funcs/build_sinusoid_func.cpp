@@ -8,8 +8,8 @@ void World::Build(void) {
     _viewPlane.gamma(1.0);
 
     // Doesn't work with Pinhole due to using ray origin as x, y coords...
-    Point3D camEye(0, 0, 100);
-    Point3D camLookat(0, 0, 0);
+    Vector3D camEye(0, 0, 100);
+    Vector3D camLookat(0, 0, 0);
     Pinhole* ptr = new Pinhole(camEye, camLookat);
     ptr->zoom(1);
     _cameraPtr = ptr;
