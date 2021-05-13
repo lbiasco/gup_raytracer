@@ -43,6 +43,8 @@ add_executable(gup_raytracer
     src/lights/light.h
     src/lights/ambient.cpp
     src/lights/ambient.h
+    src/lights/ambient_occluder.cpp
+    src/lights/ambient_occluder.h
     src/lights/directional.cpp
     src/lights/directional.h
     src/lights/point.cpp

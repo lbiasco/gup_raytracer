@@ -31,14 +31,14 @@ class ViewPlane {
         bool showOutOfGamut() const { return _showOutOfGamut; }
 
     private:
-        float	_gamma;           // gamma correction factor
-        float	_gammaInv;       // the inverse of the gamma correction factor
-        int   _hres;            // horizontal image resolution 
-        int   _vres;            // vertical image resolution
-        int   _numSamples;     // number of samples per pixel
-        float _pixelScale;     // pixel size
-        Sampler *_samplerPtr;  // pointer to a Sampler object
-        bool  _showOutOfGamut; // display red if RGBColor out of gamut		
+        float	_gamma;         // gamma correction factor
+        float	_gammaInv;      // the inverse of the gamma correction factor
+        int     _hres;          // horizontal image resolution 
+        int     _vres;          // vertical image resolution
+        int     _numSamples;    // number of samples per pixel
+        float   _pixelScale;    // pixel size
+        Sampler* _samplerPtr;   // pointer to a Sampler object
+        bool    _showOutOfGamut; // display red if RGBColor out of gamut		
 };
 
 #endif  // WORLD_VIEW_PLANE_H_

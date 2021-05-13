@@ -9,6 +9,10 @@ Random::Random(const int numSamples) : Sampler(numSamples) {
 }
 
 void Random::GenerateSamples() {
+    // Reset samples
+    _samples.clear();
+    _samples.reserve(numSamples() * numSets());
+
     int n = (int)sqrt(numSamples());
     double nInv = 1 / (double)n;
 

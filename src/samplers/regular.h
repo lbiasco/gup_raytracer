@@ -7,11 +7,11 @@
 
 // Regular impementation of the Sampler object
 class Regular : public Sampler {
-public:
-    // Constructors, destructors
-    Regular(const int numSamples);
+    public:
+        // Constructors, destructors
+        Regular(const int numSamples);
 
-    void GenerateSamples(void);
+        void GenerateSamples(void);
 };
 
 #endif  // SAMPLERS_REGULAR_H_

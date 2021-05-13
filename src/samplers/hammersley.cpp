@@ -9,6 +9,10 @@ Hammersley::Hammersley(const int numSamples): Sampler(numSamples) {
 }
 
 void Hammersley::GenerateSamples() {
+    // Reset samples
+    _samples.clear();
+    _samples.reserve(numSamples() * numSets());
+
     double samplesInv = 1 / (double)numSamples();
 
     for (int p = 0; p < numSets(); p++) {

@@ -10,19 +10,42 @@ Rooks::Rooks(const int numSamples) : Sampler(numSamples) {
 }
 
 void Rooks::GenerateSamples() {
+    // Reset samples
+    _samples.clear();
+    _samples.reserve(numSamples() * numSets());
+
     double samplesInv = 1 / (double)numSamples();
-    std::vector<int> yPos(numSamples());
 
     for (int p = 0; p < numSets(); p++) {
-        // Fill a vector of potential y positions, from 0 to numSamples
-        std::iota(std::begin(yPos), std::end(yPos), 0);
+        std::vector<Vector2D> sampleSet;
+        sampleSet.reserve(numSamples());
 
-        // Swap all the y positions to a random order
-        for (int r = 0; r < numSamples(); r++)
-            std::swap(yPos[r], yPos[RandInt(numSamples())]);
+        // Initialize set with jittered samples along diagonal
+        for (int i = 0; i < numSamples(); i++) {
+            Vector2D sample((i + RandDouble()) * samplesInv, (i + RandDouble()) * samplesInv);
+            sampleSet.push_back(sample);
+        }
 
-        // Build samples using consecutive x and random-ordered y
-        for (int r = 0; r < numSamples(); r++)
-            _samples.push_back(Vector2D((r + RandDouble()) * samplesInv, (yPos[r] + RandDouble()) * samplesInv));
+        // TODO? Rather than shuffling in-place Vector2Ds, it would be more 
+        // efficient to generate pre-shuffled lists of x and y values to pair up
+        
+        // Shuffle X coordinates
+        for (int i = 0; i < numSamples(); i++) {
+            int target = RandInt(numSamples());
+            float temp = sampleSet[i].x;
+            sampleSet[i].x = sampleSet[target].x;
+            sampleSet[target].x = temp;
+        }
+
+        // Shuffle Y coordinates
+        for (int i = 0; i < numSamples(); i++) {
+            int target = RandInt(numSamples());
+            float temp = sampleSet[i].y;
+            sampleSet[i].y = sampleSet[target].y;
+            sampleSet[target].y = temp;
+        }
+
+        // Add sample set to data member
+        _samples.insert(_samples.end(), sampleSet.begin(), sampleSet.end());
     }
 }

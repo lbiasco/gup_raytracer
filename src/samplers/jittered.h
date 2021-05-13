@@ -5,11 +5,11 @@
 
 // Jittered impementation of the Sampler object
 class Jittered : public Sampler {
-public:
-    // Constructors, destructors
-    Jittered(const int numSamples);
+    public:
+        // Constructors, destructors
+        Jittered(const int numSamples);
 
-    void GenerateSamples();
+        void GenerateSamples();
 };
 
 #endif  // SAMPLERS_JITTERED_H_

@@ -17,6 +17,11 @@ const double kHugeValue     = 1.0E10;
 const RGBColor kBlack(0.0);
 const RGBColor kWhite(1.0);
 const RGBColor kRed(1.0, 0.0, 0.0);
+const RGBColor kGreen(0.0, 1.0, 0.0);
+const RGBColor kBlue(0.0, 0.0, 1.0);
+const RGBColor kYellow(1.0, 1.0, 0.0);
+const RGBColor kPurple(1.0, 0.0, 1.0);
+const RGBColor kCyan(0.0, 1.0, 1.0);
 
 const double kInvRandMax = 1.0 / (double)RAND_MAX;
 

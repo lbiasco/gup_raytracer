@@ -5,11 +5,11 @@
 
 // Rooks impementation of the Sampler object
 class Rooks : public Sampler {
-public:
-    // Constructors, destructors
-    Rooks(const int numSamples);
+    public:
+        // Constructors, destructors
+        Rooks(const int numSamples);
 
-    void GenerateSamples(void);
+        void GenerateSamples();
 };
 
 #endif  // SAMPLERS_ROOKS_H_

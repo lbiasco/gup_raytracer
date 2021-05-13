@@ -22,6 +22,7 @@
 
 // lights
 #include "lights/ambient.h"
+#include "lights/ambient_occluder.h"
 #include "lights/directional.h"
 #include "lights/point.h"
 
@@ -32,10 +33,11 @@
 
 // sampler
 #include "samplers/regular.h"
-#include "samplers/jittered.h"
-#include "samplers/rooks.h"
-#include "samplers/multi_jittered.h"
 #include "samplers/hammersley.h"
+#include "samplers/jittered.h"
+#include "samplers/multi_jittered.h"
+#include "samplers/random.h"
+#include "samplers/rooks.h"
 
 // tracers
 #include "tracers/function.h"
@@ -47,16 +49,21 @@
 #include "utilities/maths.h"
 
 // build functions
-//#include "build_funcs/build_bb_cover_pic.cpp"
-#include "build_funcs/build_multiple_objects.cpp"
-//#include "build_funcs/build_sinusoid_func.cpp"
-//#include "build_funcs/build_two_sphere_and_lights.cpp"
+//#include "build_funcs/bb_cover_pic.cpp"
+//#include "build_funcs/multiple_objects.cpp"
+//#include "build_funcs/sinusoid_func.cpp"
+//#include "build_funcs/two_sphere_and_lights.cpp"
+#include "build_funcs/sphere_on_plane.cpp"
 
 World::World() 
     :   _ambientPtr(new Ambient), 
         _bgColor(kBlack), 
         _cameraPtr(NULL), 
-        _tracerPtr(NULL) {}
+        _lights(std::vector<Light*>()),
+        _objects(std::vector<Geometry*>()),
+        _paintArea(NULL),
+        _tracerPtr(NULL),
+        _viewPlane(ViewPlane()) {}
 
 World::~World() {	
     if(_tracerPtr) {

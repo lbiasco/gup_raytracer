@@ -9,6 +9,10 @@ Jittered::Jittered(const int numSamples): Sampler(numSamples) {
 }
 
 void Jittered::GenerateSamples() {
+    // Reset samples
+    _samples.clear();
+    _samples.reserve(numSamples() * numSets());
+
     int n = (int)sqrt(numSamples());
     double n_inv = 1 / (double)n;
 
