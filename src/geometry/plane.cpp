@@ -26,6 +26,10 @@ Plane* Plane::Clone(void) const {
     return (new Plane(*this));
 }
 
+Vector3D Plane::GetNormal(const Vector3D& p) {
+    return _normal;
+}
+
 bool Plane::Hit(const Ray& ray, double& tmin, ShadeRec& sr, bool skipNormal) const {	
     float t = (_point - ray.origin()) * _normal / (ray.dir() * _normal); 
 
@@ -38,4 +42,14 @@ bool Plane::Hit(const Ray& ray, double& tmin, ShadeRec& sr, bool skipNormal) con
         return true;	
     }
     return false;
+}
+
+// Pdf and Sample are nonsense functions atm since they are only used by AreaLight, 
+// which isn't supported with Plane geometry
+float Plane::Pdf(ShadeRec& sr) {
+    return 1;
+}
+
+Vector3D Plane::Sample() {
+    return Vector3D();
 }

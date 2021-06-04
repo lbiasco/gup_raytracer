@@ -9,6 +9,7 @@ class Plastic : public Material {
         Plastic(const Plastic& mat);
         Plastic(BRDF* ambient, BRDF* diffuse, BRDF* specular);
 
+        virtual RGBColor AreaLightShade(ShadeRec& sr);
         virtual RGBColor RayCastShade(ShadeRec& sr);
 
     private:

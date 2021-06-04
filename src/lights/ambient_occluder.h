@@ -30,11 +30,13 @@ class AmbientOccluder : public Light {
         virtual Vector3D GetDirection(ShadeRec& sr);
         virtual bool InShadow(const Ray& ray, const ShadeRec& sr) const;
         virtual RGBColor L(ShadeRec& sr);
+        virtual float G(ShadeRec& sr) const { return 1; }
+        virtual float Pdf(ShadeRec& sr) { return 1; }
 
     private:
         RGBColor    _color;
         float       _ls;
-        float    _minAmount;
+        float       _minAmount;
         Sampler*    _samplerPtr;
 
         Vector3D _u, _v, _w;

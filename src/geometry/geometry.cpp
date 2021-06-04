@@ -1,13 +1,21 @@
 #include "geometry/geometry.h"
 
-Geometry::Geometry() : _material(NULL) {}
+Geometry::Geometry() : _materialPtr(NULL) {}
 
-Geometry::Geometry (const Geometry& object) : _material(object._material) {}
+Geometry::Geometry (const Geometry& object) : _materialPtr(object._materialPtr) {}
 
-Geometry&	Geometry::operator= (const Geometry& rhs) {
+Geometry& Geometry::operator= (const Geometry& rhs) {
     if (this == &rhs)
         return *this;
         
-    _material = rhs._material;
+    _materialPtr = rhs._materialPtr;
     return *this;
+}
+
+void Geometry::samplerPtr(Sampler* ptr) {
+     if (_samplerPtr) {
+        delete _samplerPtr;
+        _samplerPtr = NULL;
+     }
+     _samplerPtr = ptr;
 }

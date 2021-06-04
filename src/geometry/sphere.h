@@ -20,17 +20,26 @@ class Sphere: public Geometry {
         void center(double x, double y, double z) { _center = Vector3D(x, y, z); }
         Vector3D center() const                    { return _center; }
 
-        void radius(double r) { _radius = r; }
+        void radius(double r);
         double radius() const { return _radius; }
 
+        void samplerPtr(Sampler* ptr) override;
+
         Sphere* Clone() const override;
-        bool Hit(const Ray& ray, double& t, ShadeRec& s, bool skipNormal=false) const override;	
+        Vector3D GetNormal(const Vector3D& p) override;
+        bool Hit(const Ray& ray, double& t, ShadeRec& s, bool skipNormal=false) const override;
+        float Pdf(ShadeRec& sr) override;
+        Vector3D Sample() override;
+
         
     private:
         static const double kEpsilon;
 
-        Vector3D _center;  // center coordinates as a point
-        double  _radius;  // the radius 
+        Vector3D _center;   // center coordinates as a point
+        double _radius;     // the radius 
+        float _areaInv;     // inverse area to efficiently return Pdf
+
+        void _CalculateAreaInv();
 };
 
 #endif  // GEOMETRY_SPHERE_H_

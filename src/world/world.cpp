@@ -18,6 +18,7 @@
 
 // geometric objects
 #include "geometry/plane.h"
+#include "geometry/rectangle.h"
 #include "geometry/sphere.h"
 
 // lights
@@ -53,7 +54,8 @@
 //#include "build_funcs/multiple_objects.cpp"
 //#include "build_funcs/sinusoid_func.cpp"
 //#include "build_funcs/two_sphere_and_lights.cpp"
-#include "build_funcs/sphere_on_plane.cpp"
+//#include "build_funcs/sphere_on_plane.cpp"
+#include "build_funcs/rectangle_area_light.cpp"
 
 World::World() 
     :   _ambientPtr(new Ambient), 
@@ -141,7 +143,7 @@ ShadeRec World::HitObjects(const Ray& ray) {
         if (_objects[j]->Hit(ray, t, sr) && (t < tmin)) {
             sr.hitAnObject	= true;
             tmin = t; 
-            sr.materialPtr = _objects[j]->material();
+            sr.materialPtr = _objects[j]->materialPtr();
             sr.hitPoint = ray.origin() + t * ray.dir();
             normal = sr.normal;
             localHitPoint = sr.localHitPoint;

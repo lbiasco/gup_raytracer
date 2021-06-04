@@ -29,7 +29,7 @@ void World::Build(void) {
     mattePtr->SetKd(2.65);
     mattePtr->SetCd(RGBColor(1, 1, 0));
     Sphere* spherePtr = new Sphere(Vector3D(-15, -15, -15), 27);
-    spherePtr->material(mattePtr);
+    spherePtr->materialPtr(mattePtr);
     AddObject(spherePtr);
 
     mattePtr = new Matte();
@@ -37,6 +37,6 @@ void World::Build(void) {
     mattePtr->SetKd(2.65);
     mattePtr->SetCd(RGBColor(1, 0.5, 0.25));
     spherePtr = new Sphere(Vector3D(15, 15, 15), 27);
-    spherePtr->material(mattePtr);
+    spherePtr->materialPtr(mattePtr);
     AddObject(spherePtr);
 }

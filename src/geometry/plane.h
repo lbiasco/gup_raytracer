@@ -23,8 +23,14 @@ class Plane: public Geometry {
         Vector3D point() const         { return _point; }
 
         Plane* Clone() const override;
+        Vector3D GetNormal(const Vector3D& p) override;
         bool Hit(const Ray& ray, double& tmin, ShadeRec& sr, bool skipNormal=false) const override;
-        
+        // Pdf and Sample are nonsense functions atm since they are only used by AreaLight, 
+        // which isn't supported with Plane geometry
+        float Pdf(ShadeRec& sr) override;
+        Vector3D Sample() override;
+
+
     private:
         static const double kEpsilon;
 

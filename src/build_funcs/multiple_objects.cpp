@@ -54,19 +54,19 @@ void World::Build(void) {
     Sphere* spherePtr = new Sphere;
     spherePtr->center(0, -25, 0);
     spherePtr->radius(80);
-    spherePtr->material(mattePtr); 
+    spherePtr->materialPtr(mattePtr); 
     AddObject(spherePtr);
 
     mattePtr = new Matte(*mattePtr);
     mattePtr->SetCd(RGBColor(1, 1, 0));
     // use constructor to set centre and radius 
     spherePtr = new Sphere(Vector3D(0, 30, 0), 60);
-    spherePtr->material(mattePtr);  // yellow
+    spherePtr->materialPtr(mattePtr);  // yellow
     AddObject(spherePtr);
 
     mattePtr = new Matte(*mattePtr);
     mattePtr->SetCd(RGBColor(0, 1, 0));
     Plane* planePtr = new Plane(Vector3D(0), Vector3D(0, 1, 1));
-    planePtr->material(mattePtr);
+    planePtr->materialPtr(mattePtr);
     AddObject(planePtr);
 }

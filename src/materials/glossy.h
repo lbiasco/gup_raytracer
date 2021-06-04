@@ -22,12 +22,13 @@ class Glossy : public Material {
 
         void SetExp(const float exp);
 
+        virtual RGBColor AreaLightShade(ShadeRec& sr);
         virtual RGBColor RayCastShade(ShadeRec& sr);
 
     private:
         Lambertian*     _ambientBrdf;
         Lambertian*     _diffuseBrdf;
-        Phong* _specularBrdf;
+        Phong*          _specularBrdf;
 };
 
 #endif // MATERIALS_GLOSSY_H_

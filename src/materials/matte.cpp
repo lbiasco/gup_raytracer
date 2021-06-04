@@ -27,6 +27,31 @@ void Matte::SetCd(const RGBColor& c) {
     _diffuseBrdf->cd(c);
 }
 
+RGBColor Matte::AreaLightShade(ShadeRec& sr) {
+    Vector3D wo = -sr.ray.dir();
+    RGBColor L = _ambientBrdf->Rho(sr, wo) * sr.w.ambientPtr()->L(sr);
+
+    for (Light* lightPtr : sr.w.lights()) {
+        Vector3D wi = lightPtr->GetDirection(sr);
+        float ndotwi = sr.normal * wi;
+
+        if (ndotwi > 0.0) {
+            bool inShadow = false;
+
+            if (lightPtr->createsShadows()) {
+                Ray shadowRay(sr.hitPoint, wi);
+                inShadow = lightPtr->InShadow(shadowRay, sr);
+            }
+
+            if (!inShadow) {
+                L += _diffuseBrdf->F(sr, wo, wi) * lightPtr->L(sr) * lightPtr->G(sr) * ndotwi / lightPtr->Pdf(sr);
+            }
+        }
+    }
+
+    return L;
+}
+
 RGBColor Matte::RayCastShade(ShadeRec& sr) {
     Vector3D wo = -sr.ray.dir();
     RGBColor L = _ambientBrdf->Rho(sr, wo) * sr.w.ambientPtr()->L(sr);

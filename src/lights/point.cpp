@@ -1,6 +1,7 @@
 #include "lights/point.h"
 
 #include "geometry/geometry.h"
+#include "utilities/constants.h"
 #include "world/world.h"
 
 PointLight::PointLight(Vector3D loc) : Light(), _ls(1.0), _color(1.0), _location(loc), _attenuation(0) {};
